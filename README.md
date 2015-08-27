@@ -12,7 +12,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 
 ## Basic Usage
 1. Host a copy of [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js) online.
-2. Add it to the page header inside the Board Wrappers.
+2. Place it in the page header inside the Board Wrappers.
 
    ```html
    <head>
@@ -26,7 +26,8 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
    <% BOARD %>
    <script>
    customIndex.initialize({
-       html: 'Testing the spacing here'
+       html: 'Your markup here!'
    });
    </script>
    ```
+4. Read this documentation. The new `cs.js` is incompatible with previous versions by design.

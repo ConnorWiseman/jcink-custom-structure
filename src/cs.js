@@ -124,7 +124,7 @@ $cs.module.Default.prototype.initialize = function(settings) {
         error message and return false.
      */
     if (this.html && this.html !== '') {
-        var debug = true;
+        var debug = false;
         if (debug) { console.time(this.name); }
         this.values = {};
         this.execute();
