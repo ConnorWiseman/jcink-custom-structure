@@ -11,7 +11,9 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 
 ## Basic Usage
 ```javascript
+<script>
 customIndex.initialize({
-
+    html: 'Testing the spacing here'
 });
+</script>
 ```
