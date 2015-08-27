@@ -72,7 +72,6 @@ var $cs = $cs || {
 };
 
 
-{ // default
 /**
  * @property {string} html      - User-defined HTML markup for replacement.
  */
@@ -162,32 +161,10 @@ $cs.module.Default.prototype.replaceValues = function(string, object) {
 $cs.module.Default.prototype.setValue = function(key, value) {
     this.values[this.config.keyPrefix + key + this.config.keySuffix] = value;
 }
-}
 
 
-{ // custom index
 // Extend the custom index module with the default properties and methods.
 $cs.extendModule($cs.module.Index, $cs.module.Default);
-
-
-/**
- * @property {string} name      - The name of this module.
- */
-$cs.module.Index.prototype.name = '$cs.module.Index';
-
-
-/**
- * @property {object} reserved  - An array of reserved names.
- */
-$cs.module.Index.prototype.reserved = [
-    'values',
-    'makeLink',
-    'execute',
-    'readTable',
-    'initialize',
-    'replaceValues',
-    'setValue'
-];
 
 
 /**
@@ -222,6 +199,59 @@ $cs.module.Index.prototype.config = {
     urlDefault:         '#',
     authorDefault:      '',
     passwordTitle:      'Protected Forum'
+};
+
+
+/**
+ * @property {string} name      - The name of this module.
+ */
+$cs.module.Index.prototype.name = '$cs.module.Index';
+
+
+/**
+ * @property {object} reserved  - An array of reserved names.
+ */
+$cs.module.Index.prototype.reserved = [
+    'values',
+    'makeLink',
+    'execute',
+    'readTable',
+    'initialize',
+    'replaceValues',
+    'setValue'
+];
+
+
+/**
+ * Executes the checks and loops needed to complete the script. 
+ * @readonly
+ */
+$cs.module.Index.prototype.execute = function() {
+    /*
+        Acquire the container, if one is specified, and then see which kind
+        of page we're looking at.
+     */
+    var container = document.getElementById(this.config.container),
+        subforumlist = document.getElementById('subforum-list'),
+        categories = (container || document).getElementsByClassName('category');
+    if (categories.length) {
+        /*
+            If there are categories, we're looking at the forum index.
+            Loop through each category's table individually.
+         */
+        for (var i = 0; i < categories.length; i++) {
+            var category = categories[i].lastChild.previousSibling,
+                table = category.firstElementChild;
+            this.readTable(table, i)
+        }
+    } else if (subforumlist) {
+        /*
+            If there's a subforumlist, we're inside a forum with only
+            one category and table to deal with. No looping necessary.
+         */
+        var table = subforumlist.firstElementChild;
+        this.readTable(table, 0);
+    }
 };
 
 
@@ -394,49 +424,8 @@ $cs.module.Index.prototype.readTable = function(table, index) {
 };
 
 
-/**
- * Executes the checks and loops needed to complete the script. 
- * @readonly
- */
-$cs.module.Index.prototype.execute = function() {
-    /*
-        Acquire the container, if one is specified, and then see which kind
-        of page we're looking at.
-     */
-    var container = document.getElementById(this.config.container),
-        subforumlist = document.getElementById('subforum-list'),
-        categories = (container || document).getElementsByClassName('category');
-    if (categories.length) {
-        /*
-            If there are categories, we're looking at the forum index.
-            Loop through each category's table individually.
-         */
-        for (var i = 0; i < categories.length; i++) {
-            var category = categories[i].lastChild.previousSibling,
-                table = category.firstElementChild;
-            this.readTable(table, i)
-        }
-    } else if (subforumlist) {
-        /*
-            If there's a subforumlist, we're inside a forum with only
-            one category and table to deal with. No looping necessary.
-         */
-        var table = subforumlist.firstElementChild;
-        this.readTable(table, 0);
-    }
-};
-}
-
-
-{ // custom stats
 // Extend the custom stats module with the default properties and methods.
 $cs.extendModule($cs.module.Stats, $cs.module.Default);
-
-
-/**
- * @property {string} name      - The name of this module.
- */
-$cs.module.Stats.prototype.name = '$cs.module.Name';
 
 
 /**
@@ -449,6 +438,12 @@ $cs.module.Stats.prototype.config = {
     keyPrefix:          '{{',
     keySuffix:          '}}'
 };
+
+
+/**
+ * @property {string} name      - The name of this module.
+ */
+$cs.module.Stats.prototype.name = '$cs.module.Name';
 
 
 /**
@@ -585,18 +580,10 @@ $cs.module.Stats.prototype.initialize = function(settings) {
     // Call $cs.module.Default's initialize method instead.
     $cs.module.Default.prototype.initialize.call(this, settings);
 };
-}
 
 
-{ // custom profile
 // Extend the custom profile module with the default properties and methods.
 $cs.extendModule($cs.module.Profile, $cs.module.Default);
-
-
-/**
- * @property {string} name      - The name of this module.
- */
-$cs.module.Profile.prototype.name = '$cs.module.Profile';
 
 
 /**
@@ -632,6 +619,12 @@ $cs.module.Profile.prototype.config = {
 
 
 /**
+ * @property {string} name      - The name of this module.
+ */
+$cs.module.Profile.prototype.name = '$cs.module.Profile';
+
+
+/**
  * @property {object} reserved  - An array of reserved names.
  */
 $cs.module.Profile.prototype.reserved = [
@@ -642,18 +635,6 @@ $cs.module.Profile.prototype.reserved = [
     'setValue',
     'stringToMarkup'
 ];
-
-
-/**
- * @property {string} html      - User-defined HTML markup for replacement.
- */
-$cs.module.Profile.prototype.html = '',
-
-
-/**
- * @property {object} values    - Script-defined keys mapped to user-defined values for replacement.
- */
-$cs.module.Profile.prototype.values = {},
 
 
 /**
@@ -980,12 +961,31 @@ $cs.module.Profile.prototype.stringToMarkup = function(string) {
     temp = '';
     return result;
 }
-}
 
 
-{ // custom topics
-// Extend the custom profile module with the default properties and methods.
+// Extend the custom topics module with the default properties and methods.
 $cs.extendModule($cs.module.Topics, $cs.module.Default);
+
+
+/**
+ * @namespace
+ * @property {object} config                      - Default configuration values.
+ * @property {string} config.keyPrefix            - The default prefix for value keys.
+ * @property {string} config.keySuffix            - The default suffix for value keys.
+ * @property {string} config.announcementsDefault - The default title row text for announcements.
+ * @property {string} config.pinnedDefault        - The default title row text for pinned topics.
+ * @property {string} config.regularDefault       - The default title row text for regular topics.
+ * @property {string} config.noTopics             - The default message displayed when a forum contains no topics.
+ */
+$cs.module.Topics.prototype.config = {
+    keyPrefix:              '{{',
+    keySuffix:              '}}',
+    announcementsDefault:   'Announcements',
+    pinnedDefault:          'Important Topics',
+    regularDefault:         'Forum Topics',
+    noTopics:               'No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.',
+    paginationDefault:      ''
+};
 
 
 /**
@@ -1004,38 +1004,6 @@ $cs.module.Topics.prototype.reserved = [
     'replaceValues',
     'setValue',
 ];
-
-
-/**
- * @namespace
- * @property {object} config                      - Default configuration values.
- * @property {string} config.keyPrefix            - The default prefix for value keys.
- * @property {string} config.keySuffix            - The default suffix for value keys.
- * @property {string} config.announcementsDefault - The default title row text for announcements.
- * @property {string} config.pinnedDefault        - The default title row text for pinned topics.
- * @property {string} config.regularDefault       - The default title row text for regular topics.
- * @property {string} config.noTopics             - The default message displayed when a forum contains no topics.
- */
-$cs.module.Topics.prototype.config = {
-    keyPrefix:              '{{',
-    keySuffix:              '}}',
-    announcementsDefault:	'Announcements',
-    pinnedDefault:		    'Important Topics',
-    regularDefault:		    'Forum Topics',
-    noTopics:		        'No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.',
-    paginationDefault:      ''
-};
-
-
-/**
- * Initialization function. Reads user-defined settings in for processing and begins script execution.
- * @arg {object} settings       - An object with user-defined settings as properties.
- * @readonly
- */
-$cs.module.Topics.prototype.initialize = function(settings) {
-    // Call $cs.module.Default's initialize method instead.
-    $cs.module.Default.prototype.initialize.call(this, settings);
-};
 
 
 /**
@@ -1121,11 +1089,36 @@ $cs.module.Topics.prototype.execute = function() {
         table.parentNode.removeChild(table);
     }
 }
-}
 
-{ // custom posts
-// Extend the custom profile module with the default properties and methods.
+
+/**
+ * Initialization function. Reads user-defined settings in for processing and begins script execution.
+ * @arg {object} settings       - An object with user-defined settings as properties.
+ * @readonly
+ */
+$cs.module.Topics.prototype.initialize = function(settings) {
+    // Call $cs.module.Default's initialize method instead.
+    $cs.module.Default.prototype.initialize.call(this, settings);
+};
+
+
+// Extend the custom posts module with the default properties and methods.
 $cs.extendModule($cs.module.Posts, $cs.module.Default);
+
+/**
+ * @namespace
+ * @property {object} config                      - Default configuration values.
+ * @property {string} config.keyPrefix            - The default prefix for value keys.
+ * @property {string} config.keySuffix            - The default suffix for value keys.
+ * @property {string} config.permaLinkDefault     - The default text used in permalinks.
+ * @property {string} config.postCheckboxDefault  - The default text used when no moderator checkbox is present.
+ */
+$cs.module.Posts.prototype.config = {
+    keyPrefix:              '{{',
+    keySuffix:              '}}',
+    permaLinkDefault:       'Permalink',
+    postCheckboxDefault:    ''    
+};
 
 
 /**
@@ -1147,18 +1140,100 @@ $cs.module.Posts.prototype.reserved = [
 
 
 /**
- * @namespace
- * @property {object} config                      - Default configuration values.
- * @property {string} config.keyPrefix            - The default prefix for value keys.
- * @property {string} config.keySuffix            - The default suffix for value keys.
- * @property {string} config.permaLinkDefault     - The default text used in permalinks.
- * @property {string} config.postCheckboxDefault  - The default text used when no moderator checkbox is present.
+ * Executes the checks and loops needed to complete the script. 
+ * @readonly
  */
-$cs.module.Posts.prototype.config = {
-    keyPrefix:              '{{',
-    keySuffix:              '}}',
-    permaLinkDefault:       'Permalink',
-    postCheckboxDefault:    ''    
+$cs.module.Posts.prototype.execute = function() {
+    // Make sure we're viewing a topic before executing.
+    if (window.location.href.indexOf('showtopic') !== -1 || window.location.href.indexOf('ST') !== -1) {
+        var posts = document.getElementsByClassName('post-normal'),
+            postsContent = '';
+
+        // Loop through each post being displayed.
+        for (var i = 0, numPosts = posts.length; i < numPosts; i++) {
+            // Hide each post.
+            posts[i].style.display = 'none';
+
+            // Acquire the elements necessary to read in the values.
+            var table = posts[i].firstElementChild,
+                rows = table.getElementsByTagName('tr'),
+                cells = [];
+
+            /*
+                To avoid collisions with doHTML and custom miniprofiles, we need to
+                check the direct children of each row. This takes some extra work.
+             */
+            for (var j = 0, numRows = rows.length; j < numRows; j++) {
+                var directChildrenOfRow = rows[j].childNodes;
+                for (var k = 0, numCells = directChildrenOfRow.length; k < numCells; k++) {
+                    var child = directChildrenOfRow[k];
+                    if (child.nodeType === 1 && child.tagName === 'TD') {
+                        if (child.parentNode.parentNode.parentNode === table) {
+                            cells.push(child);
+                        }
+                    }
+                }
+            }
+
+            // Read the values in.
+            var postLinks = cells[0].getElementsByTagName('a'),
+                postId = postLinks[0].name.split('entry')[1],
+                queryString = window.location.search,
+                topicId;
+
+            /*
+                IPB 1.3.1 has two different ways of displaying topics using URL query strings.
+                If we don't have a match for the usual one, check the other possible URL query.
+                Internally consistent, IPB 1.3.1 ain't.
+             */
+            if (queryString.indexOf('showtopic') !== -1) {
+                topicId = queryString.split('showtopic=')[1].split('&')[0].split('#')[0];
+            } else {
+                topicId = queryString.split('&f=')[1].split('&')[0].split('#')[0];
+            }
+            this.setValue('postId', postId);
+
+            // The author names for guests and users have to be read differently.
+            if (postLinks.length > 1) {
+                this.setValue('postAuthor', cells[0].innerHTML.split('normalname">')[1].slice(0, -7));
+            } else {
+                this.setValue('postAuthor', cells[0].innerHTML.split('unreg">')[1].slice(0, -7));
+            }
+            this.setValue('permaLink', '<a href="/?showtopic=' + topicId + '&amp;view=findpost&amp;p=' + postId + '">' + this.config.permaLinkDefault + '</a>');
+            this.setValue('postDate', cells[1].firstElementChild.textContent.split('Posted: ')[1]);
+            this.setValue('postButtonsTop', cells[1].lastElementChild.innerHTML);
+
+            /*
+                The topic starter will always be missing the checkbox, so use an offset to
+                properly count the cells from this point onward.
+             */
+            var cellOffset = 0;
+            if (cells[2].innerHTML.indexOf('input') !== -1) {
+                this.setValue('postCheckbox', cells[2].innerHTML);
+                cellOffset = 1;
+            } else {
+                this.setValue('postCheckbox', this.config.postCheckboxDefault);
+            }
+            this.setValue('postMiniprofile', cells[2 + cellOffset].firstElementChild.innerHTML);
+            this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
+            this.setValue('postSignature', cells[3 + cellOffset].lastElementChild.innerHTML);
+            this.setValue('postIp', cells[4 + cellOffset].textContent);
+            this.setValue('postButtonsBottom', cells[5 + cellOffset].firstElementChild.innerHTML);
+
+            // Replace the values and append the content of this post to the output.
+            postsContent += '<div class="new-post" id="entry' + postId + '" name="' + postId + '">' + 
+                               this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values) +
+                               '</div>';
+        }
+
+        // Create a new HTML element, set the appropriate attributes, and inject it into the page.
+        var newPosts = document.createElement('div');
+        newPosts.id = 'new-posts';
+        newPosts.innerHTML = postsContent;
+        posts[0].parentNode.insertBefore(newPosts, posts[0]);
+
+        //table.parentNode.removeChild(table);
+    }
 };
 
 
@@ -1173,92 +1248,6 @@ $cs.module.Posts.prototype.initialize = function(settings) {
 };
 
 
-/**
- * Executes the checks and loops needed to complete the script. 
- * @readonly
- */
-$cs.module.Posts.prototype.execute = function() {
-    if (window.location.href.indexOf('showtopic') !== -1 || window.location.href.indexOf('ST') !== -1) {
-        var posts = document.getElementsByClassName('post-normal'),
-            postsContent = '';
-        for (var i = 0, numPosts = posts.length; i < numPosts; i++) {
-            // Hide each post.
-            posts[i].style.display = 'none';
-
-            var table = posts[i].firstElementChild,
-                rows = table.getElementsByTagName('tr'),
-                cells = [];
-
-            for (var j = 0, numRows = rows.length; j < numRows; j++) {
-                /*
-                    To avoid collisions with doHTML and custom miniprofiles, we need to
-                    check the direct children of each row. This takes some extra work.
-                 */
-                var directChildrenOfRow = rows[j].childNodes;
-                for (var k = 0, numCells = directChildrenOfRow.length; k < numCells; k++) {
-                    var child = directChildrenOfRow[k];
-                    if (child.nodeType === 1 && child.tagName === 'TD') {
-                        if (child.parentNode.parentNode.parentNode === table) {
-                            cells.push(child);
-                        }
-                    }
-                }
-            }
-
-            var postLinks = cells[0].getElementsByTagName('a'),
-                postId = postLinks[0].name.split('entry')[1],
-                queryString = window.location.search,
-                topicId;
-            /*
-                IPB 1.3.1 has two different ways of displaying tpoics using URL query strings.
-                If we don't have a match for the usual one, check the other possible URL query.
-                Internally consistent, IPB 1.3.1 ain't.
-             */
-            if (queryString.indexOf('showtopic') !== -1) {
-                topicId = queryString.split('showtopic=')[1].split('&')[0].split('#')[0];
-            } else {
-                topicId = queryString.split('&f=')[1].split('&')[0].split('#')[0];
-            }
-            this.setValue('postId', postId);
-            if (postLinks.length > 1) {
-                this.setValue('postAuthor', cells[0].innerHTML.split('normalname">')[1].slice(0, -7));
-            } else {
-                this.setValue('postAuthor', cells[0].innerHTML.split('unreg">')[1].slice(0, -7));
-            }
-            this.setValue('permaLink', '<a href="/?showtopic=' + topicId + '&amp;view=findpost&amp;p=' + postId + '">' + this.config.permaLinkDefault + '</a>');
-            this.setValue('postDate', cells[1].firstElementChild.textContent.split('Posted: ')[1]);
-            this.setValue('postButtonsTop', cells[1].lastElementChild.innerHTML);
-
-            var cellOffset = 0;
-            if (cells[2].innerHTML.indexOf('input') !== -1) {
-                this.setValue('postCheckbox', cells[2].innerHTML);
-                cellOffset = 1;
-            } else {
-                this.setValue('postCheckbox', this.config.postCheckboxDefault);
-            }
-            this.setValue('postMiniprofile', cells[2 + cellOffset].firstElementChild.innerHTML);
-            this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
-            this.setValue('postSignature', cells[3 + cellOffset].lastElementChild.innerHTML);
-            this.setValue('postIp', cells[4 + cellOffset].textContent);
-            this.setValue('postButtonsBottom', cells[5 + cellOffset].firstElementChild.innerHTML);
-
-            postsContent += '<div class="new-post" id="entry' + postId + '" name="' + postId + '">' + 
-                               this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values) +
-                               '</div>';
-        }
-        // Create a new HTML element, set the appropriate attributes, and inject it into the page.
-        var newPosts = document.createElement('div');
-        newPosts.id = 'new-posts';
-        newPosts.innerHTML = postsContent;
-        posts[0].parentNode.insertBefore(newPosts, posts[0]);
-
-        //table.parentNode.removeChild(table);
-    }
-};
-}
-
-
-
 
 // Expose some familiar, user-friendly objects for public use.
 var customIndex   = new $cs.module.Index(),
@@ -1266,25 +1255,3 @@ var customIndex   = new $cs.module.Index(),
     customProfile = new $cs.module.Profile(),
     customTopics  = new $cs.module.Topics(),
     customPosts   = new $cs.module.Posts();
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    customIndex.initialize({
-        html: 'forumMarker: {{forumMarker}}<br />forumTitle: {{forumTitle}}<br />forumViewing: {{forumViewing}}<br />forumId: {{forumId}}<br />forumDescription: {{forumDescription}}<br />subforums: {{subforums}}<br />moderators: {{moderators}}<br />topicCount: {{topicCount}}<br />replyCount: {{replyCount}}<br />lastPostDate: {{lastPostDate}}<br />lastPostTitle: {{lastPostTitle}}<br />lastPostURL: {{lastPostURL}}<br />lastPostAuthor: {{lastPostAuthor}}'
-    });
-    customStats.initialize({
-        html: 'totalUsers: {{totalUsers}}<br />totalUsersGuests: {{totalUsersGuests}}<br />totalUsersRegistered: {{totalUsersRegistered}}<br />totalUsersAnonymous: {{totalUsersAnonymous}}<br />onlineList: {{onlineList}}<br />onlineLegend: {{onlineLegend}}<br />activityLinkClick: {{activityLinkClick}}<br />activityLinkMemberName: {{activityLinkMemberName}}<br />birthdays: {{birthdays}}<br />birthdaysList: {{birthdaysList}}<br />events: {{events}}<br />totalPosts: {{totalPosts}}<br />totalMembers: {{totalMembers}}<br />newestMember: {{newestMember}}<br />mostOnline: {{mostOnline}}<br />mostOnlineDate: {{mostOnlineDate}}<br />onlineToday: {{onlineToday}}<br />onlineTodayList: {{onlineTodayList}}<br />mostOnlineOneDay: {{mostOnlineOneDay}}<br />mostOnlineDateOneDay: {{mostOnlineDateOneDay}}<br />storeProducts: {{storeProducts}}<br />storeValue: {{storeValue}}<br />moneyTotal: {{moneyTotal}}<br />moneyBanked: {{moneyBanked}}<br />moneyCirculating: {{moneyCirculating}}<br />richestMember: {{richestMember}}<br />richestMemberValue: {{richestMemberValue}}'
-    });
-    customProfile.initialize({
-        config: {
-            htmlEnabled: true
-        },
-        html: 'userId: {{userId}}<br />userPhoto: {{userPhoto}}<br />userName: {{userName}}<br />postCount: {{postCount}}<br />postsPerDay: {{postsPerDay}}<br />joinDate: {{joinDate}}<br />localTime: {{localTime}}<br />onlineStatus: {{onlineStatus}}<br />onlineActivity: {{onlineActivity}}<br />sendEmail: {{sendEmail}}<br />userSkype: {{userSkype}}<br />userAIM: {{userAIM}}<br />userGtalk: {{userGtalk}}<br />userYahoo: {{userYahoo}}<br />userMSN: {{userMSN}}<br />sendMessage: {{sendMessage}}<br />homePage: {{homePage}}<br />birthday: {{birthday}}<br />location: {{location}}<br />interests: {{interests}}<br />lastActivity: {{lastActivity}}<br />customField1: {{customField1}}<br />memberGroup: {{memberGroup}}<br />memberTitle: {{memberTitle}}<br />avatar: {{avatar}}<br />reputationTotal: {{reputationTotal}}<br />reputationIncrease: {{reputationIncrease}}<br />reputationDecrease: {{reputationDecrease}}<br />reputationDetails: {{reputationDetails}}<br />warnLevel: {{warnLevel}}<br />warnLevelIncrease: {{warnLevelIncrease}}<br />warnLevelDecrease: {{warnLevelDecrease}}<br />signature: {{signature}}'
-    });
-    customTopics.initialize({
-        html: 'folder: {{folder}}<br />marker: {{marker}}<br />topicId: {{topicId}}<br />topicTitle: {{topicTitle}}<br />pagination: {{pagination}}<br />topicDescription: {{topicDescription}}<br />topicAuthor: {{topicAuthor}}<br />replyCount: {{replyCount}}<br />viewCount: {{viewCount}}<br />lastReplyDate: {{lastReplyDate}}<br />lastReplyAuthor: {{lastReplyAuthor}}<br />moderatorCheckbox: {{moderatorCheckbox}}<br />'
-    });
-    customPosts.initialize({
-        html: 'postId: {{postId}}<br />postAuthor: {{postAuthor}}<br />permaLink: {{permaLink}}<br />postDate: {{postDate}}<br />postButtonsTop: {{postButtonsTop}}<br />postCheckbox: {{postCheckbox}}<br />postMiniprofile: {{postMiniprofile}}<br />postContent: {{postContent}}<br />postSignature: {{postSignature}}<br />postIp: {{postIp}}<br />postButtonsBottom: {{postButtonsBottom}}'
-    });
-});
