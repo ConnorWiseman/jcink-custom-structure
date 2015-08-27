@@ -50,6 +50,7 @@ var $cs = $cs || {
         child.prototype.constructor = child.prototype.myParent
     },
 
+
     /**
      * @namespace
      * @property {object} module
