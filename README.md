@@ -11,16 +11,16 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 * A module for customizing the appearance of posts in a topic list has been added.
 
 ## Basic Usage
-1. Host a copy of [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js) online.
-2. Place it in the page header inside the Board Wrappers.
+1. Place [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js)in the page header inside your Board Wrappers.
 
    ```html
    <head>
        ...
-       <script src="cs.min.js"></script>
+       <script src="https://raw.githubusercontent.com/ConnorWiseman/jcink-custom-structure/master/src/cs.min.js"></script>
    </head>
    ```
-3. Call the desired `initialize` methods after the `<% BOARD %>` wrapper tag.
+
+2. Call the desired `initialize` methods after the `<% BOARD %>` wrapper tag.
 
    ```html
    <% BOARD %>
@@ -30,4 +30,5 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
    });
    </script>
    ```
-4. Read this documentation. The new `cs.js` is incompatible with previous versions by design.
+
+3. Read this documentation. The new `cs.js` is incompatible with previous versions by design.
