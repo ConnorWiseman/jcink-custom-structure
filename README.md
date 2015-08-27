@@ -13,18 +13,18 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 ## Basic Usage
 1. Host a copy of [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js) online.
 2. Add it to the page header inside the Board Wrappers.
-```html5
-    ...
-    <script src="cs.min.js"></script>
-</head>
-...
-```
+   ```html
+       ...
+       <script src="cs.min.js"></script>
+   </head>
+   ...
+   ```
 3. Call the desired `initialize` methods at any point in the Board Wrappers *after* the `<% BOARD %>` wrapper tag.
-```html5
-<% BOARD %>
-<script>
-customIndex.initialize({
-    html: 'Testing the spacing here'
-});
-</script>
-```
+   ```html
+   <% BOARD %>
+   <script>
+   customIndex.initialize({
+       html: 'Testing the spacing here'
+   });
+   </script>
+   ```
