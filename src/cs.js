@@ -47,7 +47,7 @@ var $cs = $cs || {
      */
     extendModule: function(child, parent) {
         child.prototype = new parent;
-        child.prototype.constructor = child.prototype.myParent
+        child.prototype.constructor = child.prototype.myParent;
     },
 
 

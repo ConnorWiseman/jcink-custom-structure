@@ -1,6 +1,16 @@
 # Jcink Custom Structure
 A DOM manipulation library specifically designed for the Jcink hosted forum service.
 
+## Table of Contents
+1. [Major Changes](#major-changes)
+2. [Modules](#modules)
+  1. Custom Index
+  2. Custom Statistics
+  3. Custom Profile
+  4. Custom Topics
+  5. Custom Posts
+3. [Basic Usage](#basic-usage)
+
 ## Major Changes
 * Inbuilt support for legacy browsers has been dropped.
 * The script has been rewritten to take advantage of prototypal inheritance.
@@ -10,8 +20,11 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 * The `target` configuration property is no longer required for any module.
 * A module for customizing the appearance of posts in a topic list has been added.
 
+## Modules
+### Custom Index
+
 ## Basic Usage
-1. Place [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js)in the page header inside your Board Wrappers.
+1. Place [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js) in the page header inside your Board Wrappers.
 
    ```html
    <head>
