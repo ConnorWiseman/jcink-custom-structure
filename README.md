@@ -18,7 +18,8 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
     <script src="cs.min.js"></script>
 </head>
 ...
-```3. Call the desired `initialize` methods at any point in the Board Wrappers *after* the `<% BOARD %>` wrapper tag.
+```
+3. Call the desired `initialize` methods after the `<% BOARD %>` wrapper tag.
 ```html
 <% BOARD %>
 <script>
