@@ -13,9 +13,12 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 5. [Custom Statistics](#custom-statistics)
   1. [Custom Statistics Configuration Reference](#custom-statistics-configuration-reference)
   2. [Custom Statistics Key Reference](#custom-statistics-key-reference)
-    1. [Custom Profile Fields](#custom-profile-fields)
   3. [Custom Statistics Output Reference](#custom-statistics-output-reference)
 6. [Custom Profile](#custom-profile)
+  1. [Custom Profile Configuration Reference](#custom-profile-configuration-reference)
+  2. [Custom Profile Key Reference](#custom-profile-key-reference)
+    1. [Custom Profile Fields](#custom-profile-fields)
+  3. [Custom Profile Output Reference](#custom-profile-output-reference)
 7. [Custom Topics](#custom-topics)
 8. [Custom Posts](#custom-posts)
 
