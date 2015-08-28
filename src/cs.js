@@ -743,7 +743,7 @@ $cs.module.Profile.prototype.execute = function() {
         var groupContainer = profileTop.getElementsByTagName('strong');
         this.setValue('userGroup', groupContainer[0].textContent);
         var avatar =  profileTop.previousElementSibling.getElementsByTagName('img')[0];
-        if (avatar.src !== '') {
+        if (avatar) {
             this.setValue('avatar', avatar.src);
         } else {
             this.setValue('avatar', this.config.avatarDefault);
