@@ -48,8 +48,7 @@ customIndex.initialize({
 ### Custom Index Configuration Reference
 |Property|Description|Default|
 |--------|-----------|-------|
-|`target`|The `id` attribute of the element that contains the  
-`<% BOARD %>` wrapper tag. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it, or wrapping `<% BOARD %>` in an element with an `id` of `board`, to be an official recommendation.|`board`|
+|`target`|The `id` attribute of the element that contains the `<% BOARD %>` wrapper tag. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it to be an official recommendation.|`board`|
 |`keyPrefix`|The default prefix for replacement keys.|`{{`|
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
 |`insertBefore`|Content to be inserted before a new category. Does nothing if left blank.|Blank.|
@@ -67,19 +66,21 @@ customIndex.initialize({
 
 ### Custom Index Key Reference
 **Note:** The keys will be different if the `keyPrefix` or `keySuffix` configuration properties have been overridden with user-defined values.
-* `{{forumMarker}}` - The forum's marker, including the "Mark this forum as read?" link if available.
-* `{{forumTitle}}` - A link to the forum, containing the forum's title.
-* `{{forumViewing}}` - The number of people viewing the forum.
-* `{{forumId}}` - The forum's numerical id.
-* `{{forumDescription}}` - The forum's description.
-* `{{subforums}}` - The list of subforums the forum contains.
-* `{{moderators}}` - The list of users and user groups assigned to moderate the forum.
-* `{{topicCount}}` - The number of topics in the forum.
-* `{{replyCount}}` - The number of replies in the forum.
-* `{{lastPostDate}}` - The date of the last post in the forum.
-* `{{lastPostTitle}}` - A link to the last post in the forum, containing the title of the topic the last post was made in.
-* `{{lastPostURL}}` - The URL pointing to the last post made in the forum.
-* `{{lastPostAuthor}}` - A link to the author of the last post in the forum if available; otherwise, a string containing the name of the guest who made the post.
+|Key|Decsription|
+|---|-----------|
+|{{forumMarker}}|The forum's marker, including the "Mark this forum as read?" link if available.|
+|{{forumTitle}}|A link to the forum, containing the forum's title.|
+|{{forumViewing}}|The number of people viewing the forum.|
+|{{forumId}}|The forum's numerical id.|
+|{{forumDescription}}|The forum's description.|
+|{{subforums}}|The list of subforums the forum contains.|
+|{{moderators}}|The list of users and user groups assigned to moderate the forum.|
+|{{topicCount}}|The number of topics in the forum.|
+|{{replyCount}}|The number of replies in the forum.|
+|{{lastPostDate}}|The date of the last post in the forum.|
+|{{lastPostTitle}}|A link to the last post in the forum, containing the title of the topic the last post was made in.|
+|{{lastPostURL}}|The URL pointing to the last post made in the forum.|
+|{{lastPostAuthor}}|A link to the author of the last post in the forum if available; otherwise, a string containing the name of the guest who made the post.|
 
 
 ## Custom Statistics
