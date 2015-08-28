@@ -890,7 +890,12 @@ $cs.module.Profile.prototype.execute = function() {
         for (var i = 7; i < bottomRightCells.length; i++) {
             switch (true) {
                 case (bottomRightCells[i].textContent === 'Rep:'):
-                    this.setValue('reputationTotal', bottomRightCells[i + 1].textContent.split(' [')[0]);
+                    var reputation = bottomRightCells[i + 1].textContent;
+                    if (reputation.indexOf('pts') !== -1) {
+                        this.setValue('reputationTotal', reputation.split('pts [')[0]);
+                    } else {
+                        this.setValue('reputationTotal', '0');
+                    }
                     this.setValue('reputationIncrease', '<a href="/?act=rep&CODE=01&mid=' + userId + '&t=p">' + this.config.reputationIncrease + '</a>');
                     this.setValue('reputationDecrease', '<a href="/?act=rep&CODE=02&mid=' + userId + '&t=p">' + this.config.reputationDecrease + '</a>');
                     this.setValue('reputationDetails', '<a href="/?act=rep&CODE=03&mid=' + userId +'">' + this.config.reputationDetails + '</a>');
