@@ -75,8 +75,8 @@ customIndex.initialize({
 |Property|Description|Default|
 |--------|-----------|-------|
 |`target`|The `id` attribute of the `<% BOARD %>` wrapper tag's container element. As noted in the changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it to be an official recommendation.|`board`|
-|`keyPrefix`|The default prefix for replacement keys.|`{{`|
-|`keySuffix`|The default suffix for replacement keys.|`}}`|
+|`keyPrefix`|The default prefix for replacement keys.|`|`{{`|
+|`keySuffix`|The default suffix for replacement keys.|`}}`||`|
 |`insertBefore`|Content to be inserted before a new category. Does nothing if left blank.|Blank.|
 |`insertAfter`|Content to be inserted after a new category. Does nothing if left blank.|Blank.|
 |`viewingDefault`|The default number of people viewing a given forum([X members are viewing](http://jcink.com/main/wiki/jfb-acp-system-settings#cpu_saving) must be enabled).|`0`|
@@ -95,19 +95,19 @@ customIndex.initialize({
 
 |Key|Description|
 |---|-----------|
-|`{{forumMarker}}`|The forum's marker, including the "Mark this forum as read?" link if available.|
-|`{{forumTitle}}`|A link to the forum, containing the forum's title.|
-|`{{forumViewing}}`|The number of people viewing the forum.|
-|`{{forumId}}`|The forum's numerical id.|
-|`{{forumDescription}}`|The forum's description.|
-|`{{subforums}}`|The list of subforums the forum contains.|
-|`{{moderators}}`|The list of users and user groups assigned to moderate the forum.|
-|`{{topicCount}}`|The number of topics in the forum.|
-|`{{replyCount}}`|The number of replies in the forum.|
-|`{{lastPostDate}}`|The date of the last post in the forum.|
-|`{{lastPostTitle}}`|A link to the last post in the forum, containing the title of the topic the last post was made in.|
-|`{{lastPostURL}}`|The URL pointing to the last post made in the forum.|
-|`{{lastPostAuthor}}`|A link to the author of the last post in the forum if available; otherwise, a string containing the name of the guest who made the post.|
+|`|`{{forumMarker}}`||`|The forum's marker, including the "Mark this forum as read?" link if available.|
+|`|`{{forumTitle}}`||`|A link to the forum, containing the forum's title.|
+|`|`{{forumViewing}}`||`|The number of people viewing the forum.|
+|`|`{{forumId}}`||`|The forum's numerical id.|
+|`|`{{forumDescription}}`||`|The forum's description.|
+|`|`{{subforums}}`||`|The list of subforums the forum contains.|
+|`|`{{moderators}}`||`|The list of users and user groups assigned to moderate the forum.|
+|`|`{{topicCount}}`||`|The number of topics in the forum.|
+|`|`{{replyCount}}`||`|The number of replies in the forum.|
+|`|`{{lastPostDate}}`||`|The date of the last post in the forum.|
+|`|`{{lastPostTitle}}`||`|A link to the last post in the forum, containing the title of the topic the last post was made in.|
+|`|`{{lastPostURL}}`||`|The URL pointing to the last post made in the forum.|
+|`|`{{lastPostAuthor}}`||`|A link to the author of the last post in the forum if available; otherwise, a string containing the name of the guest who made the post.|
 
 
 ### Custom Index Output Reference
@@ -154,8 +154,8 @@ customStats.initialize({
 ### Custom Statistics Configuration Reference
 |Property|Description|Default|
 |--------|-----------|-------|
-|`keyPrefix`|The default prefix for replacement keys.|`{{`|
-|`keySuffix`|The default suffix for replacement keys.|`}}`|
+|`keyPrefix`|The default prefix for replacement keys.|`|`{{`|
+|`keySuffix`|The default suffix for replacement keys.|`}}`||`|
 
 
 ### Custom Statistics Key Reference
@@ -163,33 +163,33 @@ customStats.initialize({
 
 |Key|Description|
 |---|-----------|
-|`{{totalUsers}}`|The total number of users online.|
-|`{{totalUsersGuests}}`|The number of guests online.|
-|`{{totalUsersRegistered}}`|The number of registered users online.|
-|`{{totalUsersAnonymous}}`|The number of anonymous users online.|
-|`{{onlineList}}`|A comma-separated list of online users.|
-|`{{onlineLegend}}`|The built-in [user group legend](http://jcink.com/main/wiki/member_legend).|
-|`{{activityLinkClick}}`|A link to the online list, sorted by last click.|
-|`{{activityLinkMemberName}}`|A link to the online list, sorted by member name.|
-|`{{birthdays}}`|The number of birthdays being celebrated today.|
-|`{{birthdaysList}}`|A list of users celebrating their birthday today, including their age.|
-|`{{events}}`|A list of events being observed.|
-|`{{totalPosts}}`|The total number of posts on the forum.|
-|`{{totalMembers}}`|The total number of members on the forum.|
-|`{{newestMember}}`|A link to the newest member.|
-|`{{mostOnline}}`|The most users ever online at once.|
-|`{{mostOnlineDate}}`|The date when the most users were on.|
-|`{{onlineToday}}`|The number of users online today.|
-|`{{onlineTodayList}}`|A comma-separated list of the users who have been online today.|
-|`{{mostOnlineOneDay}}`|The most users ever online in one day.|
-|`{{mostOnlineDateOneDay}}`|The date when the most users ever online in one day occurred.|
-|`{{storeProducts}}`|The number of products in the store.|
-|`{{storeValue}}`|The total value of all the products in the store.|
-|`{{moneyTotal}}`|The total amount of money on the forum.|
-|`{{moneyBanked}}`|The amount of money in the forum's bank.|
-|`{{moneyCirculating}}`|The amount of money outside the forum's bank.|
-|`{{richestMember}}`|A link to the wealthiest member.|
-|`{{richestMemberValue}}`|The value of the wealthiest member.|
+|`|`{{totalUsers}}`||`|The total number of users online.|
+|`|`{{totalUsersGuests}}`||`|The number of guests online.|
+|`|`{{totalUsersRegistered}}`||`|The number of registered users online.|
+|`|`{{totalUsersAnonymous}}`||`|The number of anonymous users online.|
+|`|`{{onlineList}}`||`|A comma-separated list of online users.|
+|`|`{{onlineLegend}}`||`|The built-in [user group legend](http://jcink.com/main/wiki/member_legend).|
+|`|`{{activityLinkClick}}`||`|A link to the online list, sorted by last click.|
+|`|`{{activityLinkMemberName}}`||`|A link to the online list, sorted by member name.|
+|`|`{{birthdays}}`||`|The number of birthdays being celebrated today.|
+|`|`{{birthdaysList}}`||`|A list of users celebrating their birthday today, including their age.|
+|`|`{{events}}`||`|A list of events being observed.|
+|`|`{{totalPosts}}`||`|The total number of posts on the forum.|
+|`|`{{totalMembers}}`||`|The total number of members on the forum.|
+|`|`{{newestMember}}`||`|A link to the newest member.|
+|`|`{{mostOnline}}`||`|The most users ever online at once.|
+|`|`{{mostOnlineDate}}`||`|The date when the most users were on.|
+|`|`{{onlineToday}}`||`|The number of users online today.|
+|`|`{{onlineTodayList}}`||`|A comma-separated list of the users who have been online today.|
+|`|`{{mostOnlineOneDay}}`||`|The most users ever online in one day.|
+|`|`{{mostOnlineDateOneDay}}`||`|The date when the most users ever online in one day occurred.|
+|`|`{{storeProducts}}`||`|The number of products in the store.|
+|`|`{{storeValue}}`||`|The total value of all the products in the store.|
+|`|`{{moneyTotal}}`||`|The total amount of money on the forum.|
+|`|`{{moneyBanked}}`||`|The amount of money in the forum's bank.|
+|`|`{{moneyCirculating}}`||`|The amount of money outside the forum's bank.|
+|`|`{{richestMember}}`||`|A link to the wealthiest member.|
+|`|`{{richestMemberValue}}`||`|The value of the wealthiest member.|
 
 
 ### Custom Statistics Output Reference
@@ -218,6 +218,68 @@ customProfile.initialize({
     html: 'Your markup here!'
 });
 </script>
+```
+
+
+### Custom Profile Configuration Reference
+|Property|Description|Default|
+|--------|-----------|-------|
+|`htmlEnabled`||`false`|
+|`keyPrefix`|The default prefix for replacement keys.|`|`{{`|
+|`keySuffix`|The default suffix for replacement keys.|`}}`||`|
+|`emailDefault`||`'Click here'`|
+|`messageDefault`||`'Click here'`|
+|`reputationIncrease`||`'+'`|
+|`reputationDecrease`||`'-'`|
+|`warnIncrease`||`'+'`|
+|`warnDecrease`||`'-'`|
+|`reputationDetails`||`[details &gt;&gt;]'`|
+|`avatarDefault`||`''`|
+|`userPhotoDefault`||`''`|
+
+
+### Custom Profile Key Reference
+**Note:** The keys will be different if the `keyPrefix` or `keySuffix` configuration properties have been overridden with user-defined values.
+
+|Key|Description|
+|---|-----------|
+|`{{userId}}`||
+|`{{userPhoto}}`||
+|`{{userName}}`||
+|`{{postCount}}`||
+|`{{postsPerDay}}`||
+|`{{joinDate}}`||
+|`{{localTime}}`||
+|`{{onlineStatus}}`||
+|`{{onlineActivity}}`||
+|`{{sendEmail}}`||
+|`{{userSkype}}`||
+|`{{userAIM}}`||
+|`{{userGtalk}}`||
+|`{{userYahoo}}`||
+|`{{userMSN}}`||
+|`{{sendMessage}}`||
+|`{{homePage}}`||
+|`{{birthday}}`||
+|`{{location}}`||
+|`{{interests}}`||
+|`{{lastActivity}}`||
+|`{{customField1}}`||
+|`{{memberGroup}}`||
+|`{{memberTitle}}`||
+|`{{avatar}}`||
+|`{{reputationTotal}}`||
+|`{{reputationIncrease}}`||
+|`{{reputationDecrease}}`||
+|`{{reputationDetails}}`||
+|`{{warnLevel}}`||
+|`{{warnLevelIncrease}}`||
+|`{{warnLevelDecrease}}`||
+|`{{signature}}`||
+
+### Custom Profile Output Reference
+```html
+
 ```
 
 
