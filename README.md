@@ -4,7 +4,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 ## Table of Contents
 1. [Major Changes](#major-changes)
 2. [Basic Usage](#basic-usage)
-3. [Modules](#modules)
+3. [Module-specific Usage](#module-specific-usage)
   1. [Custom Index](#custom-index)
   2. [Custom Statistics](#custom-statistics)
   3. [Custom Profile](#custom-profile)
@@ -30,21 +30,11 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
    ```
 
 2. Call the desired `initialize` methods after the `<% BOARD %>` wrapper tag.
-
-   ```html
-   <% BOARD %>
-   <script>
-   module.initialize({
-       html: 'Your markup here!'
-   });
-   </script>
-   ```
-
 3. Read this documentation. The new `cs.js` is incompatible with previous versions by design.
 
-## Modules
+## Module-specific Usage
 ### Custom Index
-Reads each category on the forum index, each forum inside a subcategory, and the list of subforums inside a forum for important values, then performs replacement and insertion.  As noted in the major changes section, the `target` configuration property is not required but including it can provide a minor boost to performance. Consider using it an official recommendation.
+Reads each category on the forum index, each category inside a subcategory, and the list of subforums inside a forum for important values, then performs replacement and insertion.  As noted in the major changes section, the `target` configuration property is not required but including it can provide a minor boost to performance. Consider using it an official recommendation.
 #### Without `target`
 ```html
 <% BOARD %>
@@ -67,6 +57,42 @@ customIndex.initialize({
 </script>
 ```
 ### Custom Statistics
+Reads the forum statistics for important values, then performs replacement and insertion.
+```html
+<% BOARD %>
+<script>
+customStats.initialize({
+    html: 'Your markup here!'
+});
+</script>
+```
 ### Custom Profile
+Reads a user profile page for important values, then performs replacement and insertion. The Custom Profile module reads both the default IPB profile and the personal portal style profiles the same way.
+```html
+<% BOARD %>
+<script>
+customProfile.initialize({
+    html: 'Your markup here!'
+});
+</script>
+```
 ### Custom Topics
+Reads the topic list inside a forum for important values, then performs replacement and insertion.
+```html
+<% BOARD %>
+<script>
+customTopics.initialize({
+    html: 'Your markup here!'
+});
+</script>
+```
 ### Custom Posts
+Reads the posts in a topic for important values, then performs replacement and insertion. The Custom Posts module is new in this release.
+```html
+<% BOARD %>
+<script>
+customPosts.initialize({
+    html: 'Your markup here!'
+});
+</script>
+```
