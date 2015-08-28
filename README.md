@@ -44,34 +44,24 @@ customIndex.initialize({
 </script>
 ```
 
-```html
-<div id="board-container"><% BOARD %></div>
-<script>
-customIndex.initialize({
-    config: {
-        target: 'board-container'
-    },
-    html: 'Your markup here!'
-});
-</script>
-```
-
 
 ### Custom Index Configuration Reference
-* `target` - The `id` attribute of the element that contains the `<% BOARD %>` wrapper tag. Defaults to `board`. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it, or wrapping `<% BOARD %>` in an element with an `id` of `board`, to be an official recommendation.
-* `keyPrefix` - The default prefix for replacement keys. Defaults to `{{`.
-* `keySuffix` - The default suffix for replacement keys. Defaults to `}}`.
-* `insertBefore` - The default content to be inserted before a new category. Does nothing if left blank.
-* `insertAfter` - The default content to be inserted after a new category. Does nothing if left blank.
-* `viewingDefault` - The default number of people viewing a given forum([X members are viewing](http://jcink.com/main/wiki/jfb-acp-system-settings#cpu_saving)). Defaults to `0`.
-* `subforumSeparator` - The default subforum separator. Defaults to `, `.
-* `subforumsNone` - The default indicator for no subforums. Defaults to a blank value.
-* `moderatorsNone` - The default indicator for no moderators. Defaults to a blank value.
-* `dateDefault` - The default date for last posts. Defaults to `--`.
-* `titleDefault` - The default title for last posts. Defaults to `----`.
-* `urlDefault` - The default URL for last posts. Defaults to `#`.
-* `authorDefault` - The default author for last posts. Defaults to a blank value.
-* `passwordTitle` - The default title of topics in password-protected forums. Defaults to `Protected Forum`.
+|Property|Description|
+|--------|-----------|
+|`target`|The `id` attribute of the element that contains the `<% BOARD %>` wrapper tag. Defaults to `board`. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it, or wrapping `<% BOARD %>` in an element with an `id` of `board`, to be an official recommendation.|
+|`keyPrefix`|The default prefix for replacement keys. Defaults to `{{`.|
+|`keySuffix`|The default suffix for replacement keys. Defaults to `}}`.|
+|`insertBefore`|The default content to be inserted before a new category. Does nothing if left blank.|
+|`insertAfter`|The default content to be inserted after a new category. Does nothing if left blank.|
+|`viewingDefault`|The default number of people viewing a given forum([X members are viewing](http://jcink.com/main/wiki/jfb-acp-system-settings#cpu_saving)). Defaults to `0`.|
+|`subforumSeparator`|The default subforum separator. Defaults to `, `.|
+|`subforumsNone`|The default indicator for no subforums. Defaults to a blank value.|
+|`moderatorsNone`|The default indicator for no moderators. Defaults to a blank value.|
+|`dateDefault`|The default date for last posts. Defaults to `--`.|
+|`titleDefault`|The default title for last posts. Defaults to `----`.|
+|`urlDefault`|The default URL for last posts. Defaults to `#`.|
+|`authorDefault`|The default author for last posts. Defaults to a blank value.|
+|`passwordTitle`|The default title of topics in password-protected forums. Defaults to `Protected Forum`.|
 
 
 ### Custom Index Key Reference
