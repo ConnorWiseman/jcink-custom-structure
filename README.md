@@ -48,7 +48,7 @@ customIndex.initialize({
 ### Custom Index Configuration Reference
 |Property|Description|Default|
 |--------|-----------|-------|
-|`target`|The `id` attribute of the element that contains the `<% BOARD %>` wrapper tag. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it to be an official recommendation.|`board`|
+|`target`|The `id` attribute of the `<% BOARD %>` wrapper tag's container element. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it to be an official recommendation.|`board`|
 |`keyPrefix`|The default prefix for replacement keys.|`{{`|
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
 |`insertBefore`|Content to be inserted before a new category. Does nothing if left blank.|Blank.|
@@ -66,6 +66,7 @@ customIndex.initialize({
 
 ### Custom Index Key Reference
 **Note:** The keys will be different if the `keyPrefix` or `keySuffix` configuration properties have been overridden with user-defined values.
+
 |Key|Decsription|
 |---|-----------|
 |{{forumMarker}}|The forum's marker, including the "Mark this forum as read?" link if available.|
