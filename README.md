@@ -5,13 +5,14 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 ## Table of Contents
 1. [Changes](#changes)
 2. [Installation](#installation)
-3. [Custom Index](#custom-index)
+3. [Configuration](#configuration)
+4. [Custom Index](#custom-index)
   1. [Custom Index Configuration Reference](#custom-index-configuration-reference)
   2. [Custom Index Key Reference](#custom-index-key-reference)
-4. [Custom Statistics](#custom-statistics)
-5. [Custom Profile](#custom-profile)
-6. [Custom Topics](#custom-topics)
-7. [Custom Posts](#custom-posts)
+5. [Custom Statistics](#custom-statistics)
+6. [Custom Profile](#custom-profile)
+7. [Custom Topics](#custom-topics)
+8. [Custom Posts](#custom-posts)
 
 
 ## Changes
@@ -31,6 +32,23 @@ Place [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/m
     <script src="https://raw.githubusercontent.com/ConnorWiseman/jcink-custom-structure/master/src/cs.min.js"></script>
 </head>
 ```
+
+
+## Configuration
+Configuration is handled on a per-module basis by passing in an optional object, `config`, to each module's `initialize` method.
+```html
+<% BOARD %>
+<script>
+customIndex.initialize({
+    config: {
+        insertBefore: 'This will be inserted before every category.',
+        insertAfter:  'This will be inserted after every category.'
+    },
+    html: 'Your markup here!'
+});
+</script>
+```
+The accepted configuration properties are detailed for each module in their respective sections below.
 
 
 ## Custom Index
@@ -69,19 +87,19 @@ customIndex.initialize({
 
 |Key|Decsription|
 |---|-----------|
-|{{forumMarker}}|The forum's marker, including the "Mark this forum as read?" link if available.|
-|{{forumTitle}}|A link to the forum, containing the forum's title.|
-|{{forumViewing}}|The number of people viewing the forum.|
-|{{forumId}}|The forum's numerical id.|
-|{{forumDescription}}|The forum's description.|
-|{{subforums}}|The list of subforums the forum contains.|
-|{{moderators}}|The list of users and user groups assigned to moderate the forum.|
-|{{topicCount}}|The number of topics in the forum.|
-|{{replyCount}}|The number of replies in the forum.|
-|{{lastPostDate}}|The date of the last post in the forum.|
-|{{lastPostTitle}}|A link to the last post in the forum, containing the title of the topic the last post was made in.|
-|{{lastPostURL}}|The URL pointing to the last post made in the forum.|
-|{{lastPostAuthor}}|A link to the author of the last post in the forum if available; otherwise, a string containing the name of the guest who made the post.|
+|`{{forumMarker}}`|The forum's marker, including the "Mark this forum as read?" link if available.|
+|`{{forumTitle}}`|A link to the forum, containing the forum's title.|
+|`{{forumViewing}}`|The number of people viewing the forum.|
+|`{{forumId}}`|The forum's numerical id.|
+|`{{forumDescription}}`|The forum's description.|
+|`{{subforums}}`|The list of subforums the forum contains.|
+|`{{moderators}}`|The list of users and user groups assigned to moderate the forum.|
+|`{{topicCount}}`|The number of topics in the forum.|
+|`{{replyCount}}`|The number of replies in the forum.|
+|`{{lastPostDate}}`|The date of the last post in the forum.|
+|`{{lastPostTitle}}`|A link to the last post in the forum, containing the title of the topic the last post was made in.|
+|`{{lastPostURL}}`|The URL pointing to the last post made in the forum.|
+|`{{lastPostAuthor}}`|A link to the author of the last post in the forum if available; otherwise, a string containing the name of the guest who made the post.|
 
 
 ## Custom Statistics
