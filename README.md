@@ -224,18 +224,18 @@ customProfile.initialize({
 ### Custom Profile Configuration Reference
 |Property|Description|Default|
 |--------|-----------|-------|
-|`htmlEnabled`||`false`|
+|`htmlEnabled`|If true, Custom Structure will parse the user's interests field for HTML and output it accordingly. Although Jcink does not parse the interests field for malicious code, the parsing method used here is [XSS-safe](https://www.owasp.org/index.php/DOM_based_XSS_Prevention_Cheat_Sheet#RULE_.236_-_Populate_the_DOM_using_safe_JavaScript_functions_or_properties).|`false`|
 |`keyPrefix`|The default prefix for replacement keys.|`{{`|
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
-|`emailDefault`||`'Click here'`|
-|`messageDefault`||`'Click here'`|
-|`reputationIncrease`||`'+'`|
-|`reputationDecrease`||`'-'`|
-|`warnIncrease`||`'+'`|
-|`warnDecrease`||`'-'`|
-|`reputationDetails`||`[details &gt;&gt;]'`|
-|`avatarDefault`||`''`|
-|`userPhotoDefault`||`''`|
+|`emailDefault`|The default text used in the user's email link.|`Click here`|
+|`messageDefault`|The default text used in the user's personal message link.|`Click here`|
+|`reputationIncrease`|The default text used in the user's reputation increase link.|`+`|
+|`reputationDecrease`|The default text used in the user's reputation decrease link.|`-`|
+|`reputationDetails`|The default text used in the user's reputation details link.|`[details &gt;&gt;]`|
+|`warnIncrease`|The default text used in the user's warning increase link.|`+`|
+|`warnDecrease`|The default text used in the user's warning decrease link.|`-`|
+|`avatarDefault`|An image URL to use in place of the user's avatar if the user does not have an avatar.|Blank.|
+|`userPhotoDefault`|An image URL to use in place of the user's photo if the user does not have a photo.|Blank.|
 
 
 ### Custom Profile Key Reference
