@@ -13,6 +13,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 5. [Custom Statistics](#custom-statistics)
   1. [Custom Statistics Configuration Reference](#custom-statistics-configuration-reference)
   2. [Custom Statistics Key Reference](#custom-statistics-key-reference)
+    1. [Custom Profile Fields](#custom-profile-fields)
   3. [Custom Statistics Output Reference](#custom-statistics-output-reference)
 6. [Custom Profile](#custom-profile)
 7. [Custom Topics](#custom-topics)
@@ -231,7 +232,7 @@ customProfile.initialize({
 |`messageDefault`|The default text used in the user's personal message link.|`Click here`|
 |`reputationIncrease`|The default text used in the user's reputation increase link.|`+`|
 |`reputationDecrease`|The default text used in the user's reputation decrease link.|`-`|
-|`reputationDetails`|The default text used in the user's reputation details link.|`[details &gt;&gt;]`|
+|`reputationDetails`|The default text used in the user's reputation details link.|`[details >>]`|
 |`warnIncrease`|The default text used in the user's warning increase link.|`+`|
 |`warnDecrease`|The default text used in the user's warning decrease link.|`-`|
 |`avatarDefault`|An image URL to use in place of the user's avatar if the user does not have an avatar.|Blank.|
