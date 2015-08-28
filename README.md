@@ -20,7 +20,13 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
     1. [Custom Profile Fields](#custom-profile-fields)
   3. [Custom Profile Output Reference](#custom-profile-output-reference)
 7. [Custom Topics](#custom-topics)
+  1. [Custom Topics Configuration Reference](#custom-topics-configuration-reference)
+  2. [Custom Topics Key Reference](#custom-topics-key-reference)
+  3. [Custom Topics Output Reference](#custom-topics-output-reference)
 8. [Custom Posts](#custom-posts)
+  1. [Custom Posts Configuration Reference](#custom-posts-configuration-reference)
+  2. [Custom Posts Key Reference](#custom-posts-key-reference)
+  3. [Custom Posts Output Reference](#custom-posts-output-reference)
 
 
 ## Changes
@@ -327,6 +333,43 @@ customTopics.initialize({
 ```
 
 
+### Custom Topics Configuration Reference
+|Property|Description|Default|
+|--------|-----------|-------|
+|`keyPrefix`|The default prefix for replacement keys.|`{{`|
+|`keySuffix`|The default suffix for replacement keys.|`}}`|
+|`announcementsDefault`|The default text used for the announcements row.|`Announcements`|
+|`pinnedDefault`|The default text used for the pinned topics row.|`Important Topics`|
+|`regularDefault`|The default text used for the regular topics row.|`Forum Topics`|
+|`noTopics`|The text displayed when a forum contaions no topics.|`No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.`|
+|`paginationDefault`|The text displayed when there are no pagination options.|Blank.|
+
+
+### Custom Topics Key Reference
+**Note:** The keys will be different if the `keyPrefix` or `keySuffix` configuration properties have been overridden with user-defined values.
+
+|Key|Description|
+|---|-----------|
+`{{folder}}`|The topic's folder (new replies, locked, etc).|
+`{{marker}}`|The topic's marker (pinned).|
+`{{topicId}}`|The topic's numerical id.|
+`{{topicTitle}}`|A link to the topic, including the topic's title.|
+`{{pagination}}`|The topic's pagination links.|
+`{{topicDescription}}`|The topic's description.|
+`{{topicAuthor}}`|A link to the topic's author.|
+`{{replyCount}}`|The number of replies to this topic.|
+`{{viewCount}}`|The number of views this topic has received.|
+`{{lastReplyDate}}`|The date of the last reply to this topic.|
+`{{lastReplyAuthor}}`|A link to the author of the last reply to this topic.|
+`{{moderatorCheckbox}}`|The checkbox used for moderating this topic. Invisible to regular members and guests. If you forget to include it somewhere, the topic moderation options form below the topic list will be useless.|
+
+
+### Custom Topics Output Reference
+```html
+
+```
+
+
 ## Custom Posts
 Reads the posts in a topic for important values, then performs replacement and insertion. The Custom Posts module is new in this release.
 ```html
@@ -336,4 +379,24 @@ customPosts.initialize({
     html: 'Your markup here!'
 });
 </script>
+```
+
+
+### Custom Posts Configuration Reference
+|Property|Description|Default|
+|--------|-----------|-------|
+|`keyPrefix`|The default prefix for replacement keys.|`{{`|
+|`keySuffix`|The default suffix for replacement keys.|`}}`|
+
+
+### Custom Posts Key Reference
+**Note:** The keys will be different if the `keyPrefix` or `keySuffix` configuration properties have been overridden with user-defined values.
+
+|Key|Description|
+|---|-----------|
+
+
+### Custom Posts Output Reference
+```html
+
 ```
