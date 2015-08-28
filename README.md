@@ -40,7 +40,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 * The Custom Stats module now supports IBStore statistics.
 * The Custom Profile module no longer supports friends, comments, or visitors.
 * The `target` configuration property is no longer required for any module.
-* A module for customizing the appearance of posts in a topic list has been added.
+* A module for customizing the appearance of posts inside a topic has been added.
 
 
 ## Installation

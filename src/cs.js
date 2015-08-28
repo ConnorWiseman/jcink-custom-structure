@@ -74,6 +74,12 @@ var $cs = $cs || {
 
 
 /**
+ * @property {boolean} time     - Whether or not to run performance timers on script execution.
+ */
+$cs.module.Default.prototype.time = false;
+
+
+/**
  * @property {string} html      - User-defined HTML markup for replacement.
  */
 $cs.module.Default.prototype.html = '';
@@ -124,11 +130,14 @@ $cs.module.Default.prototype.initialize = function(settings) {
         error message and return false.
      */
     if (this.html && this.html !== '') {
-        var debug = false;
-        if (debug) { console.time(this.name); }
+        if (this.time) {
+            console.time(this.name);
+        }
         this.values = {};
         this.execute();
-        if (debug) { console.timeEnd(this.name); }
+        if (this.time) {
+            console.timeEnd(this.name);
+        }
     } else {
         console.error(this.name + ': required property "html" is undefined');
         return false;
