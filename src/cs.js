@@ -1221,7 +1221,7 @@ $cs.module.Posts.prototype.execute = function() {
             this.setValue('postButtonsBottom', cells[5 + cellOffset].firstElementChild.innerHTML);
 
             // Replace the values and append the content of this post to the output.
-            postsContent += '<div class="new-post" id="entry' + postId + '" name="' + postId + '">' + 
+            postsContent += '<div class="new-post" id="entry' + postId + '" name="' + postId + 'entry">' + 
                                this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values) +
                                '</div>';
         }
