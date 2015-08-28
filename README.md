@@ -31,6 +31,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 
 
 ## Changes
+* Multiple bugfixes and optimization tweaks.
 * Inbuilt support for legacy browsers has been dropped.
 * The script has been rewritten to take advantage of prototypal inheritance.
 * The majority of the replacement keys have been renamed.
