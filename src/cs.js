@@ -1106,19 +1106,18 @@ $cs.module.Topics.prototype.initialize = function(settings) {
 // Extend the custom posts module with the default properties and methods.
 $cs.extendModule($cs.module.Posts, $cs.module.Default);
 
+
 /**
  * @namespace
  * @property {object} config                      - Default configuration values.
  * @property {string} config.keyPrefix            - The default prefix for value keys.
  * @property {string} config.keySuffix            - The default suffix for value keys.
  * @property {string} config.permaLinkDefault     - The default text used in permalinks.
- * @property {string} config.postCheckboxDefault  - The default text used when no moderator checkbox is present.
  */
 $cs.module.Posts.prototype.config = {
     keyPrefix:              '{{',
     keySuffix:              '}}',
-    permaLinkDefault:       'Permalink',
-    postCheckboxDefault:    ''    
+    permaLinkDefault:       'Permalink'
 };
 
 
@@ -1213,7 +1212,7 @@ $cs.module.Posts.prototype.execute = function() {
                 this.setValue('postCheckbox', cells[2].innerHTML);
                 cellOffset = 1;
             } else {
-                this.setValue('postCheckbox', this.config.postCheckboxDefault);
+                this.setValue('postCheckbox', '');
             }
             this.setValue('postMiniprofile', cells[2 + cellOffset].firstElementChild.innerHTML);
             this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
