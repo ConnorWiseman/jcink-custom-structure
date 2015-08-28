@@ -35,14 +35,14 @@ Place [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/m
 
 
 ## Configuration
-Configuration is handled on a per-module basis by passing in an optional object, `config`, to each module's `initialize` method.
+Configuration is handled on a per-module basis by passing in an optional object, `config`, as a property to each module's `initialize` method. For reference, all objects used by the Custom Structure script are [object literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Creating_objects).
 ```html
 <% BOARD %>
 <script>
 customIndex.initialize({
     config: {
         insertBefore: 'This will be inserted before every category.',
-        insertAfter:  'This will be inserted after every category.'
+        insertAfter: 'This will be inserted after every category.'
     },
     html: 'Your markup here!'
 });
