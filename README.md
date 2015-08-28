@@ -48,12 +48,13 @@ customIndex.initialize({
 ### Custom Index Configuration Reference
 |Property|Description|Default|
 |--------|-----------|-------|
-|`target`|The `id` attribute of the element that contains the `<% BOARD %>` wrapper tag. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it, or wrapping `<% BOARD %>` in an element with an `id` of `board`, to be an official recommendation.|`board|
+|`target`|The `id` attribute of the element that contains the
+`<% BOARD %>` wrapper tag. As noted in the major changes section, the `target` configuration property is no longer required but including it can provide a minor boost to performance. Consider using it, or wrapping `<% BOARD %>` in an element with an `id` of `board`, to be an official recommendation.|`board`|
 |`keyPrefix`|The default prefix for replacement keys.|`{{`|
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
 |`insertBefore`|Content to be inserted before a new category. Does nothing if left blank.|Blank.|
 |`insertAfter`|Content to be inserted after a new category. Does nothing if left blank.|Blank.|
-|`viewingDefault`|The default number of people viewing a given forum([X members are viewing](http://jcink.com/main/wiki/jfb-acp-system-settings#cpu_saving)).|`0`|
+|`viewingDefault`|The default number of people viewing a given forum([X members are viewing](http://jcink.com/main/wiki/jfb-acp-system-settings#cpu_saving) must be enabled).|`0`|
 |`subforumSeparator`|The default subforum separator.|`, `|
 |`subforumsNone`|The default indicator for no subforums.|Blank.|
 |`moderatorsNone`|The default indicator for no moderators.|Blank.|
