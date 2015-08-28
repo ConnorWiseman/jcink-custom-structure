@@ -64,7 +64,7 @@ customIndex.initialize({
         insertBefore: 'This will be inserted before every category.',
         insertAfter: 'This will be inserted after every category.'
     },
-    html: 'Your markup here!'
+    html: '{{forumTitle}}<br />{{forumDescription}}'
 });
 </script>
 ```
