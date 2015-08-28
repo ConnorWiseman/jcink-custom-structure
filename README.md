@@ -224,7 +224,7 @@ customProfile.initialize({
 ### Custom Profile Configuration Reference
 |Property|Description|Default|
 |--------|-----------|-------|
-|`htmlEnabled`|If true, Custom Structure will parse the user's interests field for HTML and output it accordingly. Although Jcink does not parse the interests field for malicious code, the parsing method used here is [XSS-safe](https://www.owasp.org/index.php/DOM_based_XSS_Prevention_Cheat_Sheet#RULE_.236_-_Populate_the_DOM_using_safe_JavaScript_functions_or_properties).|`false`|
+|`htmlEnabled`|If `true`, Custom Structure will parse the user's interests field for HTML and output it accordingly. Although the Jcink service does not parse the interests field for malicious code on its own, the parsing method used here is [XSS-safe](https://www.owasp.org/index.php/DOM_based_XSS_Prevention_Cheat_Sheet#RULE_.236_-_Populate_the_DOM_using_safe_JavaScript_functions_or_properties). Script and style tags in the interests field will not affect the page.|`false`|
 |`keyPrefix`|The default prefix for replacement keys.|`{{`|
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
 |`emailDefault`|The default text used in the user's email link.|`Click here`|
@@ -243,39 +243,38 @@ customProfile.initialize({
 
 |Key|Description|
 |---|-----------|
-|`{{userId}}`||
-|`{{userPhoto}}`||
-|`{{userName}}`||
-|`{{postCount}}`||
-|`{{postsPerDay}}`||
-|`{{joinDate}}`||
-|`{{localTime}}`||
-|`{{onlineStatus}}`||
-|`{{onlineActivity}}`||
-|`{{sendEmail}}`||
-|`{{userSkype}}`||
-|`{{userAIM}}`||
-|`{{userGtalk}}`||
-|`{{userYahoo}}`||
-|`{{userMSN}}`||
-|`{{sendMessage}}`||
-|`{{homePage}}`||
-|`{{birthday}}`||
-|`{{location}}`||
-|`{{interests}}`||
-|`{{lastActivity}}`||
-|`{{customField1}}`||
-|`{{memberGroup}}`||
-|`{{memberTitle}}`||
-|`{{avatar}}`||
-|`{{reputationTotal}}`||
-|`{{reputationIncrease}}`||
-|`{{reputationDecrease}}`||
-|`{{reputationDetails}}`||
-|`{{warnLevel}}`||
-|`{{warnLevelIncrease}}`||
-|`{{warnLevelDecrease}}`||
-|`{{signature}}`||
+|`{{userId}}`|The user's numerical id.|
+|`{{userPhoto}}`|The URL of the user's photo. Not an image.|
+|`{{userName}}`|The user's name.|
+|`{{postCount}}`|The user's post count.|
+|`{{postsPerDay}}`|The number of posts made per day.|
+|`{{joinDate}}`|The date the user joined.|
+|`{{localTime}}`|The user's local time.|
+|`{{onlineStatus}}`|Online or offline.|
+|`{{onlineActivity}}`|If the user is online, what they were doing last.|
+|`{{sendEmail}}`|A link to send the user an email.|
+|`{{userSkype}}`|The user's Skype.|
+|`{{userAIM}}`|The user's AIM.|
+|`{{userGtalk}}`|The user's Gtalk.|
+|`{{userYahoo}}`|The user's YIM.|
+|`{{userMSN}}`|The user's MSN.|
+|`{{sendMessage}}`|A link to send the user a personal message.|
+|`{{homePage}}`|A link to the user's home page.|
+|`{{birthday}}`|The user's birthday.|
+|`{{location}}`|The user's location.|
+|`{{interests}}`|The user's interests. May contain HTML.|
+|`{{lastActivity}}`|The time when the user was last active.|
+|`{{userGroup}}`|The user's group name.|
+|`{{userTitle}}`|The user's member title.|
+|`{{avatar}}`|The URL of the user's avatar. Not an image.|
+|`{{reputationTotal}}`|The user's reputation count.|
+|`{{reputationIncrease}}`|A link to increase the user's reputation.|
+|`{{reputationDecrease}}`|A link to decrease the user's reputation.|
+|`{{reputationDetails}}`|A link to the user's reputation details.|
+|`{{warnLevel}}`|The user's warn level.|
+|`{{warnLevelIncrease}}`|A link to increase the user's warn level.|
+|`{{warnLevelDecrease}}`|A link to decrease the user's warn level.|
+|`{{signature}}`|The user's signature.|
 
 ### Custom Profile Output Reference
 ```html

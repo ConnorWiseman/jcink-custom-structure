@@ -685,7 +685,7 @@ $cs.module.Profile.prototype.execute = function() {
             this.setValue('reputationDecrease', '<a href="/?act=rep&CODE=02&mid=' + userId + '&t=p">' + this.config.reputationDecrease + '</a>');
             this.setValue('reputationDetails', '<a href="/?act=rep&CODE=03&mid=' + userId +'">' + this.config.reputationDetails + '</a>');
         }
-        this.setValue('memberTitle', personalInfoDivs[11].textContent);
+        this.setValue('userTitle', personalInfoDivs[11].textContent);
         this.setValue('location', personalInfoDivs[13].textContent.split('Location: ')[1]);
         this.setValue('birthday', personalInfoDivs[14].textContent.split('Born: ')[1]);
         this.setValue('homePage', personalInfoDivs[15].innerHTML.split('Website: ')[1]);
@@ -741,7 +741,7 @@ $cs.module.Profile.prototype.execute = function() {
         var usernameContainer = profileTop.getElementsByTagName('h3');
         this.setValue('userName', usernameContainer[0].textContent);
         var groupContainer = profileTop.getElementsByTagName('strong');
-        this.setValue('memberGroup', groupContainer[0].textContent);
+        this.setValue('userGroup', groupContainer[0].textContent);
         var avatar =  profileTop.previousElementSibling.getElementsByTagName('img')[0];
         if (avatar) {
             this.setValue('avatar', avatar.src);
@@ -874,8 +874,8 @@ $cs.module.Profile.prototype.execute = function() {
 
         // Read the values in the bottom right table.
         var bottomRightCells = bottomRightTable.getElementsByTagName('td');
-        this.setValue('memberGroup', bottomRightCells[2].textContent);
-        this.setValue('memberTitle', bottomRightCells[4].textContent);
+        this.setValue('userGroup', bottomRightCells[2].textContent);
+        this.setValue('userTitle', bottomRightCells[4].textContent);
         var avatar =  bottomRightCells[6].getElementsByTagName('img')[0];
         if (avatar) {
             this.setValue('avatar', avatar.src);
