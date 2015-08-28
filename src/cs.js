@@ -1248,7 +1248,6 @@ $cs.module.Posts.prototype.initialize = function(settings) {
 };
 
 
-
 // Expose some familiar, user-friendly objects for public use.
 var customIndex   = new $cs.module.Index(),
     customStats   = new $cs.module.Stats(),

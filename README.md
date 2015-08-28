@@ -44,10 +44,10 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 
 
 ## Installation
-Place [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js) in the page header inside your Board Wrappers.
+Host a copy of [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/src/cs.min.js) and place it in the page header inside your Board Wrappers.
 ```html
 <head>
-    <script src="https://raw.githubusercontent.com/ConnorWiseman/jcink-custom-structure/master/src/cs.min.js"></script>
+    <script src="cs.min.js"></script>
 </head>
 ```
 
