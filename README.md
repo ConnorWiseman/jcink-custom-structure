@@ -46,26 +46,26 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 ### Custom Index
 Reads each category on the forum index, each forum inside a subcategory, and the list of subforums inside a forum for important values, then performs replacement and insertion.  As noted in the major changes section, the `target` configuration property is not required but including it can provide a minor boost to performance. Consider using it an official recommendation.
 #### Without `target`
-    ```html
-    <% BOARD %>
-    <script>
-    customIndex.initialize({
-        html: 'Your markup here!'
-     });
-     </script>
-     ```
+```html
+<% BOARD %>
+<script>
+customIndex.initialize({
+    html: 'Your markup here!'
+});
+</script>
+```
 #### With `target`
-    ```html
-    <div id="board-container"><% BOARD %></div>
-    <script>
-    customIndex.initialize({
-        config: {
-            target: 'board-container'
-        },
-        html: 'Your markup here!'
-     });
-     </script>
-     ```
+```html
+<div id="board-container"><% BOARD %></div>
+<script>
+customIndex.initialize({
+    config: {
+        target: 'board-container'
+    },
+    html: 'Your markup here!'
+});
+</script>
+```
 ### Custom Statistics
 ### Custom Profile
 ### Custom Topics
