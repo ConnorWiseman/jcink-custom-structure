@@ -27,6 +27,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
   1. [Custom Posts Configuration Reference](#custom-posts-configuration-reference)
   2. [Custom Posts Key Reference](#custom-posts-key-reference)
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
+9. [Advanced Usage](#advanced-usage)
 
 
 ## Changes
@@ -468,3 +469,6 @@ customPosts.initialize({
     <div align="center" style="margin-bottom:3px;"></div>
 </div>
 ```
+
+## Advanced Usage
+The `html` property passed to any of the modules can be either a string or a function. More on this later, though, I'm way too tired to explain right now.
