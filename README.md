@@ -50,7 +50,7 @@ Host a copy of [cs.min.js](https://github.com/ConnorWiseman/jcink-custom-structu
     <script src="cs.min.js"></script>
 </head>
 ```
-An hosted copy is available for free courtesy of Elegant Expressions:
+A hosted copy is available for free courtesy of Elegant Expressions:
 * [http://elegantexpressions.us/cfs/cs.min.js](http://elegantexpressions.us/cfs/cs.min.js)
 
 

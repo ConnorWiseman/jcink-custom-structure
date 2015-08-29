@@ -100,15 +100,15 @@ $cs.module.Default.prototype.initialize = function(settings) {
     // Make sure we have an object to work with.
     settings = settings || {};
 
-    // If we have an empty configuration object, display an error message and return false.
+    // If we have an empty settings object, display an error message and return false.
     if (!Object.keys(settings).length) {
         console.error(this.name + ': init method missing required argument "settings"');
         return false;
     }
 
     /*
-        For each key in our configuration object, if it's not in the list of reserved names,
-        overwrite the properties (and methods, I suppose) in the customIndex object.
+        For each key in our settings object, if it's not in the list of reserved names,
+        overwrite the properties (and methods, I suppose) in the module.
      */
     for (var key in settings) {
         if (this.reserved.indexOf(key) === -1) {
@@ -130,11 +130,16 @@ $cs.module.Default.prototype.initialize = function(settings) {
         error message and return false.
      */
     if (this.html && this.html !== '') {
+        // Execution timers.
         if (this.time) {
             console.time(this.name);
         }
+
+        // Reinitialize the values object so it's blank for the next pass.
         this.values = {};
         this.execute();
+
+        // Execution timers.
         if (this.time) {
             console.timeEnd(this.name);
         }
