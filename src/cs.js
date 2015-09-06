@@ -92,6 +92,18 @@ $cs.module.Default.prototype.values = {};
 
 
 /**
+ * Checks the existing values for the presence of a specified key.
+ * @arg {string} key            - The name of the key to check for.
+ * @return {boolean}            - True if value exists, false otherwise.
+ * @readonly
+ */
+$cs.module.Default.prototype.hasValue = function(key) {
+    var key = this.config.keyPrefix + key + this.config.keySuffix;
+    return (this.values[key] && this.values[key] !== '');
+};
+
+
+/**
  * Initialization function. Reads user-defined settings in for processing and begins script execution.
  * @arg {object} settings       - An object with user-defined settings as properties.
  * @readonly
@@ -230,8 +242,9 @@ $cs.module.Index.prototype.reserved = [
     'values',
     'makeLink',
     'execute',
-    'readTable',
+    'hasValue',
     'initialize',
+    'readTable',
     'replaceValues',
     'setValue'
 ];
@@ -467,7 +480,8 @@ $cs.module.Stats.prototype.name = '$cs.module.Stats';
 $cs.module.Stats.prototype.reserved = [
     'values',
     'execute',
-    'init',
+    'hasValue',
+    'initialize',
     'replaceValues',
     'setValue'
 ];
@@ -645,6 +659,7 @@ $cs.module.Profile.prototype.name = '$cs.module.Profile';
 $cs.module.Profile.prototype.reserved = [
     'values',
     'execute',
+    'hasValue',
     'initialize',
     'replaceValues',
     'setValue',
@@ -1020,6 +1035,7 @@ $cs.module.Topics.prototype.name = '$cs.module.Topics';
 $cs.module.Topics.prototype.reserved = [
     'values',
     'execute',
+    'hasValue',
     'initialize',
     'replaceValues',
     'setValue',
@@ -1152,6 +1168,7 @@ $cs.module.Posts.prototype.name = '$cs.module.Posts';
 $cs.module.Posts.prototype.reserved = [
     'values',
     'execute',
+    'hasValue',
     'initialize',
     'replaceValues',
     'setValue',
