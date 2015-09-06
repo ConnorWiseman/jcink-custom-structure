@@ -510,7 +510,7 @@ customIndex.initialize({
 ```
 
 ### hasValue Method
-Each module includes a built-in method for checking whether a specified value exists if users wish to define additional behavior or should the default defaulting options prove restrictive.
+Each module includes a built-in method for checking whether a specified value exists if users wish to define additional behavior or should the default defaulting options prove restrictive. `hasValue` does not rely on `keySuffix` or `keyPrefix`.
 ```html
 <% BOARD %>
 <script>
@@ -534,7 +534,7 @@ customIndex.initialize({
 ```
 
 ### getValue Method
-Each module also includes a method for retrieving the value of a specific key. The following two examples will produce equivalent output. Only the second example below can be used to retrieve the value of a key for manipulation within a function, however.
+Each module also includes a method for retrieving the value of a specific key for direct manipulation. `getValue` does not rely on `keySuffix` or `keyPrefix`. The following two examples will produce equivalent output.
 ```html
 <% BOARD %>
 <script>
