@@ -511,7 +511,7 @@ customIndex.initialize({
 </script>
 ```
 
-Each module also includes a method for retrieving the value of a specific key. The following two examples will produce equivalent output.
+Each module also includes a method for retrieving the value of a specific key. The following two examples will produce equivalent output. Only the second example below can be used to retrieve the value of a key for manipulation within a function, however.
 ```html
 <% BOARD %>
 <script>
@@ -542,7 +542,7 @@ customIndex.initialize({
 </script>
 ```
 
-Because the internal values are all strings, they can be manipulated via [JavaScript's string methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#String_instances).
+Because the internal values are all strings, they can be manipulated via [JavaScript's string methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#String_instances) once they are retrieved.
 ```html
 <% BOARD %>
 <script>
@@ -550,8 +550,8 @@ customIndex.initialize({
     html: function() {
         var output = '{{forumTitle}}<br />',
             title = this.getValue('forumTitle');
-        if (title.indexOf('Word') !== -1) {
-            output += 'This forum\'s title contains the word "Word" in it somewhere.';
+        if (title.indexOf('Example') !== -1) {
+            output += 'This forum\'s title contains the word "Example" in it somewhere.';
         }
         return output;
     }
