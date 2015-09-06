@@ -95,6 +95,7 @@ $cs.module.Default.prototype.values = {};
  * Retrieves the value of the specified key from the existing values.
  * @arg {string} key            - The name of the key to retrieve.
  * @return {string}             - The value associated with the key.
+ * @readonly
  */
 $cs.module.Default.prototype.getValue = function(key) {
     var key = this.config.keyPrefix + key + this.config.keySuffix;
