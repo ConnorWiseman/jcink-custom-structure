@@ -474,11 +474,11 @@ customPosts.initialize({
 ```
 
 ## Advanced Usage
-The `html` property passed to any of the modules can be either a string or a function. The following two examples will produce equivalent output.
+The `html` property passed to any of the modules can be either a string or a function that returns a string. The following two examples will produce equivalent output.
 ```html
 <% BOARD %>
 <script>
-customPosts.initialize({
+customIndex.initialize({
     html: 'Your markup here!'
 });
 </script>
@@ -487,9 +487,26 @@ customPosts.initialize({
 ```html
 <% BOARD %>
 <script>
-customPosts.initialize({
+customIndex.initialize({
     html: function() {
         return 'Your markup here!';
+    }
+});
+</script>
+```
+
+Functions are useful when more fine-tuned behavior is desired. Each module includes a built-in function for checking whether a specified value exists should the default defaulting options prove restrictive.
+
+```html
+<% BOARD %>
+<script>
+customIndex.initialize({
+    html: function() {
+        var output = 'Your markup here! ';
+        if (this.hasValue('forumMarker')) {
+            output += 'This forum has a marker.';
+        }
+        return output;
     }
 });
 </script>
