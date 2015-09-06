@@ -495,7 +495,7 @@ customIndex.initialize({
 </script>
 ```
 
-Functions are useful when more fine-tuned behavior is desired. Each module includes a built-in method for checking whether a specified value exists should the default defaulting options prove restrictive.
+Functions are useful when more fine-tuned behavior is desired. Each module includes a built-in method for checking whether a specified value exists if users wish to define additional behavior or should the default defaulting options prove restrictive.
 ```html
 <% BOARD %>
 <script>
@@ -504,6 +504,9 @@ customIndex.initialize({
         var output = 'Your markup here! ';
         if (this.hasValue('forumMarker')) {
             output += 'This forum has a marker.';
+        } else {
+            // All forums always have a marker, so this will never appear.
+            output += 'This forum has no marker'.;
         }
         return output;
     }
