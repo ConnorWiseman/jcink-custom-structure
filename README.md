@@ -143,6 +143,13 @@ customIndex.initialize({
                  -->
             </div>
 
+            <div id="row-#" class="new-row has-new-posts">
+                <!--
+                    If a forum contains new posts, it will have the class name
+                    .has-new-posts automatically added to its output.
+                 -->
+            </div>
+
             <div class="new-category-after">
                 <!-- Will only be inserted if 'insertBefore' is defined in 'config'. -->
             </div>
