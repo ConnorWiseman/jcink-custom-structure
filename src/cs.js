@@ -92,6 +92,17 @@ $cs.module.Default.prototype.values = {};
 
 
 /**
+ * Retrieves the value of the specified key from the existing values.
+ * @arg {string} key            - The name of the key to retrieve.
+ * @return {string}             - The value associated with the key.
+ */
+$cs.module.Default.prototype.getValue = function(key) {
+    var key = this.config.keyPrefix + key + this.config.keySuffix;
+    return this.values[key];
+};
+
+
+/**
  * Checks the existing values for the presence of a specified key.
  * @arg {string} key            - The name of the key to check for.
  * @return {boolean}            - True if value exists, false otherwise.
@@ -242,6 +253,7 @@ $cs.module.Index.prototype.reserved = [
     'values',
     'makeLink',
     'execute',
+    'getValue',
     'hasValue',
     'initialize',
     'readTable',
@@ -480,6 +492,7 @@ $cs.module.Stats.prototype.name = '$cs.module.Stats';
 $cs.module.Stats.prototype.reserved = [
     'values',
     'execute',
+    'getValue',
     'hasValue',
     'initialize',
     'replaceValues',
@@ -659,6 +672,7 @@ $cs.module.Profile.prototype.name = '$cs.module.Profile';
 $cs.module.Profile.prototype.reserved = [
     'values',
     'execute',
+    'getValue',
     'hasValue',
     'initialize',
     'replaceValues',
@@ -1035,6 +1049,7 @@ $cs.module.Topics.prototype.name = '$cs.module.Topics';
 $cs.module.Topics.prototype.reserved = [
     'values',
     'execute',
+    'getValue',
     'hasValue',
     'initialize',
     'replaceValues',
@@ -1168,6 +1183,7 @@ $cs.module.Posts.prototype.name = '$cs.module.Posts';
 $cs.module.Posts.prototype.reserved = [
     'values',
     'execute',
+    'getValue',
     'hasValue',
     'initialize',
     'replaceValues',
