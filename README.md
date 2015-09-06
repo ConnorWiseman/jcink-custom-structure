@@ -512,8 +512,12 @@ customIndex.initialize({
         if (this.hasValue('forumMarker')) {
             output += 'This forum has a marker.';
         } else {
-            // All forums always have a marker, so this will never appear.
-            output += 'This forum has no marker'.;
+            /*
+                All forums will always have a marker by default, but if
+                the macros for forum markers have been left blank this
+                should appear for forums that contain no posts in them.
+             */
+            output += 'This forum has no marker.';
         }
         return output;
     }
