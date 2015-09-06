@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.2 (September 2015)
+ * @version     1.5.3 (September 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
