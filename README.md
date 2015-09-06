@@ -496,7 +496,6 @@ customIndex.initialize({
 ```
 
 Functions are useful when more fine-tuned behavior is desired. Each module includes a built-in method for checking whether a specified value exists should the default defaulting options prove restrictive.
-
 ```html
 <% BOARD %>
 <script>
@@ -513,7 +512,6 @@ customIndex.initialize({
 ```
 
 Each module also includes a method for retrieving the value of a specific key. The following two examples will produce equivalent output.
-
 ```html
 <% BOARD %>
 <script>
@@ -537,6 +535,23 @@ customIndex.initialize({
         var output = 'Your markup here! ';
         if (this.hasValue('forumMarker')) {
             output += this.getValue('forumMarker');
+        }
+        return output;
+    }
+});
+</script>
+```
+
+Because the internal values are all strings, they can be manipulated via [JavaScript's string methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#String_instances).
+```html
+<% BOARD %>
+<script>
+customIndex.initialize({
+    html: function() {
+        var output = '{{forumTitle}}<br />',
+            title = this.getValue('forumTitle');
+        if (title.indexOf('Word') !== -1) {
+            output += 'This forum\'s title contains the word "Word" in it somewhere.';
         }
         return output;
     }
