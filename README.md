@@ -495,7 +495,7 @@ customIndex.initialize({
 </script>
 ```
 
-Functions are useful when more fine-tuned behavior is desired. Each module includes a built-in function for checking whether a specified value exists should the default defaulting options prove restrictive.
+Functions are useful when more fine-tuned behavior is desired. Each module includes a built-in method for checking whether a specified value exists should the default defaulting options prove restrictive.
 
 ```html
 <% BOARD %>
@@ -505,6 +505,38 @@ customIndex.initialize({
         var output = 'Your markup here! ';
         if (this.hasValue('forumMarker')) {
             output += 'This forum has a marker.';
+        }
+        return output;
+    }
+});
+</script>
+```
+
+Each module also includes a method for retrieving the value of a specific key. The following two examples will produce equivalent output.
+
+```html
+<% BOARD %>
+<script>
+customIndex.initialize({
+    html: function() {
+        var output = 'Your markup here! ';
+        if (this.hasValue('forumMarker')) {
+            output += '{{forumMarker}}';
+        }
+        return output;
+    }
+});
+</script>
+```
+
+```html
+<% BOARD %>
+<script>
+customIndex.initialize({
+    html: function() {
+        var output = 'Your markup here! ';
+        if (this.hasValue('forumMarker')) {
+            output += this.getValue('forumMarker');
         }
         return output;
     }
