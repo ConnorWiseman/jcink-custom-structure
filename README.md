@@ -510,7 +510,7 @@ customIndex.initialize({
 ```
 
 ### hasValue Method
-Each module includes a built-in method for checking whether a specified value exists if users wish to define additional behavior or should the default defaulting options prove restrictive. `hasValue` does not rely on `keySuffix` or `keyPrefix`.
+Each module includes a built-in method for checking whether a specified value exists if users wish to define additional behavior or should the default defaulting options prove restrictive. The argument passed to `hasValue` should not include `keySuffix` or `keyPrefix`.
 ```html
 <% BOARD %>
 <script>
@@ -534,7 +534,7 @@ customIndex.initialize({
 ```
 
 ### getValue Method
-Each module also includes a method for retrieving the value of a specific key for direct manipulation. `getValue` does not rely on `keySuffix` or `keyPrefix`. The following two examples will produce equivalent output.
+Each module also includes a method for retrieving the value of a specific key for direct manipulation. The argument passed to `getValue` should not include `keySuffix` or `keyPrefix`. The following two examples will produce equivalent output.
 ```html
 <% BOARD %>
 <script>
@@ -557,6 +557,11 @@ customIndex.initialize({
     html: function() {
         var output = 'Your markup here! ';
         if (this.hasValue('forumMarker')) {
+            /*
+                It is possible to access values this way, but it is not
+                advised. Relying on the built-in replacement functions,
+                as in the previous example, is a better option.
+             */
             output += this.getValue('forumMarker');
         }
         return output;
