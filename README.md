@@ -474,4 +474,23 @@ customPosts.initialize({
 ```
 
 ## Advanced Usage
-The `html` property passed to any of the modules can be either a string or a function. More on this later, though, I'm way too tired to explain right now.
+The `html` property passed to any of the modules can be either a string or a function. The following two examples will produce equivalent output.
+```html
+<% BOARD %>
+<script>
+customPosts.initialize({
+    html: 'Your markup here!'
+});
+</script>
+```
+
+```html
+<% BOARD %>
+<script>
+customPosts.initialize({
+    html: function() {
+        return 'Your markup here!';
+    }
+});
+</script>
+```
