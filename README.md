@@ -565,7 +565,7 @@ customIndex.initialize({
         var output = '{{forumTitle}}<br />',
             title = this.getValue('forumTitle');
         if (title.indexOf('Example') !== -1) {
-            output += 'This forum\'s title contains the word "Example" in it somewhere.';
+            output += 'This forum\'s title contains the word "Example"';
         }
         return output;
     }
