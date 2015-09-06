@@ -28,6 +28,10 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
   2. [Custom Posts Key Reference](#custom-posts-key-reference)
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
 9. [Advanced Usage](#advanced-usage)
+  1. [String and Function Comparison](#string-and-function-comparison)
+  2. [hasValue Method](#hasvalue-method)
+  3. [getValue Method](#getValue-method)
+  4. [Example](#example)
 
 
 ## Changes
@@ -481,7 +485,10 @@ customPosts.initialize({
 ```
 
 ## Advanced Usage
-The `html` property passed to any of the modules can be either a string or a function that returns a string. The following two examples will produce equivalent output.
+The `html` property passed to any of the modules can be either a string or a function that returns a string. Although the use of a function will provide additional flexibility, they are somewhat slower. This performance overhead is compounded in the Custom Index, Custom Topics, and Custom Posts modules because they perform multiple reads and inserts. Functions are useful when more fine-tuned behavior is desired, since pure JavaScript can be added to introduce user-defined behavior based on the values provided by the modules.
+
+### String and Function Comparison
+The following two examples will produce equivalent output.
 ```html
 <% BOARD %>
 <script>
@@ -502,7 +509,8 @@ customIndex.initialize({
 </script>
 ```
 
-Functions are useful when more fine-tuned behavior is desired. Each module includes a built-in method for checking whether a specified value exists if users wish to define additional behavior or should the default defaulting options prove restrictive.
+### hasValue Method
+Each module includes a built-in method for checking whether a specified value exists if users wish to define additional behavior or should the default defaulting options prove restrictive.
 ```html
 <% BOARD %>
 <script>
@@ -525,6 +533,7 @@ customIndex.initialize({
 </script>
 ```
 
+### getValue Method
 Each module also includes a method for retrieving the value of a specific key. The following two examples will produce equivalent output. Only the second example below can be used to retrieve the value of a key for manipulation within a function, however.
 ```html
 <% BOARD %>
@@ -556,6 +565,7 @@ customIndex.initialize({
 </script>
 ```
 
+### Example
 Because the internal values are all strings, they can be manipulated via [JavaScript's string methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#String_instances) once they are retrieved.
 ```html
 <% BOARD %>
