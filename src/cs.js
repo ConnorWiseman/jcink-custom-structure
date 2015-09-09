@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.3 (September 2015)
+ * @version     1.5.4 (September 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -722,21 +722,30 @@ $cs.module.Profile.prototype.execute = function() {
             this.setValue('warnLevelIncrease', '<a href="/?act=warn&type=add&mid=' + userId + '">' + this.config.warnIncrease + '</a>');
             this.setValue('warnLevelDecrease', '<a href="/?act=warn&type=minus&mid=' + userId + '">' + this.config.warnDecrease + '</a>');
         }
-        var reputationTotal = personalInfoDivs[5].textContent.split('] ')[1].split(' pts')[0];
-        if (reputationTotal !== '') {
-            this.setValue('reputationTotal', reputationTotal);
-            this.setValue('reputationIncrease', '<a href="/?act=rep&CODE=01&mid=' + userId + '&t=p">' + this.config.reputationIncrease + '</a>');
-            this.setValue('reputationDecrease', '<a href="/?act=rep&CODE=02&mid=' + userId + '&t=p">' + this.config.reputationDecrease + '</a>');
-            this.setValue('reputationDetails', '<a href="/?act=rep&CODE=03&mid=' + userId +'">' + this.config.reputationDetails + '</a>');
+
+        /*
+            Reputation was wrapped in a div of its own for some reason between
+            versions 1.5.3 and 1.5.4, so another offset is required here.
+         */
+        var reputationOffset = 0;
+        if (personalInfoDivs[5].textContent !== 'Options') {
+            reputationOffset = 1;
+            var reputationTotal = personalInfoDivs[5].textContent.split('] ')[1].split(' pts')[0];
+            if (reputationTotal !== '') {
+                this.setValue('reputationTotal', reputationTotal);
+                this.setValue('reputationIncrease', '<a href="/?act=rep&CODE=01&mid=' + userId + '&t=p">' + this.config.reputationIncrease + '</a>');
+                this.setValue('reputationDecrease', '<a href="/?act=rep&CODE=02&mid=' + userId + '&t=p">' + this.config.reputationDecrease + '</a>');
+                this.setValue('reputationDetails', '<a href="/?act=rep&CODE=03&mid=' + userId +'">' + this.config.reputationDetails + '</a>');
+            }
         }
-        this.setValue('userTitle', personalInfoDivs[11].textContent);
-        this.setValue('location', personalInfoDivs[13].textContent.split('Location: ')[1]);
-        this.setValue('birthday', personalInfoDivs[14].textContent.split('Born: ')[1]);
-        this.setValue('homePage', personalInfoDivs[15].innerHTML.split('Website: ')[1]);
+        this.setValue('userTitle', personalInfoDivs[10 + reputationOffset].textContent);
+        this.setValue('location', personalInfoDivs[12 + reputationOffset].textContent.split('Location: ')[1]);
+        this.setValue('birthday', personalInfoDivs[13 + reputationOffset].textContent.split('Born: ')[1]);
+        this.setValue('homePage', personalInfoDivs[14 + reputationOffset].innerHTML.split('Website: ')[1]);
         if (this.config.htmlEnabled) {
-            this.setValue('interests', this.stringToMarkup(personalInfoDivs[17].innerHTML));
+            this.setValue('interests', this.stringToMarkup(personalInfoDivs[16 + reputationOffset].innerHTML));
         } else {
-            this.setValue('interests', personalInfoDivs[17].innerHTML);
+            this.setValue('interests', personalInfoDivs[16 + reputationOffset].innerHTML);
         }
 
         // customFields
