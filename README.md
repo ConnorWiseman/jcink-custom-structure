@@ -6,6 +6,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 1. [Changes](#changes)
 2. [Installation](#installation)
 3. [Configuration](#configuration)
+  1. [Execution Timers](#execution-timers)
 4. [Custom Index](#custom-index)
   1. [Custom Index Configuration Reference](#custom-index-configuration-reference)
   2. [Custom Index Key Reference](#custom-index-key-reference)
@@ -75,6 +76,18 @@ customIndex.initialize({
 </script>
 ```
 The accepted configuration properties are detailed for each module in their respective sections below.
+
+### Execution Timers
+Each module also accepts an optional `time` property that, if set to true, will log the execution time of the module to the browser console.
+```html
+<% BOARD %>
+<script>
+customIndex.initialize({
+    time: true,
+    html: 'Your markup here!'
+});
+</script>
+```
 
 
 ## Custom Index
