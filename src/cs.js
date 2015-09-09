@@ -631,33 +631,35 @@ $cs.extendModule($cs.module.Profile, $cs.module.Default);
 
 /**
  * @namespace
- * @property {object}  config                    - Default configuration values.
- * @property {boolean} config.htmlEnabled        - Whether or not HTML is enabled in the interests field.
- * @property {string}  config.keyPrefix          - The default prefix for value keys.
- * @property {string}  config.keySuffix          - The default suffix for value keys.
- * @property {string}  config.emailDefault       - The default email link content.
- * @property {string}  config.messageDefault     - The default personal message link content.
- * @property {string}  config.reputationIncrease - The default increase reputation link content.
- * @property {string}  config.reputationDecrease - The default decrease reputation link content.
- * @property {string}  config.warnIncrease       - The default increase warning link content.
- * @property {string}  config.warnDecrease       - The default decrease warning link content.
- * @property {string}  config.reputationDetails  - The default reputation details link content.
- * @property {string}  config.avatarDefault      - The URL of a default avatar.
- * @property {string}  config.userPhotoDefault   - The URL of a default user photo.
+ * @property {object}  config                       - Default configuration values.
+ * @property {boolean} config.htmlEnabled           - Whether or not HTML is enabled in the interests field.
+ * @property {string}  config.keyPrefix             - The default prefix for value keys.
+ * @property {string}  config.keySuffix             - The default suffix for value keys.
+ * @property {string}  config.emailDefault          - The default email link content.
+ * @property {string}  config.messageDefault        - The default personal message link content.
+ * @property {string}  config.reputationIncrease    - The default increase reputation link content.
+ * @property {string}  config.reputationDecrease    - The default decrease reputation link content.
+ * @property {string}  config.warnIncrease          - The default increase warning link content.
+ * @property {string}  config.warnDecrease          - The default decrease warning link content.
+ * @property {string}  config.reputationDetails     - The default reputation details link content.
+ * @property {string}  config.avatarDefault         - The URL of a default avatar.
+ * @property {string}  config.userPhotoDefault      - The URL of a default user photo.
+ * @property {string}  config.onlineActivityDefault - The default online activity text.
  */
 $cs.module.Profile.prototype.config = {
-    htmlEnabled:        false,
-    keyPrefix:          '{{',
-    keySuffix:          '}}',
-    emailDefault:       'Click here',
-    messageDefault:     'Click here',
-    reputationIncrease: '+',
-    reputationDecrease: '-',
-    warnIncrease:       '+',
-    warnDecrease:       '-',
-    reputationDetails:  '[details &gt;&gt;]',
-    avatarDefault:      '',
-    userPhotoDefault:   ''
+    htmlEnabled:           false,
+    keyPrefix:             '{{',
+    keySuffix:             '}}',
+    emailDefault:          'Click here',
+    messageDefault:        'Click here',
+    reputationIncrease:    '+',
+    reputationDecrease:    '-',
+    warnIncrease:          '+',
+    warnDecrease:          '-',
+    reputationDetails:     '[details &gt;&gt;]',
+    avatarDefault:         '',
+    userPhotoDefault:      '',
+    onlineActivityDefault: ''
 };
 
 
@@ -760,6 +762,8 @@ $cs.module.Profile.prototype.execute = function() {
         this.setValue('onlineStatus', statisticsDivs[2].textContent.split('(')[1].split(')')[0]);
         if (statisticsDivs[2].textContent.split('(')[1].split(')')[0].indexOf('Offline') === -1) {
             this.setValue('onlineActivity', statisticsDivs[2].textContent.split(') (')[1].split(')')[0]);
+        } else {
+            this.setValue('onlineActivity', this.config.onlineActivityDefault);
         }
         this.setValue('lastActivity', statisticsDivs[3].textContent.split(': ')[1]);
         this.setValue('localTime', statisticsDivs[4].textContent.split(': ')[1]);
@@ -865,6 +869,8 @@ $cs.module.Profile.prototype.execute = function() {
         this.setValue('onlineStatus', onlineStatus.split('(')[1].split(')')[0]);
         if (onlineStatus.split('(')[1].split(')')[0].indexOf('Offline') === -1) {
             this.setValue('onlineActivity', onlineStatus.split(') (')[1].split(')')[0]);
+        } else {
+            this.setValue('onlineActivity', this.config.onlineActivityDefault);
         }
 
         // Read the values in the top right table.

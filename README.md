@@ -274,6 +274,7 @@ customProfile.initialize({
 |`warnDecrease`|The default text used in the user's warning decrease link.|`-`|
 |`avatarDefault`|An image URL to use in place of the user's avatar if the user does not have an avatar.|Blank.|
 |`userPhotoDefault`|An image URL to use in place of the user's photo if the user does not have a photo.|Blank.|
+|`onlineActivityDefault`|The default text used to describe a user's online activity when they are currently offline.|Blank.|
 
 
 ### Custom Profile Key Reference
