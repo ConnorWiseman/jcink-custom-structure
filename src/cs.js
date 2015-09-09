@@ -577,7 +577,7 @@ $cs.module.Stats.prototype.execute = function() {
 
                 case (cells[i].textContent.slice(0, 7) === 'Members'):
                     // Online today total.
-                    this.setValue('onlineToday', cells[i].textContent.split(': ')[1].split('[')[0]);
+                    this.setValue('onlineToday', cells[i].textContent.split(': ')[1].split(' [')[0]);
 
                     // Members online today list.
                     this.setValue('onlineTodayList', cells[i + 2].innerHTML.split(':</span><br>')[1]);
