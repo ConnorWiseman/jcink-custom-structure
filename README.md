@@ -135,7 +135,7 @@ customIndex.initialize({
 |`{{moderators}}`|The list of users and user groups assigned to moderate the forum.|
 |`{{topicCount}}`|The number of topics in the forum.|
 |`{{replyCount}}`|The number of replies in the forum.|
-|`{{redirectHits`|The number of hits a redirect forum has received.|
+|`{{redirectHits}}`|The number of hits a redirect forum has received.|
 |`{{lastPostDate}}`|The date of the last post in the forum.|
 |`{{lastPostTitle}}`|A link to the last post in the forum, containing the title of the topic the last post was made in.|
 |`{{lastPostURL}}`|The URL pointing to the last post made in the forum.|
