@@ -330,7 +330,7 @@ $cs.module.Index.prototype.readTable = function(table, index) {
     var rows = table.getElementsByTagName('tr');
 
     // Temporarily hide the table. It will be removed altogether later on.
-    //table.style.display = 'none';
+    table.style.display = 'none';
 
     // Create a variable to store the HTML output of the following loop.
     var categoryContent = '';
@@ -464,7 +464,7 @@ $cs.module.Index.prototype.readTable = function(table, index) {
     table.parentNode.appendChild(newCategory);
 
     // Remove the original table.
-    //table.parentNode.removeChild(table);
+    table.parentNode.removeChild(table);
 };
 
 
@@ -1303,7 +1303,7 @@ $cs.module.Posts.prototype.execute = function() {
         newPosts.innerHTML = postsContent;
         posts[0].parentNode.insertBefore(newPosts, posts[0]);
 
-        //table.parentNode.removeChild(table);
+        table.parentNode.removeChild(table);
     }
 };
 
