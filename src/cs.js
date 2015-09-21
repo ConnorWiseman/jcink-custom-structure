@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.5 (September 2015)
+ * @version     1.5.6 (September 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -393,12 +393,15 @@ $cs.module.Index.prototype.readTable = function(table, index) {
 
         // Moderators also get processed a little differently.
         var moderators = cells[1].getElementsByClassName('forum-led-by')[0];
-        if (moderators.textContent) {
+        if (moderators && moderators.textContent) {
             // If this row contains moderators, acquire everything after the useless intro string.
             this.setValue('moderators', moderators.innerHTML.split('Forum Led by:  ')[1]);
+            this.setValue('redirectHits', 0);
         } else {
             // If it doesn't, use the default instead.
             this.setValue('moderators', this.config.moderatorsNone);
+            // Moderators are never shown on redirect forms, so it's convenient to do this:
+            this.setValue('redirectHits', cells[4].textContent.split('Redirected Hits: ')[1]);
         }
 
         this.setValue('topicCount', cells[2].textContent);
@@ -461,7 +464,7 @@ $cs.module.Index.prototype.readTable = function(table, index) {
     table.parentNode.appendChild(newCategory);
 
     // Remove the original table.
-    table.parentNode.removeChild(table);
+    //table.parentNode.removeChild(table);
 };
 
 
