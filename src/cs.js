@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.6 (September 2015)
+ * @version     1.5.7 (September 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -396,6 +396,9 @@ $cs.module.Index.prototype.readTable = function(table, index) {
         if (moderators && moderators.textContent) {
             // If this row contains moderators, acquire everything after the useless intro string.
             this.setValue('moderators', moderators.innerHTML.split('Forum Led by:  ')[1]);
+            this.setValue('redirectHits', 0);
+        } else if (moderators) {
+            // If it doesn't, but it could, set the number of redirects to zero.
             this.setValue('redirectHits', 0);
         } else {
             // If it doesn't, use the default instead.
@@ -1182,11 +1185,13 @@ $cs.extendModule($cs.module.Posts, $cs.module.Default);
  * @property {string} config.keyPrefix            - The default prefix for value keys.
  * @property {string} config.keySuffix            - The default suffix for value keys.
  * @property {string} config.permaLinkDefault     - The default text used in permalinks.
+ * @property {string} config.postSignatureDefault - The default text used for signatures.
  */
 $cs.module.Posts.prototype.config = {
     keyPrefix:              '{{',
     keySuffix:              '}}',
-    permaLinkDefault:       'Permalink'
+    permaLinkDefault:       'Permalink',
+    postSignatureDefault:   ''
 };
 
 
@@ -1287,7 +1292,12 @@ $cs.module.Posts.prototype.execute = function() {
             }
             this.setValue('postMiniprofile', cells[2 + cellOffset].firstElementChild.innerHTML);
             this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
-            this.setValue('postSignature', cells[3 + cellOffset].lastElementChild.innerHTML);
+            var postSignature = cells[3 + cellOffset].lastElementChild;
+            if (postSignature.previousElementSibling) {
+                this.setValue('postSignature', postSignature.innerHTML);
+            } else {
+                this.setValue('postSignature', this.config.postSignatureDefault);
+            }
             this.setValue('postIp', cells[4 + cellOffset].textContent);
             this.setValue('postButtonsBottom', cells[5 + cellOffset].firstElementChild.innerHTML);
 

@@ -455,6 +455,7 @@ customPosts.initialize({
 |`keyPrefix`|The default prefix for replacement keys.|`{{`|
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
 |`permaLinkDefault`|The default text used in post permalinks.|`Permalink`|
+|`postSignatureDefault`|The default text used for signatures.|Blank.|
 
 
 ### Custom Posts Key Reference
