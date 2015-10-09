@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.7 (September 2015)
+ * @version     1.5.8 (October 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -798,7 +798,7 @@ $cs.module.Profile.prototype.execute = function() {
 
         // signature
         var signatureContainer = signature.getElementsByTagName('td');
-        this.setValue('signature', signatureContainer[0].innerHTML);
+        this.setValue('signature', signatureContainer[2].innerHTML);
 
         // profileTop
         var usernameContainer = profileTop.getElementsByTagName('h3');
