@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.8 (October 2015)
+ * @version     1.5.9 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -662,7 +662,7 @@ $cs.module.Profile.prototype.config = {
     reputationDecrease:    '-',
     warnIncrease:          '+',
     warnDecrease:          '-',
-    reputationDetails:     '[details &gt;&gt;]',
+    reputationDetails:     '[details >>]',
     avatarDefault:         '',
     userPhotoDefault:      '',
     onlineActivityDefault: ''
@@ -1085,6 +1085,12 @@ $cs.module.Topics.prototype.reserved = [
  */
 $cs.module.Topics.prototype.execute = function() {
     var topicList = document.getElementById('topic-list');
+    if (!topicList) {
+        if (window.location.href.indexOf('&act=Search&CODE=getactive') > -1) {
+            topicList = document.getElementsByClassName('tableborder')[1];
+            var activeTopics = true;
+        }
+    }
     if (topicList) {
         /*
             Acquire the elements needed to read the values in and initialize some variables
@@ -1103,34 +1109,58 @@ $cs.module.Topics.prototype.execute = function() {
             // Get all the cells in each row. If a fourth cell exists, read the values in.
             var cells = rows[i].getElementsByTagName('td');
             if (cells[3]) {
-                this.setValue('folder', cells[0].innerHTML);
-                this.setValue('marker', cells[1].innerHTML);
-                var topicTitle = cells[2].getElementsByTagName('a')[0];
-                if (!topicTitle.getAttribute('title')) {
-                    topicTitle = cells[2].getElementsByTagName('a')[1];
-                }
-                this.setValue('topicId', topicTitle.getAttribute('href').split('showtopic=')[1]);
-                this.setValue('topicTitle', '<a href="' + topicTitle + '">' + topicTitle.textContent + '</a>');
-                var topicSpans = cells[2].getElementsByTagName('span');
-                if (topicSpans[0].textContent.indexOf('(Pages ') !== -1) {
-                    this.setValue('pagination', topicSpans[0].innerHTML);
-                    this.setValue('topicDescription', topicSpans[1].textContent);
+                if (!activeTopics) {
+                    this.setValue('folder', cells[0].innerHTML);
+                    this.setValue('marker', cells[1].innerHTML);
+                    var topicTitle = cells[2].getElementsByTagName('a')[0];
+                    if (!topicTitle.getAttribute('title')) {
+                        topicTitle = cells[2].getElementsByTagName('a')[1];
+                    }
+                    this.setValue('topicId', topicTitle.getAttribute('href').split('showtopic=')[1]);
+                    this.setValue('topicTitle', '<a href="' + topicTitle + '">' + topicTitle.textContent + '</a>');
+                    var topicSpans = cells[2].getElementsByTagName('span');
+                    if (topicSpans[0].textContent.indexOf('(Pages ') !== -1) {
+                        this.setValue('pagination', topicSpans[0].innerHTML);
+                        this.setValue('topicDescription', topicSpans[1].textContent);
+                    } else {
+                        this.setValue('pagination', this.config.paginationDefault);
+                        this.setValue('topicDescription', topicSpans[0].textContent);
+                    }
+                    this.setValue('topicAuthor', cells[3].innerHTML);
+                    this.setValue('replyCount', cells[4].textContent);
+                    this.setValue('viewCount', cells[5].textContent);
+
+                    this.setValue('lastReplyDate', cells[6].getElementsByTagName('span')[0].firstChild.nodeValue);
+                    this.setValue('lastReplyAuthor', cells[6].getElementsByTagName('b')[0].innerHTML);
+                    this.setValue('moderatorCheckbox', cells[7].innerHTML);
                 } else {
-                    this.setValue('pagination', this.config.paginationDefault);
-                    this.setValue('topicDescription', topicSpans[0].textContent);
+                    this.setValue('folder', cells[0].innerHTML);
+                    this.setValue('marker', cells[1].innerHTML);
+                    var topicTitle = cells[2].getElementsByTagName('a')[0];
+                    this.setValue('topicId', topicTitle.getAttribute('href').split('showtopic=')[1].split('&')[0]);
+                    this.setValue('topicTitle', '<a href="' + topicTitle + '">' + topicTitle.textContent + '</a>');
+                    var topicSpans = cells[2].getElementsByTagName('span');
+                    if (topicSpans[0].textContent.indexOf('(Pages ') !== -1) {
+                        this.setValue('pagination', topicSpans[0].innerHTML);
+                        this.setValue('topicDescription', topicSpans[1].textContent);
+                    } else {
+                        this.setValue('pagination', this.config.paginationDefault);
+                        this.setValue('topicDescription', topicSpans[0].textContent);
+                    }
+                    this.setValue('topicAuthor', cells[6].innerHTML);
+                    this.setValue('replyCount', cells[7].textContent);
+                    this.setValue('viewCount', cells[8].textContent);
+
+                    this.setValue('lastReplyDate', cells[9].firstChild.nodeValue);
+                    this.setValue('lastReplyAuthor', cells[9].getElementsByTagName('b')[1].innerHTML);
+                    this.setValue('moderatorCheckbox', '');
                 }
-                this.setValue('topicAuthor', cells[3].innerHTML);
-                this.setValue('replyCount', cells[4].textContent);
-                this.setValue('viewCount', cells[5].textContent);
-                this.setValue('lastReplyDate', cells[6].getElementsByTagName('span')[0].firstChild.nodeValue);
-                this.setValue('lastReplyAuthor', cells[6].getElementsByTagName('b')[0].innerHTML);
-                this.setValue('moderatorCheckbox', cells[7].innerHTML);
 
                 // Perform string replacement and append the new row to the output.
                 topicsContent += '<div class="topic-row' + rowClass + '">' +
                                  this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values) +
                                  '</div>';
-            } else if (i !== numRows - 1) {
+            } else if (i !== numRows - 1 && !activeTopics) {
                 // Output the appropriate title row for the topics that follow.
                 var titleContents = cells[2].getElementsByTagName('b')[0].textContent;
                 switch (titleContents) {
@@ -1148,8 +1178,10 @@ $cs.module.Topics.prototype.execute = function() {
                         break;
                 }
             } else {
-                // This forum contains no topics. Display a message and call it good.
-                topicsContent += '<div class="no-topics">' + this.config.noTopics + '</div>';
+                if (!activeTopics) {
+                    // This forum contains no topics. Display a message and call it good.
+                    topicsContent += '<div class="no-topics">' + this.config.noTopics + '</div>';
+                }
             }
         }
 
@@ -1160,6 +1192,9 @@ $cs.module.Topics.prototype.execute = function() {
         table.parentNode.insertBefore(newTopics, table);
 
         table.parentNode.removeChild(table);
+        if (activeTopics) {
+            topicList.removeChild(topicList.lastElementChild);
+        }
     }
 }
 
