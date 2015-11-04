@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.9 (November 2015)
+ * @version     1.5.10 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1085,9 +1085,11 @@ $cs.module.Topics.prototype.reserved = [
  */
 $cs.module.Topics.prototype.execute = function() {
     var topicList = document.getElementById('topic-list');
+    // If we couldn't find the default topic list, check what page we're on.
     if (!topicList) {
-        if (window.location.href.indexOf('&act=Search&CODE=getactive') > -1) {
+        if (window.location.href.indexOf('act=Search&CODE=getactive') > -1) {
             topicList = document.getElementsByClassName('tableborder')[1];
+            // I don't like flags, but this is the best way to handle this here.
             var activeTopics = true;
         }
     }
@@ -1109,6 +1111,7 @@ $cs.module.Topics.prototype.execute = function() {
             // Get all the cells in each row. If a fourth cell exists, read the values in.
             var cells = rows[i].getElementsByTagName('td');
             if (cells[3]) {
+                // Regular topic listing.
                 if (!activeTopics) {
                     this.setValue('folder', cells[0].innerHTML);
                     this.setValue('marker', cells[1].innerHTML);
@@ -1133,7 +1136,9 @@ $cs.module.Topics.prototype.execute = function() {
                     this.setValue('lastReplyDate', cells[6].getElementsByTagName('span')[0].firstChild.nodeValue);
                     this.setValue('lastReplyAuthor', cells[6].getElementsByTagName('b')[0].innerHTML);
                     this.setValue('moderatorCheckbox', cells[7].innerHTML);
-                } else {
+                }
+                // Active topics search page listing.
+                else {
                     this.setValue('folder', cells[0].innerHTML);
                     this.setValue('marker', cells[1].innerHTML);
                     var topicTitle = cells[2].getElementsByTagName('a')[0];
@@ -1192,6 +1197,7 @@ $cs.module.Topics.prototype.execute = function() {
         table.parentNode.insertBefore(newTopics, table);
 
         table.parentNode.removeChild(table);
+        // Hide that last, useless search element down below.
         if (activeTopics) {
             topicList.removeChild(topicList.lastElementChild);
         }
