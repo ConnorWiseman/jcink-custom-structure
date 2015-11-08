@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.11 (November 2015)
+ * @version     1.5.12 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -419,12 +419,11 @@ $cs.module.Index.prototype.readTable = function(table, index) {
         if (lastPostLinks.length > 0) {
             // If there are links, read the values on the page.
             this.setValue('lastPostDate', lastPost.childNodes[0].nodeValue);
-            if (lastPost.getElementsByTagName('i').length === 0) {
+            if (lastPost.textContent.indexOf('Protected Forum') === -1) {
                 // If there are no italics, this forum is not password-protected.
                 this.setValue('lastPostTitle', this.makeLink(lastPostLinks[1]));
                 this.setValue('lastPostURL', lastPostLinks[1].href.slice(0, -16));
                 if (lastPostLinks[2]) {
-                    // 
                     this.setValue('lastPostAuthor', this.makeLink(lastPostLinks[2]));
                 } else {
                     this.setValue('lastPostAuthor', lastPost.textContent.split('By: ')[1]);
@@ -1222,17 +1221,19 @@ $cs.extendModule($cs.module.Posts, $cs.module.Default);
 
 /**
  * @namespace
- * @property {object} config                      - Default configuration values.
- * @property {string} config.keyPrefix            - The default prefix for value keys.
- * @property {string} config.keySuffix            - The default suffix for value keys.
- * @property {string} config.permaLinkDefault     - The default text used in permalinks.
- * @property {string} config.postSignatureDefault - The default text used for signatures.
+ * @property {object}  config                      - Default configuration values.
+ * @property {string}  config.keyPrefix            - The default prefix for value keys.
+ * @property {string}  config.keySuffix            - The default suffix for value keys.
+ * @property {string}  config.permaLinkDefault     - The default text used in permalinks.
+ * @property {string}  config.postSignatureDefault - The default text used for signatures.
+ * @property {boolean} config.quickEdit            - Whether or not to use the quick edit feature.
  */
 $cs.module.Posts.prototype.config = {
     keyPrefix:              '{{',
     keySuffix:              '}}',
     permaLinkDefault:       'Permalink',
-    postSignatureDefault:   ''
+    postSignatureDefault:   '',
+    quickEdit:              false
 };
 
 
@@ -1251,9 +1252,22 @@ $cs.module.Posts.prototype.reserved = [
     'getValue',
     'hasValue',
     'initialize',
+    'QuickEdit',
     'replaceValues',
     'setValue',
 ];
+
+
+/**
+ * Executes the checks and loops needed to complete the script. 
+ * @readonly
+ */
+$cs.module.Posts.prototype.parseQuery = function(query) {
+    query = query.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + query + '=([^&#]*)'),
+        result = regex.exec(window.location.search);
+    return (result === null) ? '' : decodeURIComponent(result[1].replace(/\+/g, ' '));
+}
 
 
 /**
@@ -1295,7 +1309,6 @@ $cs.module.Posts.prototype.execute = function() {
             // Read the values in.
             var postLinks = cells[0].getElementsByTagName('a'),
                 postId = postLinks[0].name.split('entry')[1],
-                queryString = window.location.search,
                 topicId;
 
             /*
@@ -1303,11 +1316,12 @@ $cs.module.Posts.prototype.execute = function() {
                 If we don't have a match for the usual one, check the other possible URL query.
                 Internally consistent, IPB 1.3.1 ain't.
              */
-            if (queryString.indexOf('showtopic') !== -1) {
-                topicId = queryString.split('showtopic=')[1].split('&')[0].split('#')[0];
+            if (window.location.search.indexOf('showtopic') !== -1) {
+                topicId = this.parseQuery('showtopic');
             } else {
-                topicId = queryString.split('&f=')[1].split('&')[0].split('#')[0];
+                topicId = this.parseQuery('t');
             }
+
             this.setValue('postId', postId);
 
             // The author names for guests and users have to be read differently.
@@ -1319,6 +1333,21 @@ $cs.module.Posts.prototype.execute = function() {
             this.setValue('permaLink', '<a href="/?showtopic=' + topicId + '&amp;view=findpost&amp;p=' + postId + '">' + this.config.permaLinkDefault + '</a>');
             this.setValue('postDate', cells[1].firstElementChild.textContent.split('Posted: ')[1]);
             this.setValue('postButtonsTop', cells[1].lastElementChild.innerHTML);
+
+            if (this.config.quickEdit) {
+                var postButtonsTopLinks = cells[1].lastElementChild.getElementsByTagName('a');
+console.log(postButtonsTopLinks);
+                for (var k = 0; k < postButtonsTopLinks.length; k++) {
+                    if (postButtonsTopLinks[k].href.indexOf('act=Post&CODE=08') !== -1) {
+console.log(postButtonsTopLinks[k]);
+                        postButtonsTopLinks[k].addEventListener('click', function(event) {
+                            event.preventDefault();
+                            console.log('edit!');
+                        });
+                    }
+                }
+            }
+//HEERE
 
             /*
                 The topic starter will always be missing the checkbox, so use an offset to
@@ -1332,7 +1361,13 @@ $cs.module.Posts.prototype.execute = function() {
                 this.setValue('postCheckbox', '');
             }
             this.setValue('postMiniprofile', cells[2 + cellOffset].firstElementChild.innerHTML);
-            this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
+            
+            if (this.config.quickEdit) {
+                this.setValue('postContent', '<div class="cs-quick-edit">' + cells[3 + cellOffset].firstElementChild.innerHTML + '</div>');
+            } else {
+                this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
+            }
+
             var postSignature = cells[3 + cellOffset].lastElementChild;
             if (postSignature.previousElementSibling) {
                 this.setValue('postSignature', postSignature.innerHTML);
