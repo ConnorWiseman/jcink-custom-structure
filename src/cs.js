@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.10 (November 2015)
+ * @version     1.5.11 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -230,7 +230,7 @@ $cs.module.Index.prototype.config = {
     insertBefore:       '',
     insertAfter:        '',
     viewingDefault:     '0',
-    subforumSeperator:  ', ',
+    subforumSeparator:  ', ',
     subforumsNone:      '',
     moderatorsNone:     '',
     dateDefault:        '--',
@@ -382,7 +382,7 @@ $cs.module.Index.prototype.readTable = function(table, index) {
                 if(k === numLinks - 1) {
                     subforumList += link;
                 } else {
-                    subforumList += link + this.config.subforumSeperator;
+                    subforumList += link + this.config.subforumSeparator;
                 }
             }
             this.setValue('subforums', subforumList);
