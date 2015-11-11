@@ -352,7 +352,7 @@ customProfile.initialize({
 
 
 ## Custom Topics
-Reads the topic list inside a forum for important values, then performs replacement and insertion.
+Reads both topic lists inside forums and the active topics search page for important values, then performs replacement and insertion.
 ```html
 <% BOARD %>
 <script>
@@ -372,6 +372,7 @@ customTopics.initialize({
 |`pinnedDefault`|The default text used for the pinned topics row.|`Important Topics`|
 |`regularDefault`|The default text used for the regular topics row.|`Forum Topics`|
 |`noTopics`|The text displayed when a forum contaions no topics.|`No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.`|
+|`noActiveTopics`|The text displayed when the active topics list is blank.|`There were no active topics during those date ranges`|
 |`paginationDefault`|The text displayed when there are no pagination options.|Blank.|
 
 

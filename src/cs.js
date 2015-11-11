@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.12 (November 2015)
+ * @version     1.5.13 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -785,7 +785,7 @@ $cs.module.Profile.prototype.execute = function() {
         this.setValue('userMSN', contactInfoDivs[4].textContent);
         this.setValue('userSkype', contactInfoDivs[5].textContent);
         if (contactInfoDivs[6].textContent.indexOf('Click') !== -1) {
-            this.setValue('sendMessage', '<a href="/?act=Mail&amp;CODE=00&amp;MID=' + userId + '">' + this.config.messageDefault + '</a>');
+            this.setValue('sendMessage', '<a href="/?act=Msg&amp;CODE=00&amp;MID=' + userId + '">' + this.config.messageDefault + '</a>');
         } else {
             this.setValue('sendMessage', 'Private');
         }
@@ -891,7 +891,7 @@ $cs.module.Profile.prototype.execute = function() {
         this.setValue('userYahoo', topRightCells[10].textContent);
         this.setValue('userMSN', topRightCells[12].textContent);
         if (topRightCells[14].textContent.indexOf('Click') !== -1) {
-            this.setValue('sendMessage', '<a href="/?act=Mail&amp;CODE=00&amp;MID=' + userId + '">Click here</a>');
+            this.setValue('sendMessage', '<a href="/?act=Msg&amp;CODE=00&amp;MID=' + userId + '">Click here</a>');
         } else {
             this.setValue('sendMessage', 'Private');
         }
@@ -1046,6 +1046,8 @@ $cs.extendModule($cs.module.Topics, $cs.module.Default);
  * @property {string} config.pinnedDefault        - The default title row text for pinned topics.
  * @property {string} config.regularDefault       - The default title row text for regular topics.
  * @property {string} config.noTopics             - The default message displayed when a forum contains no topics.
+ * @property {string} config.noActiveTopics       - The default message displayed when the active topics page is blank.
+ * @property {string} config.paginationDefault    - The default text displayed when pagination is blank.
  */
 $cs.module.Topics.prototype.config = {
     keyPrefix:              '{{',
@@ -1054,6 +1056,7 @@ $cs.module.Topics.prototype.config = {
     pinnedDefault:          'Important Topics',
     regularDefault:         'Forum Topics',
     noTopics:               'No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.',
+    noActiveTopics:         'There were no active topics during those date ranges',
     paginationDefault:      ''
 };
 
@@ -1087,7 +1090,13 @@ $cs.module.Topics.prototype.execute = function() {
     // If we couldn't find the default topic list, check what page we're on.
     if (!topicList) {
         if (window.location.href.indexOf('act=Search&CODE=getactive') > -1) {
-            topicList = document.getElementsByClassName('tableborder')[1];
+            var forms = document.getElementsByTagName('form');
+            for (var i = 0; i < forms.length; i++) {
+                if (forms[i].action.indexOf('act=Search&CODE=getactive') > -1) {
+                    topicList = forms[i].nextElementSibling.nextElementSibling;
+                }
+            }
+
             // I don't like flags, but this is the best way to handle this here.
             var activeTopics = true;
         }
@@ -1140,7 +1149,12 @@ $cs.module.Topics.prototype.execute = function() {
                 else {
                     this.setValue('folder', cells[0].innerHTML);
                     this.setValue('marker', cells[1].innerHTML);
-                    var topicTitle = cells[2].getElementsByTagName('a')[0];
+                    var topicTitleLinks = cells[2].getElementsByTagName('a');
+                    if (topicTitleLinks[0].href.indexOf('view=getnewpost') === -1) {
+                        var topicTitle = topicTitleLinks[0];
+                    } else {
+                        var topicTitle = topicTitleLinks[1];
+                    }
                     this.setValue('topicId', topicTitle.getAttribute('href').split('showtopic=')[1].split('&')[0]);
                     this.setValue('topicTitle', '<a href="' + topicTitle + '">' + topicTitle.textContent + '</a>');
                     var topicSpans = cells[2].getElementsByTagName('span');
@@ -1185,6 +1199,9 @@ $cs.module.Topics.prototype.execute = function() {
                 if (!activeTopics) {
                     // This forum contains no topics. Display a message and call it good.
                     topicsContent += '<div class="no-topics">' + this.config.noTopics + '</div>';
+                } else {
+                    // This active topics list is blank. Display a message and call it good.
+                    topicsContent += '<div class="no-topics">' + this.config.noActiveTopics + '</div>';
                 }
             }
         }
@@ -1226,14 +1243,12 @@ $cs.extendModule($cs.module.Posts, $cs.module.Default);
  * @property {string}  config.keySuffix            - The default suffix for value keys.
  * @property {string}  config.permaLinkDefault     - The default text used in permalinks.
  * @property {string}  config.postSignatureDefault - The default text used for signatures.
- * @property {boolean} config.quickEdit            - Whether or not to use the quick edit feature.
  */
 $cs.module.Posts.prototype.config = {
     keyPrefix:              '{{',
     keySuffix:              '}}',
     permaLinkDefault:       'Permalink',
-    postSignatureDefault:   '',
-    quickEdit:              false
+    postSignatureDefault:   ''
 };
 
 
@@ -1252,7 +1267,6 @@ $cs.module.Posts.prototype.reserved = [
     'getValue',
     'hasValue',
     'initialize',
-    'QuickEdit',
     'replaceValues',
     'setValue',
 ];
@@ -1262,10 +1276,10 @@ $cs.module.Posts.prototype.reserved = [
  * Executes the checks and loops needed to complete the script. 
  * @readonly
  */
-$cs.module.Posts.prototype.parseQuery = function(query) {
+$cs.module.Posts.prototype.queryString = function(url, query) {
     query = query.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + query + '=([^&#]*)'),
-        result = regex.exec(window.location.search);
+        result = regex.exec(url);
     return (result === null) ? '' : decodeURIComponent(result[1].replace(/\+/g, ' '));
 }
 
@@ -1277,8 +1291,11 @@ $cs.module.Posts.prototype.parseQuery = function(query) {
 $cs.module.Posts.prototype.execute = function() {
     // Make sure we're viewing a topic before executing.
     if (window.location.href.indexOf('showtopic') !== -1 || window.location.href.indexOf('ST') !== -1) {
-        var posts = document.getElementsByClassName('post-normal'),
-            postsContent = '';
+        var posts = document.getElementsByClassName('post-normal');
+    
+        // Create a new HTML element and set the appropriate attributes.
+        var newPosts = document.createElement('div');
+        newPosts.id = 'new-posts';
 
         // Loop through each post being displayed.
         for (var i = 0, numPosts = posts.length; i < numPosts; i++) {
@@ -1317,9 +1334,9 @@ $cs.module.Posts.prototype.execute = function() {
                 Internally consistent, IPB 1.3.1 ain't.
              */
             if (window.location.search.indexOf('showtopic') !== -1) {
-                topicId = this.parseQuery('showtopic');
+                topicId = this.queryString(window.location.search, 'showtopic');
             } else {
-                topicId = this.parseQuery('t');
+                topicId = this.queryString(window.location.search, 't');
             }
 
             this.setValue('postId', postId);
@@ -1334,21 +1351,6 @@ $cs.module.Posts.prototype.execute = function() {
             this.setValue('postDate', cells[1].firstElementChild.textContent.split('Posted: ')[1]);
             this.setValue('postButtonsTop', cells[1].lastElementChild.innerHTML);
 
-            if (this.config.quickEdit) {
-                var postButtonsTopLinks = cells[1].lastElementChild.getElementsByTagName('a');
-console.log(postButtonsTopLinks);
-                for (var k = 0; k < postButtonsTopLinks.length; k++) {
-                    if (postButtonsTopLinks[k].href.indexOf('act=Post&CODE=08') !== -1) {
-console.log(postButtonsTopLinks[k]);
-                        postButtonsTopLinks[k].addEventListener('click', function(event) {
-                            event.preventDefault();
-                            console.log('edit!');
-                        });
-                    }
-                }
-            }
-//HEERE
-
             /*
                 The topic starter will always be missing the checkbox, so use an offset to
                 properly count the cells from this point onward.
@@ -1361,12 +1363,8 @@ console.log(postButtonsTopLinks[k]);
                 this.setValue('postCheckbox', '');
             }
             this.setValue('postMiniprofile', cells[2 + cellOffset].firstElementChild.innerHTML);
-            
-            if (this.config.quickEdit) {
-                this.setValue('postContent', '<div class="cs-quick-edit">' + cells[3 + cellOffset].firstElementChild.innerHTML + '</div>');
-            } else {
-                this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
-            }
+
+            this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
 
             var postSignature = cells[3 + cellOffset].lastElementChild;
             if (postSignature.previousElementSibling) {
@@ -1377,18 +1375,17 @@ console.log(postButtonsTopLinks[k]);
             this.setValue('postIp', cells[4 + cellOffset].textContent);
             this.setValue('postButtonsBottom', cells[5 + cellOffset].firstElementChild.innerHTML);
 
-            // Replace the values and append the content of this post to the output.
-            postsContent += '<div class="new-post" id="entry' + postId + '" name="' + postId + 'entry">' + 
-                               this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values) +
-                               '</div>';
+            // Create a new element for this post and append it to the new posts container.
+            var newPost = document.createElement('div');
+            newPost.id = 'entry' + postId;
+            newPost.innerHTML = this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values);
+            newPosts.appendChild(newPost);
         }
 
-        // Create a new HTML element, set the appropriate attributes, and inject it into the page.
-        var newPosts = document.createElement('div');
-        newPosts.id = 'new-posts';
-        newPosts.innerHTML = postsContent;
+        // Inject the new posts container into the page.
         posts[0].parentNode.insertBefore(newPosts, posts[0]);
 
+        // Hide the original posts container.
         table.parentNode.removeChild(table);
     }
 };
