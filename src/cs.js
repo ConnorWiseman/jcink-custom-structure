@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.13 (November 2015)
+ * @version     1.5.14 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -344,7 +344,7 @@ $cs.module.Index.prototype.readTable = function(table, index) {
         Loop through each row in the table except the first and the last,
         which are only used for layout and are useless for this script.
      */
-    for (var j = 1, numrows = rows.length - 1; j < numrows; j++) {
+    for (var j = 1, numRows = rows.length - 1; j < numRows; j++) {
         // Acquire all the cells in the row, then begin reading in the necessary values.
         var cells = rows[j].getElementsByTagName('td');
         this.setValue('forumMarker', cells[0].innerHTML);
@@ -1107,9 +1107,19 @@ $cs.module.Topics.prototype.execute = function() {
             for formatting the script output.
          */
         var table = topicList.getElementsByTagName('table')[0],
-            rows = table.getElementsByTagName('tr'),
+            rows = [],
             topicsContent = '',
             rowClass = ' regular-topic';
+
+        /*
+            Loop through the direct children of the table to get the correct row count.
+            This is necessary due to extraneous tables on the active topics view.
+         */
+        for (var t = 0; t < table.firstElementChild.childNodes.length; t++) {
+            if (table.firstElementChild.childNodes[t].nodeType === 1 && table.firstElementChild.childNodes[t].tagName === 'TR') {
+                rows.push(table.firstElementChild.childNodes[t]);
+            }
+        }
 
         // Hide the original table.
         table.style.display = 'none';
