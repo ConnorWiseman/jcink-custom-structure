@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.14 (November 2015)
+ * @version     1.5.15 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1180,7 +1180,13 @@ $cs.module.Topics.prototype.execute = function() {
                     this.setValue('viewCount', cells[8].textContent);
 
                     this.setValue('lastReplyDate', cells[9].firstChild.nodeValue);
-                    this.setValue('lastReplyAuthor', cells[9].getElementsByTagName('b')[1].innerHTML);
+                    this.setValue('lastReplyDate', cells[9].firstChild.nodeValue);
+                    var author = cells[9].getElementsByTagName('b');
+                    if (author[1]) {
+                        this.setValue('lastReplyAuthor', author[1].innerHTML);
+                    } else {
+                        this.setValue('lastReplyAuthor', author[0].innerHTML);
+                    }
                     this.setValue('moderatorCheckbox', '');
                 }
 
