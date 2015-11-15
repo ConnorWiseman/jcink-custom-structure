@@ -390,6 +390,7 @@ customTopics.initialize({
 `{{topicAuthor}}`|A link to the topic's author.|
 `{{replyCount}}`|The number of replies to this topic.|
 `{{viewCount}}`|The number of views this topic has received.|
+`{{parentForum}}`|A link to the forum that contains this topic.|
 `{{lastReplyDate}}`|The date of the last reply to this topic.|
 `{{lastReplyAuthor}}`|A link to the author of the last reply to this topic.|
 `{{moderatorCheckbox}}`|The checkbox used for moderating this topic. Invisible to regular members and guests. If you forget to include it somewhere, the topic moderation options form below the topic list will be useless.|

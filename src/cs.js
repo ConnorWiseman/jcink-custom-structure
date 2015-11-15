@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.15 (November 2015)
+ * @version     1.5.16 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1122,7 +1122,7 @@ $cs.module.Topics.prototype.execute = function() {
         }
 
         // Hide the original table.
-        table.style.display = 'none';
+        //yo table.style.display = 'none';
 
         // Loop through each row and either read the values or output a title row.
         for (var i = 1, numRows = rows.length; i < numRows; i++) {
@@ -1147,6 +1147,9 @@ $cs.module.Topics.prototype.execute = function() {
                         this.setValue('pagination', this.config.paginationDefault);
                         this.setValue('topicDescription', topicSpans[0].textContent);
                     }
+                    var forumName = topicList.firstElementChild.textContent.trim(),
+                        parentForum = '<a href="' + window.location.href + '">' + forumName + '</a>';
+                    this.setValue('parentForum', parentForum);
                     this.setValue('topicAuthor', cells[3].innerHTML);
                     this.setValue('replyCount', cells[4].textContent);
                     this.setValue('viewCount', cells[5].textContent);
@@ -1175,6 +1178,7 @@ $cs.module.Topics.prototype.execute = function() {
                         this.setValue('pagination', this.config.paginationDefault);
                         this.setValue('topicDescription', topicSpans[0].textContent);
                     }
+                    this.setValue('parentForum', cells[5].innerHTML);
                     this.setValue('topicAuthor', cells[6].innerHTML);
                     this.setValue('replyCount', cells[7].textContent);
                     this.setValue('viewCount', cells[8].textContent);
@@ -1228,7 +1232,7 @@ $cs.module.Topics.prototype.execute = function() {
         newTopics.innerHTML = topicsContent;
         table.parentNode.insertBefore(newTopics, table);
 
-        table.parentNode.removeChild(table);
+        //yo table.parentNode.removeChild(table);
         // Hide that last, useless search element down below.
         if (activeTopics) {
             topicList.removeChild(topicList.lastElementChild);
