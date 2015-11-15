@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.16 (November 2015)
+ * @version     1.5.17 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1122,7 +1122,7 @@ $cs.module.Topics.prototype.execute = function() {
         }
 
         // Hide the original table.
-        //yo table.style.display = 'none';
+        table.style.display = 'none';
 
         // Loop through each row and either read the values or output a title row.
         for (var i = 1, numRows = rows.length; i < numRows; i++) {
@@ -1232,7 +1232,7 @@ $cs.module.Topics.prototype.execute = function() {
         newTopics.innerHTML = topicsContent;
         table.parentNode.insertBefore(newTopics, table);
 
-        //yo table.parentNode.removeChild(table);
+        table.parentNode.removeChild(table);
         // Hide that last, useless search element down below.
         if (activeTopics) {
             topicList.removeChild(topicList.lastElementChild);
