@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.17 (November 2015)
+ * @version     1.5.18 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -176,12 +176,13 @@ $cs.module.Default.prototype.initialize = function(settings) {
 
 /**
  * String replacement function.
- * @arg {string} string         - A text string for replacement.
+ * @arg {*} string|object       - A text string, or function that returns a text string, for replacement.
  * @arg {object} object         - An object of keys and values to use during replacement.
  * @return {string}
  * @readonly
  */
 $cs.module.Default.prototype.replaceValues = function(string, object) {
+    string = (typeof string === 'function') ? string() : string;
     // Join the keys with the pipe character for regular expression matching.
     var regex = new RegExp(Object.keys(object).join('|'), 'g');
     // Find and replace the keys with their associated values, then return the string.
@@ -450,7 +451,7 @@ $cs.module.Index.prototype.readTable = function(table, index) {
 
         // Replace the keys in the user-defined HTML with the values read in by the script.
         categoryContent += '<div id="row-' + this.values['{{forumId}}'] + '" class="new-row' + newPosts + '">' +
-                           this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values) + '<\/div>';
+                           this.replaceValues(this.html, this.values) + '<\/div>';
     }
 
     // Add any content intended to be inserted after every category.
@@ -609,7 +610,7 @@ $cs.module.Stats.prototype.execute = function() {
 
         // Create a new HTML element, set the appropriate attributes, and inject it into the page.
         var newStats = document.createElement('div');
-        newStats.innerHTML = this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values);
+        newStats.innerHTML = this.replaceValues(this.html, this.values);
         newStats.id = 'new-statistics';
         table.parentNode.appendChild(newStats);
 
@@ -813,7 +814,7 @@ $cs.module.Profile.prototype.execute = function() {
 
         // Create a new HTML element, set the appropriate attributes, and inject it into the page.
         var newProfile = document.createElement('div');
-        newProfile.innerHTML = this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values);
+        newProfile.innerHTML = this.replaceValues(this.html, this.values);
         newProfile.id = 'new-profile';
         table.parentNode.appendChild(newProfile);
 
@@ -987,7 +988,7 @@ $cs.module.Profile.prototype.execute = function() {
 
         // Create a new HTML element, set the appropriate attributes, and inject it into the page.
         var newProfile = document.createElement('div');
-        newProfile.innerHTML = this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values);
+        newProfile.innerHTML = this.replaceValues(this.html, this.values);
         newProfile.id = 'new-profile';
         topTable.parentNode.appendChild(newProfile);
 
@@ -1196,7 +1197,7 @@ $cs.module.Topics.prototype.execute = function() {
 
                 // Perform string replacement and append the new row to the output.
                 topicsContent += '<div class="topic-row' + rowClass + '">' +
-                                 this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values) +
+                                 this.replaceValues(this.html, this.values) +
                                  '</div>';
             } else if (i !== numRows - 1 && !activeTopics) {
                 // Output the appropriate title row for the topics that follow.
@@ -1398,7 +1399,7 @@ $cs.module.Posts.prototype.execute = function() {
             // Create a new element for this post and append it to the new posts container.
             var newPost = document.createElement('div');
             newPost.id = 'entry' + postId;
-            newPost.innerHTML = this.replaceValues((typeof this.html === 'function') ? this.html() : this.html, this.values);
+            newPost.innerHTML = this.replaceValues(this.html, this.values);
             newPosts.appendChild(newPost);
         }
 
