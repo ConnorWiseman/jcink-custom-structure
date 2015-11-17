@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.18 (November 2015)
+ * @version     1.5.19 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -182,7 +182,7 @@ $cs.module.Default.prototype.initialize = function(settings) {
  * @readonly
  */
 $cs.module.Default.prototype.replaceValues = function(string, object) {
-    string = (typeof string === 'function') ? string() : string;
+    string = (typeof string === 'function') ? string.call(this) : string;
     // Join the keys with the pipe character for regular expression matching.
     var regex = new RegExp(Object.keys(object).join('|'), 'g');
     // Find and replace the keys with their associated values, then return the string.
