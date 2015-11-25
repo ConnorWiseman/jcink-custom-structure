@@ -518,7 +518,7 @@ customPosts.initialize({
 </script>
 ```
 
-**Note:** Enabling the quick edit addon will automatically encapsulate the contents of `{{postContent}}` inside a `<div>` with class name `cs-quick-edit`. The additional element may interfere with the appearance of your forum if you are styling your posts using [the direct child combinator, >](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_selectors).
+**Note:** Enabling the quick edit addon will automatically encapsulate the contents of `{{postContent}}` inside a `<div>` with class name `cs-quick-edit`. The additional element may interfere with the appearance of your forum if you are styling your posts using [CSS combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors#Combinators).
 
 
 ## Advanced Usage
