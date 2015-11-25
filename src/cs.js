@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.5.19 (November 2015)
+ * @version     1.6.0 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1264,12 +1264,14 @@ $cs.extendModule($cs.module.Posts, $cs.module.Default);
  * @property {string}  config.keySuffix            - The default suffix for value keys.
  * @property {string}  config.permaLinkDefault     - The default text used in permalinks.
  * @property {string}  config.postSignatureDefault - The default text used for signatures.
+ * @property {boolean} config.quickEdit            - Whether or not to use the quick edit feature.
  */
 $cs.module.Posts.prototype.config = {
     keyPrefix:              '{{',
     keySuffix:              '}}',
     permaLinkDefault:       'Permalink',
-    postSignatureDefault:   ''
+    postSignatureDefault:   '',
+    quickEdit:              false
 };
 
 
@@ -1288,6 +1290,7 @@ $cs.module.Posts.prototype.reserved = [
     'getValue',
     'hasValue',
     'initialize',
+    'QuickEdit',
     'replaceValues',
     'setValue',
 ];
@@ -1303,6 +1306,185 @@ $cs.module.Posts.prototype.queryString = function(url, query) {
         result = regex.exec(url);
     return (result === null) ? '' : decodeURIComponent(result[1].replace(/\+/g, ' '));
 }
+
+
+/**
+ * A sub-module container for the Quick Edit feature add-on.
+ * @readonly
+ * @namespace
+ * @property {object}  makeRequest                 - An AJAX request handler.
+ * @property {object}  filter                      - A filter function for outgoing POST requests.
+ *                                                   Expected by internal IPB1.3.1 form handlers.
+ * @property {object}  EditForm                    - An edit form constructor.
+ */
+$cs.module.Posts.prototype.QuickEdit = {
+    /**
+     * An AJAX request handler.
+     * @arg {string} url            - The URL to send the request to.
+     * @arg {object} callback       - A callback function to execute on request success.
+     * @arg {string} data           - Form data to be used in POST submission. Optional.
+     * @readonly
+     */
+    makeRequest: function(url, callback, data) {
+        var request = new (XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
+        request.open((data ? 'POST' : 'GET'), url);
+        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.onreadystatechange = function() {
+            if (request.readyState > 3 && callback && typeof(callback) === 'function') {
+                callback(request.responseText);
+            }
+        };
+        request.send(data);
+    },
+
+
+    /**
+     * A filter function for outgoing POST requests. Expected by internal IPB1.3.1 form handlers.
+     * Partial credit to a user "sk89q" for their work on the original quick edit feature, upon
+     * which this function is heavily based. 
+     * @arg {string} string           - The string to be filtered.
+     * @readonly
+     */
+    filter: function(string) {
+        var result = '';
+        for (var i = 0; i < string.length; i++){
+            var currentCharacter = string.charCodeAt(i);
+            if(currentCharacter > 127) {
+                result += '&#' + currentCharacter + ';';
+            } else {
+                result += string.charAt(i);
+            }
+        }
+        return encodeURIComponent ? encodeURIComponent(result) : escape(result);
+    },
+
+
+    /**
+     * An edit form constructor, called dynamically when a user clicks on any post edit link.
+     * already.
+     * @arg {string} forumId          - The forum ID.
+     * @arg {string} topicId          - The topic ID.
+     * @arg {string} postId           - The post ID.
+     * @arg {string} pageId           - The page ID. Varies depending on board settings.
+     * @arg {string} response         - The HTML response to an AJAX request containing the quick edit form.
+     * @arg {object} contentContainer - A reference to the HTML element where the post is contained.
+     * @readonly
+     */
+    EditForm: function(forumId, topicId, postId, pageId, response, contentContainer, thisArg) {
+        // Create all our elements.
+        var form = document.createElement('form'),
+            textarea = document.createElement('textarea'),
+            buttons = document.createElement('div'),
+            edit = document.createElement('button'),
+            cancel = document.createElement('button'),
+            fullEdit = document.createElement('button');
+
+        // The form should never just submit, so make sure it can't:
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+        });
+
+        // Acquire the user's authorization key from the response.
+        var responseContainer = document.createElement('div');
+        responseContainer.innerHTML = response;
+
+        var authKey = responseContainer.firstElementChild.value;
+
+         // Acquire the raw contents of the post and place it in our form.
+        var rawContent = responseContainer.lastElementChild.value;
+
+        // Set the textarea's attributes.
+        textarea.innerHTML = rawContent;
+        textarea.style.boxSizing = 'border-box';
+
+        // Set our button labels.
+        edit.innerHTML = 'Edit';
+        cancel.innerHTML = 'Cancel';
+        fullEdit.innerHTML = 'Full Edit';
+
+        // Attach our event listeners.
+        edit.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            var editURL = '/?act=Post&quickedit=1&CODE=09&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId + '&auth_key=' + authKey;
+
+            // POST our edited post to the forum.
+            thisArg.makeRequest(editURL, function(response) {
+                var responseContainer = document.createElement('div');
+                responseContainer.innerHTML = response;
+
+                /*
+                    If successful, the response will contain a single link to skip the redirection.
+                    Let's grab it; we'll neet to GET the page there to read in the edited post.
+                 */
+                var responseLinks = responseContainer.getElementsByTagName('a');
+                if (responseLinks.length === 1) {
+                    // Add a timestamp to the URL to prevent browsers from caching the AJAX call.
+                    var redirectUrl = responseLinks[0].href + '&nocache=' + new Date().getTime();;
+                }
+                // If the redirect URL doesn't exist, we've got a problem. Show an error, then return early.
+                else {
+                    console.error('Could not submit edited post via POST submission. Edit failed.');
+                    return;
+                }
+
+                // GET the edited post from our redirect URL.
+                thisArg.makeRequest(redirectUrl, function(result) {
+                    // It's wrapped in these comments, so finding it is pretty simple.
+                    var editedPost = new RegExp('<!\-\- THE POST ' + postId + ' \-\->\n        <div class=\'postcolor\'>((.|\n)*?)</div>\n        \n        <!\-\- THE POST \-\->');
+                    editedPost = editedPost.exec(result);
+                    // If we can't find it, though, there was a problem. Show an error, then return.
+                    if (!editedPost) {
+                        console.error('Could not GET edited post. Read failed.');
+                        return;
+                    }
+
+                    // Construct the final post, set its attributes, and replace the edit form with it.
+                    var finalPost = document.createElement('div');
+                    // Add the all-important class to the final post.
+                    finalPost.classList.add('cs-quick-edit');
+                    finalPost.innerHTML = editedPost[1];
+                    /*
+                        This is difficult to follow at a glance, so here's how it plays out:
+                        1) Get the new post container from the edit button.
+                            The edit button
+                                -> The buttons div
+                                    -> The edit form
+                                        -> Whatever contained the original post content, varies
+                        2) Replace the edit form with the final post.
+                            The edit button
+                                -> The buttons div
+                                    -> The edit form <-> The final post.
+                        3) All done.
+                     */
+                    // the edit button -> the buttons div -> the form -> the new post container
+                    edit.parentNode.parentNode.parentNode.replaceChild(finalPost, edit.parentNode.parentNode);
+                });
+            }, 'Post=' + thisArg.filter(textarea.value));
+        });
+        cancel.addEventListener('click', function(event) {
+            event.preventDefault();
+            this.parentNode.parentNode.parentNode.replaceChild(contentContainer, this.parentNode.parentNode);
+        });
+        fullEdit.addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = '/?act=Post&CODE=08&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId;
+        });
+
+        // Append the buttons to the button container.
+        buttons.appendChild(edit);
+        buttons.appendChild(cancel);
+        buttons.appendChild(fullEdit);
+
+        // Append the textarea and the button container to the form.
+        form.appendChild(textarea);
+        form.appendChild(buttons);
+
+        // Return the form for use elsewhere.
+        return form;
+    }
+};
 
 
 /**
@@ -1385,7 +1567,12 @@ $cs.module.Posts.prototype.execute = function() {
             }
             this.setValue('postMiniprofile', cells[2 + cellOffset].firstElementChild.innerHTML);
 
-            this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
+            // If the quick edit feature is enabled, make sure to wrap the post contents here.
+            if (this.config.quickEdit) {
+                this.setValue('postContent', '<div class="cs-quick-edit">' + cells[3 + cellOffset].firstElementChild.innerHTML + '</div>');
+            } else {
+                this.setValue('postContent', cells[3 + cellOffset].firstElementChild.innerHTML);
+            }
 
             var postSignature = cells[3 + cellOffset].lastElementChild;
             if (postSignature.previousElementSibling) {
@@ -1401,6 +1588,39 @@ $cs.module.Posts.prototype.execute = function() {
             newPost.id = 'entry' + postId;
             newPost.innerHTML = this.replaceValues(this.html, this.values);
             newPosts.appendChild(newPost);
+
+            // Handle the quick edit feature, if applicable.
+            if (this.config.quickEdit) {
+                // Get all the links in the new post.
+                var postLinks = newPost.getElementsByTagName('a');
+
+                // Iterate over each of the links.
+                for (var l = 0; l < postLinks.length; l++) {
+
+                    // If it's an edit link we're looking at...
+                    if (postLinks[l].href.indexOf('act=Post&CODE=08') !== -1) {
+
+                        // ... attach an event listener.
+                        postLinks[l].addEventListener('click', function(event) {
+                            event.preventDefault();
+
+                            var forumId = this.queryString(event.currentTarget.href, 'f'),
+                                topicId = this.queryString(event.currentTarget.href, 't'),
+                                postId = this.queryString(event.currentTarget.href, 'p'),
+                                pageId = this.queryString(event.currentTarget.href, 'st') || '0';
+
+                            var quickEditURL = '/?&act=Post&CODE=08&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId + '&quickedit=1';
+
+                            var editableContent = document.getElementById('entry' + postId).getElementsByClassName('cs-quick-edit')[0];
+
+                            this.QuickEdit.makeRequest(quickEditURL, function(response) {
+                                var editForm = new this.EditForm(forumId, topicId, postId, pageId, response, editableContent, this);
+                                editableContent.parentNode.replaceChild(editForm, editableContent);
+                            }.bind(this.QuickEdit));
+                        }.bind(this));
+                    }
+                }
+            }
         }
 
         // Inject the new posts container into the page.

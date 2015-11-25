@@ -28,6 +28,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
   1. [Custom Posts Configuration Reference](#custom-posts-configuration-reference)
   2. [Custom Posts Key Reference](#custom-posts-key-reference)
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
+  4. [Custom Posts Quick Edit](#custom-posts-quick-edit)
 9. [Advanced Usage](#advanced-usage)
   1. [String and Function Comparison](#string-and-function-comparison)
   2. [hasValue Method](#hasvalue-method)
@@ -458,6 +459,7 @@ customPosts.initialize({
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
 |`permaLinkDefault`|The default text used in post permalinks.|`Permalink`|
 |`postSignatureDefault`|The default text used for signatures.|Blank.|
+|`quickEdit`|Enables or disables the script's built-in quick edit addon.|false|
 
 
 ### Custom Posts Key Reference
@@ -501,6 +503,23 @@ customPosts.initialize({
     <div align="center" style="margin-bottom:3px;"></div>
 </div>
 ```
+
+### Custom Posts Quick Edit Addon
+To enable the quick edit addon packaged with this script, [disable the default quick edit feature](http://forum.jcink.com/index.php?showtopic=24795) and enable the addon through the `config` settings.
+```html
+<% BOARD %>
+<script>
+customPosts.initialize({
+    config: {
+        quickEdit: true
+    },
+    html: 'Your markup here!'
+});
+</script>
+```
+
+**Note:** Enabling the quick edit addon will automatically encapsulate the contents of `{{postContent}}` inside a `<div>` with class name `cs-quick-edit`. The additional element may interfere with the appearance of your forum if you are styling your posts using [the direct child combinator, >](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_selectors).
+
 
 ## Advanced Usage
 The `html` property passed to any of the modules can be either a string or a function that returns a string. Although the use of a function will provide additional flexibility, they are somewhat slower. This performance overhead is compounded in the Custom Index, Custom Topics, and Custom Posts modules because they perform multiple reads and inserts. Functions are useful when more fine-tuned behavior is desired, since pure JavaScript can be added to introduce user-defined behavior based on the values provided by the modules.
