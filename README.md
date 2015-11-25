@@ -505,7 +505,7 @@ customPosts.initialize({
 ```
 
 ### Quick Edit Addon
-To enable the quick edit addon packaged with this script, [disable the default quick edit feature](http://forum.jcink.com/index.php?showtopic=24795) and enable the addon through the `config` settings.
+To enable the quick edit addon packaged with this script, [disable the default quick edit feature](http://forum.jcink.com/index.php?showtopic=24795) and enable the addon through  `config` by setting it to `true`.
 ```html
 <% BOARD %>
 <script>
