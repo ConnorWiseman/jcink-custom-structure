@@ -28,7 +28,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
   1. [Custom Posts Configuration Reference](#custom-posts-configuration-reference)
   2. [Custom Posts Key Reference](#custom-posts-key-reference)
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
-  4. [Custom Posts Quick Edit](#custom-posts-quick-edit)
+  4. [Quick Edit Addon](#quick-edit-addon)
 9. [Advanced Usage](#advanced-usage)
   1. [String and Function Comparison](#string-and-function-comparison)
   2. [hasValue Method](#hasvalue-method)
@@ -504,7 +504,7 @@ customPosts.initialize({
 </div>
 ```
 
-### Custom Posts Quick Edit Addon
+### Quick Edit Addon
 To enable the quick edit addon packaged with this script, [disable the default quick edit feature](http://forum.jcink.com/index.php?showtopic=24795) and enable the addon through the `config` settings.
 ```html
 <% BOARD %>
