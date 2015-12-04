@@ -375,6 +375,7 @@ customTopics.initialize({
 |`noTopics`|The text displayed when a forum contaions no topics.|`No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.`|
 |`noActiveTopics`|The text displayed when the active topics list is blank.|`There were no active topics during those date ranges`|
 |`paginationDefault`|The text displayed when there are no pagination options.|Blank.|
+|`activeTopics`|Whether to apply changes the to the active topics page.|`false`| 
 
 
 ### Custom Topics Key Reference
@@ -459,7 +460,7 @@ customPosts.initialize({
 |`keySuffix`|The default suffix for replacement keys.|`}}`|
 |`permaLinkDefault`|The default text used in post permalinks.|`Permalink`|
 |`postSignatureDefault`|The default text used for signatures.|Blank.|
-|`quickEdit`|Enables or disables the script's built-in quick edit addon.|false|
+|`quickEdit`|Enables or disables the script's built-in quick edit addon.|`false`|
 
 
 ### Custom Posts Key Reference

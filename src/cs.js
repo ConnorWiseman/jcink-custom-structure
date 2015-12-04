@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.6.0 (November 2015)
+ * @version     1.6.1 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1040,15 +1040,16 @@ $cs.extendModule($cs.module.Topics, $cs.module.Default);
 
 /**
  * @namespace
- * @property {object} config                      - Default configuration values.
- * @property {string} config.keyPrefix            - The default prefix for value keys.
- * @property {string} config.keySuffix            - The default suffix for value keys.
- * @property {string} config.announcementsDefault - The default title row text for announcements.
- * @property {string} config.pinnedDefault        - The default title row text for pinned topics.
- * @property {string} config.regularDefault       - The default title row text for regular topics.
- * @property {string} config.noTopics             - The default message displayed when a forum contains no topics.
- * @property {string} config.noActiveTopics       - The default message displayed when the active topics page is blank.
- * @property {string} config.paginationDefault    - The default text displayed when pagination is blank.
+ * @property {object}  config                      - Default configuration values.
+ * @property {string}  config.keyPrefix            - The default prefix for value keys.
+ * @property {string}  config.keySuffix            - The default suffix for value keys.
+ * @property {string}  config.announcementsDefault - The default title row text for announcements.
+ * @property {string}  config.pinnedDefault        - The default title row text for pinned topics.
+ * @property {string}  config.regularDefault       - The default title row text for regular topics.
+ * @property {string}  config.noTopics             - The default message displayed when a forum contains no topics.
+ * @property {string}  config.noActiveTopics       - The default message displayed when the active topics page is blank.
+ * @property {string}  config.paginationDefault    - The default text displayed when pagination is blank.
+ * @property {boolean} config.activeTopics         - Whether to apply changes the to the active topics page.
  */
 $cs.module.Topics.prototype.config = {
     keyPrefix:              '{{',
@@ -1058,7 +1059,8 @@ $cs.module.Topics.prototype.config = {
     regularDefault:         'Forum Topics',
     noTopics:               'No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.',
     noActiveTopics:         'There were no active topics during those date ranges',
-    paginationDefault:      ''
+    paginationDefault:      '',
+    activeTopics:           false
 };
 
 
@@ -1090,7 +1092,7 @@ $cs.module.Topics.prototype.execute = function() {
     var topicList = document.getElementById('topic-list');
     // If we couldn't find the default topic list, check what page we're on.
     if (!topicList) {
-        if (window.location.href.indexOf('act=Search&CODE=getactive') > -1) {
+        if (this.config.activeTopics && window.location.href.indexOf('act=Search&CODE=getactive') > -1) {
             var forms = document.getElementsByTagName('form');
             for (var i = 0; i < forms.length; i++) {
                 if (forms[i].action.indexOf('act=Search&CODE=getactive') > -1) {
@@ -1099,7 +1101,7 @@ $cs.module.Topics.prototype.execute = function() {
             }
 
             // I don't like flags, but this is the best way to handle this here.
-            var activeTopics = true;
+            var viewingActiveTopics = true;
         }
     }
     if (topicList) {
@@ -1131,7 +1133,7 @@ $cs.module.Topics.prototype.execute = function() {
             var cells = rows[i].getElementsByTagName('td');
             if (cells[3]) {
                 // Regular topic listing.
-                if (!activeTopics) {
+                if (!viewingActiveTopics) {
                     this.setValue('folder', cells[0].innerHTML);
                     this.setValue('marker', cells[1].innerHTML);
                     var topicTitle = cells[2].getElementsByTagName('a')[0];
@@ -1160,7 +1162,7 @@ $cs.module.Topics.prototype.execute = function() {
                     this.setValue('moderatorCheckbox', cells[7].innerHTML);
                 }
                 // Active topics search page listing.
-                else {
+                else if (this.config.activeTopics) {
                     this.setValue('folder', cells[0].innerHTML);
                     this.setValue('marker', cells[1].innerHTML);
                     var topicTitleLinks = cells[2].getElementsByTagName('a');
@@ -1199,7 +1201,7 @@ $cs.module.Topics.prototype.execute = function() {
                 topicsContent += '<div class="topic-row' + rowClass + '">' +
                                  this.replaceValues(this.html, this.values) +
                                  '</div>';
-            } else if (i !== numRows - 1 && !activeTopics) {
+            } else if (i !== numRows - 1 && !viewingActiveTopics) {
                 // Output the appropriate title row for the topics that follow.
                 var titleContents = cells[2].getElementsByTagName('b')[0].textContent;
                 switch (titleContents) {
@@ -1217,10 +1219,10 @@ $cs.module.Topics.prototype.execute = function() {
                         break;
                 }
             } else {
-                if (!activeTopics) {
+                if (!viewingActiveTopics) {
                     // This forum contains no topics. Display a message and call it good.
                     topicsContent += '<div class="no-topics">' + this.config.noTopics + '</div>';
-                } else {
+                } else if (this.config.activeTopics) {
                     // This active topics list is blank. Display a message and call it good.
                     topicsContent += '<div class="no-topics">' + this.config.noActiveTopics + '</div>';
                 }
@@ -1235,7 +1237,7 @@ $cs.module.Topics.prototype.execute = function() {
 
         table.parentNode.removeChild(table);
         // Hide that last, useless search element down below.
-        if (activeTopics) {
+        if (this.config.activeTopics && viewingActiveTopics) {
             topicList.removeChild(topicList.lastElementChild);
         }
     }
