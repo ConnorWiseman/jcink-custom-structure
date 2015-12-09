@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.6.1 (November 2015)
+ * @version     1.7.0 (November 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1489,6 +1489,50 @@ $cs.module.Posts.prototype.QuickEdit = {
 };
 
 
+$cs.module.Posts.prototype.formatCodeQuoteTags = function(element) {
+    for (var m = element.length; m > 0; m--) {
+        if (typeof element[m] !== 'undefined' && element[m].id === 'QUOTE-WRAP') {
+            element[m].style.display = 'none';
+            var quoteTitleContents = element[m].firstElementChild.firstElementChild.firstElementChild.innerHTML.slice(14, -1).split(' @ ');
+            var quoteAuthor = quoteTitleContents[0],
+                quoteTimestamp = quoteTitleContents[1];
+            if (!quoteAuthor) {
+                quoteAuthor = '';
+            }
+            if (!quoteTimestamp) {
+                quoteTimestamp = '';
+            }
+            var originalQuote = element[m].firstElementChild.lastElementChild.firstElementChild.innerHTML;
+            var quoteContainer = document.createElement('div');
+            quoteContainer.classList.add('quote-wrapper');
+            quoteContainer.innerHTML = '<div class="quote-title"><span class="quote-author">' + quoteAuthor + '</span><span class="quote-timestamp">' + quoteTimestamp + '</span></div><div class="quote-contents"><blockquote>' + originalQuote + '</blockquote></div>';
+            element[m].parentNode.insertBefore(quoteContainer, element[m].nextSibling);
+            element[m].parentNode.removeChild(element[m]);
+        }
+        else if (typeof element[m] !== 'undefined' && element[m].id === 'CODE-WRAP') {
+            element[m].style.display = 'none';
+            var originalCode = element[m].firstElementChild.lastElementChild.firstElementChild.innerHTML;
+            var codeContainer = document.createElement('div');
+            codeContainer.classList.add('code-wrapper');
+            var codeTitle = document.createElement('code');
+            codeTitle.classList.add('code-title');
+            codeTitle.style.cursor = 'pointer';
+            codeTitle.appendChild(document.createTextNode('Code (Click to highlight)'));
+            codeContainer.appendChild(codeTitle);
+            var codeContents = document.createElement('div'),
+                codeContentsPre = document.createElement('pre'),
+                codeContentsCode = document.createElement('code');
+            codeContentsCode.innerHTML = originalCode;
+            codeContentsPre.appendChild(codeContentsCode);
+            codeContents.appendChild(codeContentsPre);
+            codeContainer.appendChild(codeContents);
+            element[m].parentNode.insertBefore(codeContainer, element[m].nextSibling);
+            element[m].parentNode.removeChild(element[m]);
+        }
+    }
+};
+
+
 /**
  * Executes the checks and loops needed to complete the script. 
  * @readonly
@@ -1623,6 +1667,12 @@ $cs.module.Posts.prototype.execute = function() {
                     }
                 }
             }
+
+            // Formatted code/quote tags
+            if (this.config.formatCodeQuoteTags) {
+                var tags = newPost.getElementsByTagName('table');
+                this.formatCodeQuoteTags(tags);
+            }
         }
 
         // Inject the new posts container into the page.
@@ -1630,6 +1680,27 @@ $cs.module.Posts.prototype.execute = function() {
 
         // Hide the original posts container.
         table.parentNode.removeChild(table);
+    }
+
+    if (this.config.formatCodeQuoteTags) {
+        var newCode = document.getElementsByClassName('code-wrapper');
+        for (var n = 0, newCodeCount = newCode.length; n < newCodeCount; n++) {
+            newCode[n].firstElementChild.addEventListener('click', function(event) {
+                event.preventDefault();
+                var range, selection;
+                if (document.body.createTextRange) {
+                    range = document.body.createTextRange();
+                    range.moveToElementText(this.nextElementSibling);
+                    range.select();
+                } else if (window.getSelection) {
+                    selection = window.getSelection();        
+                    range = document.createRange();
+                    range.selectNodeContents(this.nextElementSibling);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+            });
+        }
     }
 };
 
