@@ -29,7 +29,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
   2. [Custom Posts Key Reference](#custom-posts-key-reference)
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
   4. [Quick Edit Addon](#quick-edit-addon)
-  5. [Formatted Quote/Code Tags Addon]
+  5. [Formatted Quote/Code Tags Addon](#formatted-quotecode-tags-addon)
 9. [Advanced Usage](#advanced-usage)
   1. [String and Function Comparison](#string-and-function-comparison)
   2. [hasValue Method](#hasvalue-method)
