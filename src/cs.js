@@ -1267,13 +1267,15 @@ $cs.extendModule($cs.module.Posts, $cs.module.Default);
  * @property {string}  config.permaLinkDefault     - The default text used in permalinks.
  * @property {string}  config.postSignatureDefault - The default text used for signatures.
  * @property {boolean} config.quickEdit            - Whether or not to use the quick edit feature.
+ * @property {boolean} config.formatQuoteCodeTags  - Whether or not to use the formatted quote/code tags feature.
  */
 $cs.module.Posts.prototype.config = {
     keyPrefix:              '{{',
     keySuffix:              '}}',
     permaLinkDefault:       'Permalink',
     postSignatureDefault:   '',
-    quickEdit:              false
+    quickEdit:              false,
+    formatQuoteCodeTags:    false
 };
 
 
@@ -1669,7 +1671,7 @@ $cs.module.Posts.prototype.execute = function() {
             }
 
             // Formatted code/quote tags
-            if (this.config.formatCodeQuoteTags) {
+            if (this.config.formatQuoteCodeTags) {
                 var tags = newPost.getElementsByTagName('table');
                 this.formatCodeQuoteTags(tags);
             }
@@ -1682,7 +1684,7 @@ $cs.module.Posts.prototype.execute = function() {
         table.parentNode.removeChild(table);
     }
 
-    if (this.config.formatCodeQuoteTags) {
+    if (this.config.formatQuoteCodeTags) {
         var newCode = document.getElementsByClassName('code-wrapper');
         for (var n = 0, newCodeCount = newCode.length; n < newCodeCount; n++) {
             newCode[n].firstElementChild.addEventListener('click', function(event) {

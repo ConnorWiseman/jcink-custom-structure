@@ -29,6 +29,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
   2. [Custom Posts Key Reference](#custom-posts-key-reference)
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
   4. [Quick Edit Addon](#quick-edit-addon)
+  5. [Formatted Quote/Code Tags Addon]
 9. [Advanced Usage](#advanced-usage)
   1. [String and Function Comparison](#string-and-function-comparison)
   2. [hasValue Method](#hasvalue-method)
@@ -461,6 +462,7 @@ customPosts.initialize({
 |`permaLinkDefault`|The default text used in post permalinks.|`Permalink`|
 |`postSignatureDefault`|The default text used for signatures.|Blank.|
 |`quickEdit`|Enables or disables the script's built-in quick edit addon.|`false`|
+|`formatQuoteCodeTags`|Enables or disables the script's built-in quote/code tag formatting.|`false`|
 
 
 ### Custom Posts Key Reference
@@ -521,6 +523,20 @@ customPosts.initialize({
 
 **Note:** Enabling the quick edit addon will automatically encapsulate the contents of `{{postContent}}` inside a `<div>` with class name `cs-quick-edit`. The additional element may interfere with the appearance of your forum if you are styling your posts using [CSS combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors#Combinators). Be aware of the potential need to slightly change some CSS rules prior to enabling the quick edit addon.
 
+
+### Formatted Quote/Code Tags Addon
+To enable the formatted quote/code tags addon packaged with this script, enable the addon through `config` by setting it to `true`.
+```html
+<% BOARD %>
+<script>
+customPosts.initialize({
+    config: {
+        formatQuoteCodeTags: true
+    },
+    html: 'Your markup here!'
+});
+</script>
+```
 
 ## Advanced Usage
 The `html` property passed to any of the modules can be either a string or a function that returns a string. Although the use of a function will provide additional flexibility, they are somewhat slower. This performance overhead is compounded in the Custom Index, Custom Topics, and Custom Posts modules because they perform multiple reads and inserts. Functions are useful when more fine-tuned behavior is desired, since pure JavaScript can be added to introduce user-defined behavior based on the values provided by the modules.
