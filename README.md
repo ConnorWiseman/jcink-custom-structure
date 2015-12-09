@@ -30,6 +30,7 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
   4. [Quick Edit Addon](#quick-edit-addon)
   5. [Formatted Quote/Code Tags Addon](#formatted-quotecode-tags-addon)
+    1. [Formatted Quote/Code Tags Output Reference](#formatted-quotecode-tags-output-reference)
 9. [Advanced Usage](#advanced-usage)
   1. [String and Function Comparison](#string-and-function-comparison)
   2. [hasValue Method](#hasvalue-method)
@@ -536,6 +537,26 @@ customPosts.initialize({
     html: 'Your markup here!'
 });
 </script>
+```
+
+#### Formatted Quote/Code Tags Output Reference
+```html
+<div class="quote-wrapper">
+	<div class="quote-title">
+		<span class="quote-author">Username</span>
+		<span class="quote-timestamp">Date and time</span>
+	</div>
+	<div class="quote-contents">
+		<blockquote>Quote goes here</blockquote>
+	</div>
+</div>
+
+<div class="code-wrapper">
+	<div class="code-title">Code (Click to highlight)</div>
+	<div class="code-contents">
+		<pre><code>Code goes here</code></pre>
+	</div>
+</div>
 ```
 
 ## Advanced Usage
