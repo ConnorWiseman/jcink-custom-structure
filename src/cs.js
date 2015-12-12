@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.1 (December 2015)
+ * @version     1.7.2 (December 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1293,14 +1293,19 @@ $cs.module.Posts.prototype.name = '$cs.module.Posts';
  * @property {object} reserved  - An array of reserved names.
  */
 $cs.module.Posts.prototype.reserved = [
-    'values',
+    'attachCodeEventListeners',
+    'createEditForm',
     'execute',
+    'filter',
+    'formatQuoteCodeTags',
     'getValue',
     'hasValue',
     'initialize',
-    'QuickEdit',
+    'makeRequest',
+    'queryString',
     'replaceValues',
     'setValue',
+    'values'
 ];
 
 
@@ -1317,189 +1322,188 @@ $cs.module.Posts.prototype.queryString = function(url, query) {
 
 
 /**
- * A sub-module container for the Quick Edit feature add-on.
+ * An AJAX request handler.
+ * @arg {string} url            - The URL to send the request to.
+ * @arg {object} callback       - A callback function to execute on request success.
+ * @arg {string} data           - Form data to be used in POST submission. Optional.
  * @readonly
- * @namespace
- * @property {object}  makeRequest                 - An AJAX request handler.
- * @property {object}  filter                      - A filter function for outgoing POST requests.
- *                                                   Expected by internal IPB1.3.1 form handlers.
- * @property {object}  EditForm                    - An edit form constructor.
  */
-$cs.module.Posts.prototype.QuickEdit = {
-    /**
-     * An AJAX request handler.
-     * @arg {string} url            - The URL to send the request to.
-     * @arg {object} callback       - A callback function to execute on request success.
-     * @arg {string} data           - Form data to be used in POST submission. Optional.
-     * @readonly
-     */
-    makeRequest: function(url, callback, data) {
-        var request = new (XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
-        request.open((data ? 'POST' : 'GET'), url);
-        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        request.onreadystatechange = function() {
-            if (request.readyState > 3 && callback && typeof(callback) === 'function') {
-                callback(request.responseText);
-            }
-        };
-        request.send(data);
-    },
-
-
-    /**
-     * A filter function for outgoing POST requests. Expected by internal IPB1.3.1 form handlers.
-     * Partial credit to a user "sk89q" for their work on the original quick edit feature, upon
-     * which this function is heavily based. 
-     * @arg {string} string           - The string to be filtered.
-     * @readonly
-     */
-    filter: function(string) {
-        var result = '';
-        for (var i = 0; i < string.length; i++){
-            var currentCharacter = string.charCodeAt(i);
-            if(currentCharacter > 127) {
-                result += '&#' + currentCharacter + ';';
-            } else {
-                result += string.charAt(i);
-            }
+$cs.module.Posts.prototype.makeRequest = function(url, callback, data) {
+    var request = new (XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
+    request.open((data ? 'POST' : 'GET'), url);
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.onreadystatechange = function() {
+        if (request.readyState > 3 && callback && typeof(callback) === 'function') {
+            callback(request.responseText);
         }
-        return encodeURIComponent ? encodeURIComponent(result) : escape(result);
-    },
-
-
-    /**
-     * An edit form constructor, called dynamically when a user clicks on any post edit link.
-     * already.
-     * @arg {string} forumId          - The forum ID.
-     * @arg {string} topicId          - The topic ID.
-     * @arg {string} postId           - The post ID.
-     * @arg {string} pageId           - The page ID. Varies depending on board settings.
-     * @arg {string} response         - The HTML response to an AJAX request containing the quick edit form.
-     * @arg {object} contentContainer - A reference to the HTML element where the post is contained.
-     * @readonly
-     */
-    EditForm: function(forumId, topicId, postId, pageId, response, contentContainer, thisArg) {
-        // Create all our elements.
-        var form = document.createElement('form'),
-            textarea = document.createElement('textarea'),
-            buttons = document.createElement('div'),
-            edit = document.createElement('button'),
-            cancel = document.createElement('button'),
-            fullEdit = document.createElement('button');
-
-        // The form should never just submit, so make sure it can't:
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-        });
-
-        // Acquire the user's authorization key from the response.
-        var responseContainer = document.createElement('div');
-        responseContainer.innerHTML = response;
-
-        var authKey = responseContainer.firstElementChild.value;
-
-         // Acquire the raw contents of the post and place it in our form.
-        var rawContent = responseContainer.lastElementChild.value;
-
-        // Set the textarea's attributes.
-        textarea.innerHTML = rawContent;
-        textarea.style.boxSizing = 'border-box';
-
-        // Set our button labels.
-        edit.innerHTML = 'Edit';
-        cancel.innerHTML = 'Cancel';
-        fullEdit.innerHTML = 'Full Edit';
-
-        // Attach our event listeners.
-        edit.addEventListener('click', function(event) {
-            event.preventDefault();
-
-            var editURL = '/?act=Post&quickedit=1&CODE=09&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId + '&auth_key=' + authKey;
-
-            // POST our edited post to the forum.
-            thisArg.makeRequest(editURL, function(response) {
-                var responseContainer = document.createElement('div');
-                responseContainer.innerHTML = response;
-
-                /*
-                    If successful, the response will contain a single link to skip the redirection.
-                    Let's grab it; we'll neet to GET the page there to read in the edited post.
-                 */
-                var responseLinks = responseContainer.getElementsByTagName('a');
-                if (responseLinks.length === 1) {
-                    // Add a timestamp to the URL to prevent browsers from caching the AJAX call.
-                    var redirectUrl = responseLinks[0].href + '&nocache=' + new Date().getTime();;
-                }
-                // If the redirect URL doesn't exist, we've got a problem. Show an error, then return early.
-                else {
-                    console.error('Could not submit edited post via POST submission. Edit failed.');
-                    return;
-                }
-
-                // GET the edited post from our redirect URL.
-                thisArg.makeRequest(redirectUrl, function(result) {
-                    // It's wrapped in these comments, so finding it is pretty simple.
-                    var editedPost = new RegExp('<!\-\- THE POST ' + postId + ' \-\->\n        <div class=\'postcolor\'>((.|\n)*?)</div>\n        \n        <!\-\- THE POST \-\->');
-                    editedPost = editedPost.exec(result);
-                    // If we can't find it, though, there was a problem. Show an error, then return.
-                    if (!editedPost) {
-                        console.error('Could not GET edited post. Read failed.');
-                        return;
-                    }
-
-                    // Construct the final post, set its attributes, and replace the edit form with it.
-                    var finalPost = document.createElement('div');
-                    // Add the all-important class to the final post.
-                    finalPost.classList.add('cs-quick-edit');
-                    finalPost.innerHTML = editedPost[1];
-                    /*
-                        This is difficult to follow at a glance, so here's how it plays out:
-                        1) Get the new post container from the edit button.
-                            The edit button
-                                -> The buttons div
-                                    -> The edit form
-                                        -> Whatever contained the original post content, varies
-                        2) Replace the edit form with the final post.
-                            The edit button
-                                -> The buttons div
-                                    -> The edit form <-> The final post.
-                        3) All done.
-                     */
-                    // the edit button -> the buttons div -> the form -> the new post container
-                    edit.parentNode.parentNode.parentNode.replaceChild(finalPost, edit.parentNode.parentNode);
-                });
-            }, 'Post=' + thisArg.filter(textarea.value));
-        });
-        cancel.addEventListener('click', function(event) {
-            event.preventDefault();
-            this.parentNode.parentNode.parentNode.replaceChild(contentContainer, this.parentNode.parentNode);
-        });
-        fullEdit.addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = '/?act=Post&CODE=08&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId;
-        });
-
-        // Append the buttons to the button container.
-        buttons.appendChild(edit);
-        buttons.appendChild(cancel);
-        buttons.appendChild(fullEdit);
-
-        // Append the textarea and the button container to the form.
-        form.appendChild(textarea);
-        form.appendChild(buttons);
-
-        // Return the form for use elsewhere.
-        return form;
-    }
+    };
+    request.send(data);
 };
 
 
-$cs.module.Posts.prototype.formatCodeQuoteTags = function(element) {
-    for (var m = element.length; m > 0; m--) {
-        if (typeof element[m] !== 'undefined' && element[m].id === 'QUOTE-WRAP') {
-            element[m].style.display = 'none';
-            var quoteTitleContents = element[m].firstElementChild.firstElementChild.firstElementChild.innerHTML.slice(14, -1).split(' @ ');
+/**
+ * A filter function for outgoing POST requests. Expected by internal IPB1.3.1 form handlers.
+ * Partial credit to a user "sk89q" for their work on the original quick edit feature, upon
+ * which this function is heavily based. 
+ * @arg {string} string           - The string to be filtered.
+ * @readonly
+ */
+$cs.module.Posts.prototype.filter = function(string) {
+    var result = '';
+    for (var i = 0; i < string.length; i++){
+        var currentCharacter = string.charCodeAt(i);
+        if(currentCharacter > 127) {
+            result += '&#' + currentCharacter + ';';
+        } else {
+            result += string.charAt(i);
+        }
+    }
+    return encodeURIComponent ? encodeURIComponent(result) : escape(result);
+};
+
+
+/**
+ * An edit form constructor, called dynamically when a user clicks on any post edit link.
+ * already.
+ * @arg {string} forumId          - The forum ID.
+ * @arg {string} topicId          - The topic ID.
+ * @arg {string} postId           - The post ID.
+ * @arg {string} pageId           - The page ID. Varies depending on board settings.
+ * @arg {string} response         - The HTML response to an AJAX request containing the quick edit form.
+ * @arg {object} contentContainer - A reference to the HTML element where the post is contained.
+ * @readonly
+ */
+$cs.module.Posts.prototype.createEditForm = function(forumId, topicId, postId, pageId, response, contentContainer) {
+    // Create all our elements.
+    var form = document.createElement('form'),
+        textarea = document.createElement('textarea'),
+        buttons = document.createElement('div'),
+        edit = document.createElement('button'),
+        cancel = document.createElement('button'),
+        fullEdit = document.createElement('button');
+
+    // The form should never just submit, so make sure it can't:
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+    });
+
+    // Acquire the user's authorization key from the response.
+    var responseContainer = document.createElement('div');
+    responseContainer.innerHTML = response;
+
+    var authKey = responseContainer.firstElementChild.value;
+
+     // Acquire the raw contents of the post and place it in our form.
+    var rawContent = responseContainer.lastElementChild.value;
+
+    // Set the textarea's attributes.
+    textarea.innerHTML = rawContent;
+    textarea.style.boxSizing = 'border-box';
+
+    // Set our button labels.
+    edit.innerHTML = 'Edit';
+    cancel.innerHTML = 'Cancel';
+    fullEdit.innerHTML = 'Full Edit';
+
+    var loadEditedPost = function(result) {
+        // It's wrapped in these comments, so finding it is pretty simple.
+        var editedPostRegex = '<!\-\- THE POST ' + postId + ' \-\->\n        <div class=\'postcolor\'>((.|\n)*?)</div>\n        \n        <!\-\- THE POST \-\->';
+        var editedPost = new RegExp(editedPostRegex).exec(result);
+
+        // If we can't find it, though, there was a problem. Show an error, then return.
+        if (!editedPost) {
+            console.error('Could not GET edited post. Read failed.');
+            return;
+        }
+
+        // Construct the final post, set its attributes, and replace the edit form with it.
+        var finalPost = document.createElement('div');
+        // Add the all-important class to the final post.
+        finalPost.classList.add('cs-quick-edit');
+        finalPost.innerHTML = editedPost[1];
+
+        // Replace the edit form with the edited post.
+        edit.parentNode.parentNode.parentNode.replaceChild(finalPost, edit.parentNode.parentNode);
+
+        if (this.config.formatQuoteCodeTags) {
+            var tags = finalPost.getElementsByTagName('table');
+            this.formatCodeQuoteTags(tags, true);
+            this.attachCodeEventListeners();
+        }
+    };
+
+    var editPost = function(event) {
+        event.preventDefault();
+
+        var editURL = '/?act=Post&quickedit=1&CODE=09&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId + '&auth_key=' + authKey;
+
+        // POST our edited post to the forum.
+        this.makeRequest(editURL, function(response) {
+            var responseContainer = document.createElement('div');
+            responseContainer.innerHTML = response;
+
+            /*
+                If successful, the response will contain a single link to skip the redirection.
+                Let's grab it; we'll neet to GET the page there to read in the edited post.
+             */
+            var responseLinks = responseContainer.getElementsByTagName('a');
+            if (responseLinks.length === 1) {
+                // Add a timestamp to the URL to prevent browsers from caching the AJAX call.
+                var redirectUrl = responseLinks[0].href + '&nocache=' + new Date().getTime();;
+            }
+            // If the redirect URL doesn't exist, we've got a problem. Show an error, then return early.
+            else {
+                console.error('Could not submit edited post via POST submission. Edit failed.');
+                return;
+            }
+
+            // GET the edited post from our redirect URL.
+            this.makeRequest(redirectUrl, loadEditedPost.bind(this));
+        }.bind(this), 'Post=' + this.filter(textarea.value));
+    };
+
+    // Attach our event listeners.
+    edit.addEventListener('click', editPost.bind(this));
+    cancel.addEventListener('click', function(event) {
+        event.preventDefault();
+        this.parentNode.parentNode.parentNode.replaceChild(contentContainer, this.parentNode.parentNode);
+    }.bind(this));
+    fullEdit.addEventListener('click', function(event) {
+        event.preventDefault();
+        window.location.href = '/?act=Post&CODE=08&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId;
+    }.bind(this));
+
+    // Append the buttons to the button container.
+    buttons.appendChild(edit);
+    buttons.appendChild(cancel);
+    buttons.appendChild(fullEdit);
+
+    // Append the textarea and the button container to the form.
+    form.appendChild(textarea);
+    form.appendChild(buttons);
+
+    // Return the form for use elsewhere.
+    return form;
+};
+
+
+/**
+ * Formats code and quote tags inside a given element, typically series of tables.
+ * @arg {object}  tags         - An array of HTMLObjects- tables.
+ * @arg {boolean} includeFirst - Whether or not to include the first 
+ * @readonly
+ */
+$cs.module.Posts.prototype.formatCodeQuoteTags = function(tags, includeFirst) {
+    var offset = 0;
+    if (includeFirst) {
+        offset = (-1);
+    }
+
+    for (var m = tags.length; m > offset; m--) {
+        if (typeof tags[m] !== 'undefined' && tags[m].id === 'QUOTE-WRAP') {
+            tags[m].style.display = 'none';
+            var quoteTitleContents = tags[m].firstElementChild.firstElementChild.firstElementChild.innerHTML.slice(14, -1).split(' @ ');
             var quoteAuthor = quoteTitleContents[0],
                 quoteTimestamp = quoteTitleContents[1];
             if (!quoteAuthor) {
@@ -1508,16 +1512,16 @@ $cs.module.Posts.prototype.formatCodeQuoteTags = function(element) {
             if (!quoteTimestamp) {
                 quoteTimestamp = '';
             }
-            var originalQuote = element[m].firstElementChild.lastElementChild.firstElementChild.innerHTML;
+            var originalQuote = tags[m].firstElementChild.lastElementChild.firstElementChild.innerHTML;
             var quoteContainer = document.createElement('div');
             quoteContainer.classList.add('quote-wrapper');
             quoteContainer.innerHTML = '<div class="quote-title"><span class="quote-author">' + quoteAuthor + '</span><span class="quote-timestamp">' + quoteTimestamp + '</span></div><div class="quote-contents"><blockquote>' + originalQuote + '</blockquote></div>';
-            element[m].parentNode.insertBefore(quoteContainer, element[m].nextSibling);
-            element[m].parentNode.removeChild(element[m]);
+            tags[m].parentNode.insertBefore(quoteContainer, tags[m].nextSibling);
+            tags[m].parentNode.removeChild(tags[m]);
         }
-        else if (typeof element[m] !== 'undefined' && element[m].id === 'CODE-WRAP') {
-            element[m].style.display = 'none';
-            var originalCode = element[m].firstElementChild.lastElementChild.firstElementChild.innerHTML;
+        else if (typeof tags[m] !== 'undefined' && tags[m].id === 'CODE-WRAP') {
+            tags[m].style.display = 'none';
+            var originalCode = tags[m].firstElementChild.lastElementChild.firstElementChild.innerHTML;
             var codeContainer = document.createElement('div');
             codeContainer.classList.add('code-wrapper');
             var codeTitle = document.createElement('code');
@@ -1532,10 +1536,36 @@ $cs.module.Posts.prototype.formatCodeQuoteTags = function(element) {
             codeContentsPre.appendChild(codeContentsCode);
             codeContents.appendChild(codeContentsPre);
             codeContainer.appendChild(codeContents);
-            element[m].parentNode.insertBefore(codeContainer, element[m].nextSibling);
-            element[m].parentNode.removeChild(element[m]);
+            tags[m].parentNode.insertBefore(codeContainer, tags[m].nextSibling);
+            tags[m].parentNode.removeChild(tags[m]);
         }
     }
+};
+
+
+/**
+ * Attaches click-to-highlight events to newly created code containers.
+ * @readonly
+ */
+$cs.module.Posts.prototype.attachCodeEventListeners = function() {
+    var newCode = document.getElementsByClassName('code-wrapper');
+    for (var n = 0, newCodeCount = newCode.length; n < newCodeCount; n++) {
+        newCode[n].firstElementChild.addEventListener('click', function(event) {
+            event.preventDefault();
+            var range, selection;
+            if (document.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(this.nextElementSibling);
+                range.select();
+            } else if (window.getSelection) {
+                selection = window.getSelection();        
+                range = document.createRange();
+                range.selectNodeContents(this.nextElementSibling);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        });
+    };
 };
 
 
@@ -1665,10 +1695,10 @@ $cs.module.Posts.prototype.execute = function() {
 
                             var editableContent = document.getElementById('entry' + postId).getElementsByClassName('cs-quick-edit')[0];
 
-                            this.QuickEdit.makeRequest(quickEditURL, function(response) {
-                                var editForm = new this.EditForm(forumId, topicId, postId, pageId, response, editableContent, this);
+                            this.makeRequest(quickEditURL, function(response) {
+                                var editForm = this.createEditForm(forumId, topicId, postId, pageId, response, editableContent);
                                 editableContent.parentNode.replaceChild(editForm, editableContent);
-                            }.bind(this.QuickEdit));
+                            }.bind(this));
                         }.bind(this));
                     }
                 }
@@ -1689,24 +1719,7 @@ $cs.module.Posts.prototype.execute = function() {
     }
 
     if (this.config.formatQuoteCodeTags) {
-        var newCode = document.getElementsByClassName('code-wrapper');
-        for (var n = 0, newCodeCount = newCode.length; n < newCodeCount; n++) {
-            newCode[n].firstElementChild.addEventListener('click', function(event) {
-                event.preventDefault();
-                var range, selection;
-                if (document.body.createTextRange) {
-                    range = document.body.createTextRange();
-                    range.moveToElementText(this.nextElementSibling);
-                    range.select();
-                } else if (window.getSelection) {
-                    selection = window.getSelection();        
-                    range = document.createRange();
-                    range.selectNodeContents(this.nextElementSibling);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                }
-            });
-        }
+        this.attachCodeEventListeners();
     }
 };
 
