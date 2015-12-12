@@ -184,6 +184,7 @@ $cs.module.Default.prototype.initialize = function(settings) {
 $cs.module.Default.prototype.replaceValues = function(string, object) {
     string = (typeof string === 'function') ? string.call(this) : string;
     if (typeof string === 'undefined') {
+        console.error(this.name + ': function "html" returns null');
         return null;
     }
     // Join the keys with the pipe character for regular expression matching.
