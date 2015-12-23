@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.2 (December 2015)
+ * @version     1.7.3 (December 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -896,7 +896,7 @@ $cs.module.Profile.prototype.execute = function() {
         this.setValue('userYahoo', topRightCells[10].textContent);
         this.setValue('userMSN', topRightCells[12].textContent);
         if (topRightCells[14].textContent.indexOf('Click') !== -1) {
-            this.setValue('sendMessage', '<a href="/?act=Msg&amp;CODE=00&amp;MID=' + userId + '">Click here</a>');
+            this.setValue('sendMessage', '<a href="/?act=Msg&amp;CODE=04&amp;MID=' + userId + '">Click here</a>');
         } else {
             this.setValue('sendMessage', 'Private');
         }
