@@ -669,7 +669,8 @@ $cs.module.Profile.prototype.config = {
     reputationDetails:     '[details >>]',
     avatarDefault:         '',
     userPhotoDefault:      '',
-    onlineActivityDefault: ''
+    onlineActivityDefault: '',
+    customFieldsInnerHTML: false
 };
 
 
@@ -763,6 +764,11 @@ $cs.module.Profile.prototype.execute = function() {
         // customFields
         var customFieldsDivs = customFields.getElementsByTagName('div');
         for (var i = 1, numCustomFieldsDivs = customFieldsDivs.length; i < numCustomFieldsDivs; i++) {
+            if (this.config.customFieldsInnerHTML) {
+                var customFieldContent = customFieldsDivs[i].innerHTML.split(': ')[1];
+            } else {
+                var customFieldContent = customFieldsDivs[i].textContent.split(': ')[1];
+            }
             this.setValue('customField' + i, customFieldsDivs[i].textContent.split(': ')[1]);
         }
 

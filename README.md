@@ -3,52 +3,38 @@ A DOM manipulation library specifically designed for the Jcink hosted forum serv
 
 
 ## Table of Contents
-1. [Changes](#changes)
-2. [Installation](#installation)
-3. [Configuration](#configuration)
+1. [Installation](#installation)
+2. [Configuration](#configuration)
   1. [Execution Timers](#execution-timers)
-4. [Custom Index](#custom-index)
+3. [Custom Index](#custom-index)
   1. [Custom Index Configuration Reference](#custom-index-configuration-reference)
   2. [Custom Index Key Reference](#custom-index-key-reference)
   3. [Custom Index Output Reference](#custom-index-output-reference)
-5. [Custom Statistics](#custom-statistics)
+4. [Custom Statistics](#custom-statistics)
   1. [Custom Statistics Configuration Reference](#custom-statistics-configuration-reference)
   2. [Custom Statistics Key Reference](#custom-statistics-key-reference)
   3. [Custom Statistics Output Reference](#custom-statistics-output-reference)
-6. [Custom Profile](#custom-profile)
+5. [Custom Profile](#custom-profile)
   1. [Custom Profile Configuration Reference](#custom-profile-configuration-reference)
   2. [Custom Profile Key Reference](#custom-profile-key-reference)
     1. [Custom Profile Fields](#custom-profile-fields)
   3. [Custom Profile Output Reference](#custom-profile-output-reference)
-7. [Custom Topics](#custom-topics)
+6. [Custom Topics](#custom-topics)
   1. [Custom Topics Configuration Reference](#custom-topics-configuration-reference)
   2. [Custom Topics Key Reference](#custom-topics-key-reference)
   3. [Custom Topics Output Reference](#custom-topics-output-reference)
-8. [Custom Posts](#custom-posts)
+7. [Custom Posts](#custom-posts)
   1. [Custom Posts Configuration Reference](#custom-posts-configuration-reference)
   2. [Custom Posts Key Reference](#custom-posts-key-reference)
   3. [Custom Posts Output Reference](#custom-posts-output-reference)
   4. [Quick Edit Addon](#quick-edit-addon)
   5. [Formatted Quote/Code Tags Addon](#formatted-quotecode-tags-addon)
     1. [Formatted Quote/Code Tags Output Reference](#formatted-quotecode-tags-output-reference)
-9. [Advanced Usage](#advanced-usage)
+8. [Advanced Usage](#advanced-usage)
   1. [String and Function Comparison](#string-and-function-comparison)
   2. [hasValue Method](#hasvalue-method)
   3. [getValue Method](#getValue-method)
   4. [Example](#example)
-
-
-## Changes
-* Multiple bugfixes and optimization tweaks.
-* Inbuilt support for legacy browsers has been dropped.
-* The script has been rewritten to take advantage of prototypal inheritance.
-* The majority of the replacement keys have been renamed.
-* The behavior of absent values has been changed.
-* The Custom Index module doesn't require `<!-- |input_act| -->`.
-* The Custom Stats module now supports IBStore statistics.
-* The Custom Profile module no longer supports friends, comments, or visitors.
-* The `target` configuration property is no longer required for any module.
-* A module for customizing the appearance of posts inside a topic has been added.
 
 
 ## Installation
@@ -279,7 +265,7 @@ customProfile.initialize({
 |`avatarDefault`|An image URL to use in place of the user's avatar if the user does not have an avatar.|Blank.|
 |`userPhotoDefault`|An image URL to use in place of the user's photo if the user does not have a photo.|Blank.|
 |`onlineActivityDefault`|The default text used to describe a user's online activity when they are currently offline.|Blank.|
-|`customFieldsInnerHTML`|If `true`, derives the values of custom profile fields via `innerHTML` (slower) as opposed to the default `textContent` (faster).|Blank|
+|`customFieldsInnerHTML`|If `true`, derives the values of custom profile fields via `innerHTML` (slower) as opposed to the default `textContent` (faster).|`false`|
 
 
 ### Custom Profile Key Reference
