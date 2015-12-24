@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.3 (December 2015)
+ * @version     1.7.4 (December 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -938,7 +938,12 @@ $cs.module.Profile.prototype.execute = function() {
 
         // Custom profile fields are simple- just iterate over the remainder in a loop.
         for (var i = 14 + awardOffset, fieldNum = 1; i < bottomLeftCells.length; i += 2, fieldNum++) {
-            this.setValue('customField' + fieldNum, bottomLeftCells[i].textContent);
+            if (this.config.customFieldsInnerHTML) {
+                var customFieldContent = bottomLeftCells[i].innerHTML;
+            } else {
+                var customFieldContent = bottomLeftCells[i].textContent;
+            }
+            this.setValue('customField' + fieldNum, customFieldContent);
         }
 
         // Read the values in the bottom right table.
