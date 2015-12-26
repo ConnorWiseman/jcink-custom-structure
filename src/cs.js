@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.5 (December 2015)
+ * @version     1.7.6 (December 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -769,7 +769,7 @@ $cs.module.Profile.prototype.execute = function() {
             } else {
                 var customFieldContent = customFieldsDivs[i].textContent.split(': ')[1];
             }
-            this.setValue('customField' + i, customFieldsDivs[i].textContent.split(': ')[1]);
+            this.setValue('customField' + i, customFieldContent);
         }
 
         // statistics
