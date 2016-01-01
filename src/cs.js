@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.6 (December 2015)
+ * @version     1.7.7 (December 2015)
  * @license
  * Copyright (c) 2012-2015 Connor Wiseman
  *
@@ -1479,7 +1479,7 @@ $cs.module.Posts.prototype.createEditForm = function(forumId, topicId, postId, p
     cancel.addEventListener('click', function(event) {
         event.preventDefault();
         this.parentNode.parentNode.parentNode.replaceChild(contentContainer, this.parentNode.parentNode);
-    }.bind(this));
+    });
     fullEdit.addEventListener('click', function(event) {
         event.preventDefault();
         window.location.href = '/?act=Post&CODE=08&f=' + forumId + '&t=' + topicId + '&p=' + postId + '&st=' + pageId;
