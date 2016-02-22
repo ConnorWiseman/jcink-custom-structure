@@ -7,9 +7,9 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.7 (December 2015)
+ * @version     1.7.8 (February 2016)
  * @license
- * Copyright (c) 2012-2015 Connor Wiseman
+ * Copyright (c) 2012-2016 Connor Wiseman
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the 'Software'), to deal
@@ -1679,6 +1679,7 @@ $cs.module.Posts.prototype.execute = function() {
             // Create a new element for this post and append it to the new posts container.
             var newPost = document.createElement('div');
             newPost.id = 'entry' + postId;
+            newPost.classList.add(posts[i].classList[1]);
             newPost.innerHTML = this.replaceValues(this.html, this.values);
             newPosts.appendChild(newPost);
 
