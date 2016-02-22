@@ -1679,7 +1679,7 @@ $cs.module.Posts.prototype.execute = function() {
             // Create a new element for this post and append it to the new posts container.
             var newPost = document.createElement('div');
             newPost.id = 'entry' + postId;
-            newPost.classList.add(posts[i].classList[1]);
+            newPost.classList.add('new-post', posts[i].classList[1]);
             newPost.innerHTML = this.replaceValues(this.html, this.values);
             newPosts.appendChild(newPost);
 
