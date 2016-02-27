@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.8 (February 2016)
+ * @version     1.7.9 (February 2016)
  * @license
  * Copyright (c) 2012-2016 Connor Wiseman
  *
@@ -1439,7 +1439,7 @@ $cs.module.Posts.prototype.createEditForm = function(forumId, topicId, postId, p
 
         if (this.config.formatQuoteCodeTags) {
             var tags = finalPost.getElementsByTagName('table');
-            this.formatCodeQuoteTags(tags, true);
+            this.formatCodeQuoteTags(tags);
             this.attachCodeEventListeners();
         }
     };
@@ -1505,13 +1505,8 @@ $cs.module.Posts.prototype.createEditForm = function(forumId, topicId, postId, p
  * @arg {boolean} includeFirst - Whether or not to include the first 
  * @readonly
  */
-$cs.module.Posts.prototype.formatCodeQuoteTags = function(tags, includeFirst) {
-    var offset = 0;
-    if (includeFirst) {
-        offset = (-1);
-    }
-
-    for (var m = tags.length; m > offset; m--) {
+$cs.module.Posts.prototype.formatCodeQuoteTags = function(tags) {
+    for (var m = tags.length; m > -1; m--) {
         if (typeof tags[m] !== 'undefined' && tags[m].id === 'QUOTE-WRAP') {
             tags[m].style.display = 'none';
             var quoteTitleContents = tags[m].firstElementChild.firstElementChild.firstElementChild.innerHTML.slice(14, -1).split(' @ ');
