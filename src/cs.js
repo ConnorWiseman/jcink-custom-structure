@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.9 (February 2016)
+ * @version     1.7.10 (February 2016)
  * @license
  * Copyright (c) 2012-2016 Connor Wiseman
  *
@@ -1541,6 +1541,7 @@ $cs.module.Posts.prototype.formatCodeQuoteTags = function(tags) {
             codeContentsCode.innerHTML = originalCode;
             codeContentsPre.appendChild(codeContentsCode);
             codeContents.appendChild(codeContentsPre);
+            codeContents.classList.add('code-contents');
             codeContainer.appendChild(codeContents);
             tags[m].parentNode.insertBefore(codeContainer, tags[m].nextSibling);
             tags[m].parentNode.removeChild(tags[m]);
