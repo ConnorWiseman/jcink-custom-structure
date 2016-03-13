@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.7.10 (February 2016)
+ * @version     1.7.11 (March 2016)
  * @license
  * Copyright (c) 2012-2016 Connor Wiseman
  *
@@ -563,7 +563,7 @@ $cs.module.Stats.prototype.execute = function() {
                     var numBirthdays = cells[i + 2].getElementsByTagName('b');
                     if (numBirthdays.length > 1) {
                         this.setValue('birthdays', numBirthdays[0].textContent);
-                        this.setValue('birthdaysList', cells[i + 2].innerHTML.split('<br />')[1]);
+                        this.setValue('birthdaysList', cells[i + 2].innerHTML.split('<br>')[1]);
                     } else {
                         this.setValue('birthdays', '0');
                         this.setValue('birthdaysList', cells[i + 2].textContent);
