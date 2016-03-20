@@ -1,0 +1,6 @@
+# Dependencies
+node_modules
+
+# Coverage reports
+coverage
+test/results
