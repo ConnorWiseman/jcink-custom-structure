@@ -3,3 +3,4 @@ languages:
 exclude_paths:
 - "Gruntfile.js"
 - "src/cs.min.js"
+- "test/*"
