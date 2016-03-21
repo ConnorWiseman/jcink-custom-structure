@@ -1,7 +1,7 @@
 # Jcink Custom Structure
 A DOM manipulation library specifically designed for the Jcink hosted forum service.
 
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/ConnorWiseman/jcink-custom-structure.svg?branch=master)](https://travis-ci.org/ConnorWiseman/jcink-custom-structure) [![Test Coverage](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure/badges/coverage.svg)](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure/coverage) [![Code Climate](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure/badges/gpa.svg)](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/LICENSE)
 
 
 ## Table of Contents
@@ -366,7 +366,7 @@ customTopics.initialize({
 |`noTopics`|The text displayed when a forum contaions no topics.|`No topics were found. This is either because there are no topics in this forum, or the topics are older than the current age cut-off.`|
 |`noActiveTopics`|The text displayed when the active topics list is blank.|`There were no active topics during those date ranges`|
 |`paginationDefault`|The text displayed when there are no pagination options.|Blank.|
-|`activeTopics`|Whether to apply changes the to the active topics page.|`false`| 
+|`activeTopics`|Whether to apply changes the to the active topics page.|`false`|
 
 
 ### Custom Topics Key Reference
