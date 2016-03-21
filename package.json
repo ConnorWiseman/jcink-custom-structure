@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/ConnorWiseman/jcink-custom-structure#readme",
   "devDependencies": {
+    "browserify-istanbul": "^2.0.0",
     "chai": "^3.5.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "^5.0.0",
