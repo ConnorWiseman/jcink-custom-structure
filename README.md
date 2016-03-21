@@ -1,7 +1,7 @@
 # Jcink Custom Structure
 A DOM manipulation library specifically designed for the Jcink hosted forum service.
 
-[![Build Status](https://travis-ci.org/ConnorWiseman/jcink-custom-structure.svg?branch=master)](https://travis-ci.org/ConnorWiseman/jcink-custom-structure) [![Test Coverage](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure/badges/coverage.svg)](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure/coverage) [![Code Climate](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure/badges/gpa.svg)](https://codeclimate.com/github/ConnorWiseman/jcink-custom-structure) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ConnorWiseman/jcink-custom-structure/blob/master/LICENSE)
 
 
 ## Table of Contents

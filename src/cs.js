@@ -7,7 +7,7 @@
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
  * @copyright   2012-2015 Connor Wiseman
- * @version     1.8.0 (March 2016)
+ * @version     1.8.1 (March 2016)
  * @license
  * Copyright (c) 2012-2016 Connor Wiseman
  *
@@ -269,7 +269,7 @@ $cs.module.Index.prototype.reserved = [
 
 
 /**
- * Executes the checks and loops needed to complete the script. 
+ * Executes the checks and loops needed to complete the script.
  * @readonly
  */
 $cs.module.Index.prototype.execute = function() {
@@ -512,7 +512,7 @@ $cs.module.Stats.prototype.reserved = [
 
 
 /**
- * Executes the checks and loops needed to complete the script. 
+ * Executes the checks and loops needed to complete the script.
  * @readonly
  */
 $cs.module.Stats.prototype.execute = function() {
@@ -696,7 +696,7 @@ $cs.module.Profile.prototype.reserved = [
 
 
 /**
- * Executes the checks and loops needed to complete the script. 
+ * Executes the checks and loops needed to complete the script.
  * @readonly
  */
 $cs.module.Profile.prototype.execute = function() {
@@ -1100,7 +1100,7 @@ $cs.module.Topics.prototype.reserved = [
 
 
 /**
- * Executes the checks and loops needed to complete the script. 
+ * Executes the checks and loops needed to complete the script.
  * @readonly
  */
 $cs.module.Topics.prototype.execute = function() {
@@ -1320,7 +1320,7 @@ $cs.module.Posts.prototype.reserved = [
 
 
 /**
- * Executes the checks and loops needed to complete the script. 
+ * Executes the checks and loops needed to complete the script.
  * @readonly
  */
 $cs.module.Posts.prototype.queryString = function(url, query) {
@@ -1392,7 +1392,7 @@ $cs.module.Posts.prototype.Fetch = {
      * A filter function for outgoing POST requests. Expected by internal
      * IPB1.3.1 form handlers. Partial credit to a user "sk89q" for their
      * work on the original quick edit feature, upon which this function
-     * is heavily based. 
+     * is heavily based.
      * @arg {string} string - The string to be filtered.
      * @readonly
      */
@@ -1597,7 +1597,7 @@ $cs.module.Posts.prototype.createEditForm = function(forumId, topicId, postId, p
 /**
  * Formats code and quote tags inside a given element, typically series of tables.
  * @arg {object}  tags         - An array of HTMLObjects- tables.
- * @arg {boolean} includeFirst - Whether or not to include the first 
+ * @arg {boolean} includeFirst - Whether or not to include the first
  * @readonly
  */
 $cs.module.Posts.prototype.formatQuoteCodeTags = function(tags) {
@@ -1660,7 +1660,7 @@ $cs.module.Posts.prototype.attachCodeEventListeners = function() {
                 range.moveToElementText(this.nextElementSibling);
                 range.select();
             } else if (window.getSelection) {
-                selection = window.getSelection();        
+                selection = window.getSelection();
                 range = document.createRange();
                 range.selectNodeContents(this.nextElementSibling);
                 selection.removeAllRanges();
@@ -1672,14 +1672,14 @@ $cs.module.Posts.prototype.attachCodeEventListeners = function() {
 
 
 /**
- * Executes the checks and loops needed to complete the script. 
+ * Executes the checks and loops needed to complete the script.
  * @readonly
  */
 $cs.module.Posts.prototype.execute = function() {
     // Make sure we're viewing a topic before executing.
     if (window.location.href.indexOf('showtopic') !== -1 || window.location.href.indexOf('ST') !== -1) {
         var posts = document.getElementsByClassName('post-normal');
-    
+
         // Create a new HTML element and set the appropriate attributes.
         var newPosts = document.createElement('div');
         newPosts.id = 'new-posts';
