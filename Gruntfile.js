@@ -48,7 +48,7 @@ module.exports = function(grunt) {
         run: true,
         reporter: 'Spec',
         coverage: {
-          lcovReport: 'coverage',
+          lcovReport: 'coverage'
         }
       },
       test: {
