@@ -1,9 +1,9 @@
 languages:
   JavaScript: true
-engines:
-  markdownlint:
-    enabled: true
 exclude_paths:
-- "Gruntfile.js"
-- "src/cs.min.js"
-- "test/*"
+  - "Gruntfile.js"
+  - "LICENSE"
+  - "package.json"
+  - "README.md"
+  - "src/cs.min.js"
+  - "test/*"
