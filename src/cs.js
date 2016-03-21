@@ -1839,8 +1839,8 @@ $cs.module.Posts.prototype.initialize = function(settings) {
 
 
 // Expose some familiar, user-friendly objects for public use.
-var customIndex   = new $cs.module.Index(),
-    customStats   = new $cs.module.Stats(),
-    customProfile = new $cs.module.Profile(),
-    customTopics  = new $cs.module.Topics(),
-    customPosts   = new $cs.module.Posts();
+window.customIndex   = new $cs.module.Index(),
+window.customStats   = new $cs.module.Stats(),
+window.customProfile = new $cs.module.Profile(),
+window.customTopics  = new $cs.module.Topics(),
+window.customPosts   = new $cs.module.Posts();

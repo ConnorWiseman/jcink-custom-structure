@@ -1,0 +1,22 @@
+{
+  "name": "jcink-custom-structure",
+  "version": "2.0.0",
+  "description": "A DOM manipulation library specifically designed for the Jcink hosted forum service.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConnorWiseman/jcink-custom-structure.git"
+  },
+  "author": "Connor Wiseman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ConnorWiseman/jcink-custom-structure/issues"
+  },
+  "homepage": "https://github.com/ConnorWiseman/jcink-custom-structure#readme",
+  "devDependencies": {
+    "grunt-browserify": "^5.0.0",
+    "istanbul": "^0.4.2"
+  }
+}

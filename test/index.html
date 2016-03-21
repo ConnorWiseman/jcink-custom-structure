@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jcink Custom Structure Tests</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+    </head>
+    <body>
+        <div id="mocha"></div>
+        <script src="../node_modules/mocha/mocha.js"></script>
+        <script src="../node_modules/chai/chai.js"></script>
+        <script>mocha.setup('bdd')</script>
+        <!-- Be sure to use the instrumented code, not the raw source. -->
+        <script src="../build/cs.js"></script>
+        <!-- /Then/ run the tests. -->
+        <script src="./cs-test.js"></script>
+        <script>
+        if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+          mocha.run();
+        }
+        </script>
+    </body>
+</html>
