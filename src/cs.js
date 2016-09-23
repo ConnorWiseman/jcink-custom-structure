@@ -6,8 +6,8 @@
  * of forums in nontraditional, table-less layouts. Visible credits are not
  * required provided this entire comment block remains intact.
  * @author      Connor Wiseman
- * @copyright   2012-2015 Connor Wiseman
- * @version     1.8.1 (March 2016)
+ * @copyright   2012-2016 Connor Wiseman
+ * @version     1.8.2 (September 2016)
  * @license
  * Copyright (c) 2012-2016 Connor Wiseman
  *
@@ -89,6 +89,16 @@ $cs.module.Default.prototype.html = '';
  * @property {object} values    - Script-defined keys mapped to user-defined values for replacement.
  */
 $cs.module.Default.prototype.values = {};
+
+
+/**
+ * Returns whether a given element contains the specified class name.
+ * @arg {object} el
+ * @arg {string} class
+ * @return {boolean}
+ * @link http://stackoverflow.com/a/5898748/2301088
+ */
+
 
 
 /**
@@ -376,7 +386,12 @@ $cs.module.Index.prototype.readTable = function(table, index) {
                 in empty links here, so skip every other link.
              */
             var subforumLinks = subforums.getElementsByTagName('a');
-            for (var k = 1, numLinks = subforumLinks.length; k < numLinks; k += 2) {
+            for (var k = 0, numLinks = subforumLinks.length; k < numLinks; k++) {
+                if(subforumLinks[k].classList[0] == 'subforums-macro') {
+                    continue;
+                }
+
+                //if (!this.elemHasClass(link, '
                 // Build an HTML string out of the anchor object.
                 var link = this.makeLink(subforumLinks[k]);
 
